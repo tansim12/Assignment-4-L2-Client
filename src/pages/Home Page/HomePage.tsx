@@ -1,8 +1,9 @@
+import Navbar from "../../components/ui/Navbar/Navbar";
 
 const HomePage = () => {
     return (
         <div>
-            this is home page
+            <Navbar />
         </div>
     );
 };
