@@ -1,16 +1,13 @@
 import { useState } from "react";
 import { CgProfile } from "react-icons/cg";
-import { FaRegHeart, FaSearch } from "react-icons/fa";
+import { FaRegHeart } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
+import SearchSystem from "../../Re-useable/SearchSystem";
 
 const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [openInputBox, setInputBox] = useState(false);
-
-  const handleOpenInputBox = () => {
-    setInputBox(!openInputBox);
-  };
+ 
 
   return (
     <div>
@@ -96,20 +93,8 @@ const Navbar = () => {
               </div>
             )}
           </div>
-          <input
-            type="text"
-            placeholder="I'm shopping for..."
-            className="ml-4 px-4 py-2 border rounded w-64 hidden md:block "
-          />
-          <button className="ml-2 bg-primary text-white px-4 py-2 rounded">
-            {/* large  */}
-            <FaSearch className="hidden md:block text-2xl" />
-            {/* small  */}
-            <FaSearch
-              onClick={handleOpenInputBox}
-              className="block md:hidden text-xl"
-            />
-          </button>
+          {/* search system  */}
+          <SearchSystem />
         </div>
         <div className="flex items-center space-x-4 mt-3 lg:mt-0">
           <CgProfile size={28} />
