@@ -1,3 +1,4 @@
+import BestSelling from "../../components/ui/Best Selling/BestSelling";
 import Navbar from "../../components/ui/Navbar/Navbar";
 import EmblaCarousel from "../../components/ui/Slider/EmblaCarousel";
 
@@ -8,7 +9,7 @@ export interface TSlides {
 const HomePage = () => {
   const OPTIONS = { loop: true };
 
-  const SLIDES:TSlides[] = [
+  const SLIDES: TSlides[] = [
     { img: "https://i.ibb.co/xjW4tkM/Silver.png", text: "sjfgdjkgkdfjg" },
     { img: "https://i.ibb.co/dKYNn2C/Platinum-1.png", text: "sjfgdjkgkdfjg" },
     { img: "https://i.ibb.co/2M8cKFy/Blue.png", text: "sjfgdjkgkdfjg" },
@@ -19,6 +20,10 @@ const HomePage = () => {
       <Navbar />
       <div>
         <EmblaCarousel slides={SLIDES} options={OPTIONS} />
+      </div>
+      {/* Best Selling  */}
+      <div>
+        <BestSelling />
       </div>
     </div>
   );
