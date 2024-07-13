@@ -2,32 +2,46 @@ import { useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { FaRegHeart, FaSearch } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
+import { NavLink } from "react-router-dom";
 
 const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-const [openInputBox , setInputBox] = useState(false)
+  const [openInputBox, setInputBox] = useState(false);
 
-const handleOpenInputBox=()=>{
-  setInputBox(!openInputBox)
-}
+  const handleOpenInputBox = () => {
+    setInputBox(!openInputBox);
+  };
 
   return (
-    <div className="sticky top-0 z-50 bg-white bg-opacity-90 backdrop-blur-lg">
+    <div>
       {/* Top Bar */}
       <div className="container mx-auto flex justify-between items-center py-3 text-sm">
-        <div className="hidden lg:flex items-center space-x-4">
-          <a href="#" className="hover:underline">
-            About Us
-          </a>
-          <a href="#" className="hover:underline">
-            Order Tracking
-          </a>
-          <a href="#" className="hover:underline">
-            Contact Us
-          </a>
-          <a href="#" className="hover:underline">
-            FAQs
-          </a>
+        {/* todo its should be dynamic  */}
+        <div className="flex items-center space-x-4  font-bold">
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              isActive ? "text-primary text-lg" : "text-black hover:text-primary"
+            }
+          >
+            Home
+          </NavLink>
+          <NavLink
+            to="/all-products"
+            className={({ isActive }) =>
+              isActive ? "text-primary" : "text-black hover:text-primary"
+            }
+          >
+            All Products
+          </NavLink>
+          <NavLink
+            to="/about"
+            className={({ isActive }) =>
+              isActive ? "text-primary" : "text-black hover:text-primary"
+            }
+          >
+           About Us
+          </NavLink>
         </div>
       </div>
       {/* Main Navbar */}
@@ -42,7 +56,6 @@ const handleOpenInputBox=()=>{
             <button
               onClick={() => setDropdownOpen(!dropdownOpen)}
               className="flex items-center bg-primary text-white px-2 py-1 md:px-4 md:py-2 rounded"
-
             >
               Categories
               <svg
@@ -92,7 +105,10 @@ const handleOpenInputBox=()=>{
             {/* large  */}
             <FaSearch className="hidden md:block text-2xl" />
             {/* small  */}
-            <FaSearch onClick={handleOpenInputBox} className="block md:hidden text-xl" />
+            <FaSearch
+              onClick={handleOpenInputBox}
+              className="block md:hidden text-xl"
+            />
           </button>
         </div>
         <div className="flex items-center space-x-4 mt-3 lg:mt-0">

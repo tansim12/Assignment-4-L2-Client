@@ -7,15 +7,15 @@ const App = () => {
   return (
     <div>
       <Container>
-      {/* navbar div  */}
+        {/* navbar div  */}
+        <div className="sticky top-0 z-50 bg-white bg-opacity-90 backdrop-blur-lg">
+          <Navbar />
+        </div>
+        <div >
+          <Outlet />
+        </div>
+      </Container>
       <div>
-        <Navbar />
-      </div>
-      <div>
-        <Outlet />
-      </div>
-    </Container>
-    <div>
         <Footer />
       </div>
     </div>
