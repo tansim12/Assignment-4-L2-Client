@@ -3,8 +3,10 @@ import { useState } from "react";
 import { FaRegHeart } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
 import { TbListDetails } from "react-icons/tb";
+import Button from "../../Re-useable/Button";
+import { ICard } from "../../../types/card.type";
 
-const Card = () => {
+const Card = ({showBuyButton}:ICard) => {
   const [hoverOption, setHoverOption] = useState(false);
 
   const handleMouseEnter = () => {
@@ -18,13 +20,13 @@ const Card = () => {
   console.log(hoverOption);
 
   return (
-    <div
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      className="bg-white shadow-lg rounded-lg overflow-hidden "
-    >
+    <div className="bg-white shadow-lg rounded-lg overflow-hidden ">
       {/* main div  */}
-      <div className="relative">
+      <div
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+        className="relative"
+      >
         {/* is hover div  */}
 
         {hoverOption && (
@@ -70,7 +72,7 @@ const Card = () => {
         <br />
         <br />
         {/* img div  */}
-        <div className="flex justify-center items-center p-4 lg:p-8 hover:cursor-pointer">
+        <div className="flex justify-center items-center p-4 hover:cursor-pointer">
           <img
             className="object-cover "
             src="https://i.ibb.co/xjW4tkM/Silver.png"
@@ -78,13 +80,13 @@ const Card = () => {
           />
         </div>
 
-
         {/* description div  */}
         {/* todo onClick redirect detail page  */}
         <div className="px-3 ">
-         
-        <span  ><span className="font-bold">Name</span>: Lorem, ipsum dolor.</span>
-         
+          <span>
+            <span className="font-bold">Name</span>: Lorem, ipsum dolor.
+          </span>
+
           <p className="font-semibold mt-1 hover:underline hover:text-primary hover:cursor-pointer ">
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. regfg{" "}
           </p>
@@ -97,6 +99,11 @@ const Card = () => {
           <p className="text-gray-500 line-through">57,000৳</p>
         </div>
       </div>
+
+      {/* buy button div  */}
+     {showBuyButton && <div className="p-3">
+        <Button name="Buy Now" />
+      </div>}
     </div>
   );
 };

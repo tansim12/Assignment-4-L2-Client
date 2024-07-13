@@ -1,5 +1,6 @@
 import BestSelling from "../../components/ui/Best Selling/BestSelling";
 import Categories from "../../components/ui/Categories/Categories";
+import FeaturedProduct from "../../components/ui/Featured Product/FeaturedProduct";
 import Navbar from "../../components/ui/Navbar/Navbar";
 import EmblaCarousel from "../../components/ui/Slider/EmblaCarousel";
 
@@ -29,6 +30,10 @@ const HomePage = () => {
       {/* categories  */}
       <div>
         <Categories />
+      </div>
+      {/* featured products  */}
+      <div>
+        <FeaturedProduct />
       </div>
     </div>
   );
