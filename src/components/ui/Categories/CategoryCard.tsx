@@ -1,6 +1,6 @@
 const CategoryCard = () => {
   return (
-    <div className="bg-white rounded-lg">
+    <div className="bg-white rounded-xl shadow-2xl">
       {/* img div  */}
       <div className="flex justify-center items-center">
       <img className="p-4 size-28" src="https://i.ibb.co/JkX6YGK/pngwing-com-26.png" alt="" />

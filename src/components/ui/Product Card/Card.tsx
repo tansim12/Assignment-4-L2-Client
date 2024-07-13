@@ -78,10 +78,14 @@ const Card = () => {
           />
         </div>
 
+
         {/* description div  */}
         {/* todo onClick redirect detail page  */}
-        <div className="px-3 hover:underline hover:text-primary hover:cursor-pointer">
-          <p className="font-semibold ">
+        <div className="px-3 ">
+         
+        <span  ><span className="font-bold">Name</span>: Lorem, ipsum dolor.</span>
+         
+          <p className="font-semibold mt-1 hover:underline hover:text-primary hover:cursor-pointer ">
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. regfg{" "}
           </p>
         </div>
