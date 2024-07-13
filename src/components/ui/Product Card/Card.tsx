@@ -20,7 +20,7 @@ const Card = ({showBuyButton}:ICard) => {
   console.log(hoverOption);
 
   return (
-    <div className="bg-white shadow-lg rounded-lg overflow-hidden ">
+    <div className="bg-white shadow-2xl rounded-lg overflow-hidden ">
       {/* main div  */}
       <div
         onMouseEnter={handleMouseEnter}
