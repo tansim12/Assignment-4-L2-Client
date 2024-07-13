@@ -12,6 +12,11 @@ export default {
           light: '#6cb2eb',
           dark: '#2779bd',
         },
+        secondary: {
+          DEFAULT: '#0052a3', // You can change this value to your desired primary color
+          // light: '#6cb2eb',
+          // dark: '#2779bd',
+        },
       },
     },
   },
