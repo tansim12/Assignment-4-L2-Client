@@ -1,6 +1,5 @@
 import { Tooltip } from "antd";
 import { useState } from "react";
-import { CgProfile } from "react-icons/cg";
 import { FaRegHeart } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
 import { TbListDetails } from "react-icons/tb";
@@ -31,18 +30,14 @@ const Card = () => {
         {hoverOption && (
           <div className="absolute top-0 flex items-center justify-center bg-black  h-[50%] w-[100%]  opacity-50 rounded-b-full">
             <div className=" text-white flex items-center justify-center gap-3  my-auto ">
-                {/* details */}
+              {/* details */}
               <Tooltip
                 className="hover:cursor-pointer  "
                 title="Details"
                 color={"#2e5b3d"}
                 placement="bottom"
               >
-                <TbListDetails
-                  size={38}
-                 
-                  className="text-white"
-                />
+                <TbListDetails size={38} className="text-white" />
               </Tooltip>
 
               {/* wishlist */}
@@ -52,11 +47,7 @@ const Card = () => {
                 color={"#2e5b3d"}
                 placement="bottom"
               >
-                <FaRegHeart
-                  size={38}
-                 
-                  className="text-white"
-                />
+                <FaRegHeart size={38} className="text-white" />
               </Tooltip>
 
               {/* add to cart  */}
@@ -66,10 +57,7 @@ const Card = () => {
                 color={"#2e5b3d"}
                 placement="bottom"
               >
-                <IoCartOutline
-                  size={38}
-                  className="text-white"
-                />
+                <IoCartOutline size={38} className="text-white" />
               </Tooltip>
             </div>
           </div>
@@ -91,6 +79,7 @@ const Card = () => {
         </div>
 
         {/* description div  */}
+        {/* todo onClick redirect detail page  */}
         <div className="px-3 hover:underline hover:text-primary hover:cursor-pointer">
           <p className="font-semibold ">
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. regfg{" "}

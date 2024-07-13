@@ -1,4 +1,5 @@
 import BestSelling from "../../components/ui/Best Selling/BestSelling";
+import Categories from "../../components/ui/Categories/Categories";
 import Navbar from "../../components/ui/Navbar/Navbar";
 import EmblaCarousel from "../../components/ui/Slider/EmblaCarousel";
 
@@ -24,6 +25,10 @@ const HomePage = () => {
       {/* Best Selling  */}
       <div>
         <BestSelling />
+      </div>
+      {/* categories  */}
+      <div>
+        <Categories />
       </div>
     </div>
   );
