@@ -15,7 +15,7 @@ const SearchSystem = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const searchValue = e.target.search.value;
+    const searchValue = e.target.search.value as string;
     console.log(searchValue);
   };
   return (

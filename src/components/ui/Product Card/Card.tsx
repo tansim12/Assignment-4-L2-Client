@@ -17,8 +17,6 @@ const Card = ({showBuyButton}:ICard) => {
     setHoverOption(false);
   };
 
-  console.log(hoverOption);
-
   return (
     <div className="bg-white shadow-2xl rounded-lg overflow-hidden ">
       {/* main div  */}
