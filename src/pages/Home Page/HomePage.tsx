@@ -1,7 +1,8 @@
 import BestSelling from "../../components/ui/Best Selling/BestSelling";
 import Categories from "../../components/ui/Categories/Categories";
+import Faq from "../../components/ui/Faq/Faq";
 import FeaturedProduct from "../../components/ui/Featured Product/FeaturedProduct";
-import Navbar from "../../components/ui/Navbar/Navbar";
+
 import EmblaCarousel from "../../components/ui/Slider/EmblaCarousel";
 
 export interface TSlides {
@@ -19,7 +20,7 @@ const HomePage = () => {
   ];
   return (
     <div>
-      <Navbar />
+      
       <div>
         <EmblaCarousel slides={SLIDES} options={OPTIONS} />
       </div>
@@ -34,6 +35,10 @@ const HomePage = () => {
       {/* featured products  */}
       <div>
         <FeaturedProduct />
+      </div>
+      {/* Faq  */}
+      <div>
+        <Faq />
       </div>
     </div>
   );

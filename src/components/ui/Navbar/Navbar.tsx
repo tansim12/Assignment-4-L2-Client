@@ -12,7 +12,7 @@ const handleOpenInputBox=()=>{
 }
 
   return (
-    <div className="">
+    <div className="sticky top-0 z-50 bg-white bg-opacity-90 backdrop-blur-lg">
       {/* Top Bar */}
       <div className="container mx-auto flex justify-between items-center py-3 text-sm">
         <div className="hidden lg:flex items-center space-x-4">
