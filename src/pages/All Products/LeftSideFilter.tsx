@@ -1,7 +1,6 @@
 
 import { useForm, Controller } from 'react-hook-form';
 import { Slider, Checkbox, Button, Collapse } from 'antd';
-// import 'antd/dist/antd.css';
 
 const { Panel } = Collapse;
 

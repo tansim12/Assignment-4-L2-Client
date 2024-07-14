@@ -5,16 +5,21 @@ import { IoCartOutline } from "react-icons/io5";
 import { TbListDetails } from "react-icons/tb";
 import Button from "../../Re-useable/Button";
 import { ICard } from "../../../types/card.type";
+import { useNavigate } from "react-router-dom";
 
-const Card = ({showBuyButton}:ICard) => {
+const Card = ({ showBuyButton }: ICard) => {
   const [hoverOption, setHoverOption] = useState(false);
-
+  const navigate = useNavigate();
   const handleMouseEnter = () => {
     setHoverOption(true);
   };
 
   const handleMouseLeave = () => {
     setHoverOption(false);
+  };
+
+  const clickDetailsPage = (id: string) => {
+    navigate(`/product-details/${id}`);
   };
 
   return (
@@ -85,7 +90,10 @@ const Card = ({showBuyButton}:ICard) => {
             <span className="font-bold">Name</span>: Lorem, ipsum dolor.
           </span>
 
-          <p className="font-semibold mt-1 hover:underline hover:text-primary hover:cursor-pointer ">
+          <p
+          
+          onClick={()=>clickDetailsPage("1")}
+          className="font-semibold mt-1 hover:underline hover:text-primary hover:cursor-pointer ">
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. regfg{" "}
           </p>
         </div>
@@ -99,9 +107,11 @@ const Card = ({showBuyButton}:ICard) => {
       </div>
 
       {/* buy button div  */}
-     {showBuyButton && <div className="p-3">
-        <Button name="Buy Now" />
-      </div>}
+      {showBuyButton && (
+        <div className="p-3">
+          <Button name="Buy Now" />
+        </div>
+      )}
     </div>
   );
 };

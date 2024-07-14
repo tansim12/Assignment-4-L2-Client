@@ -1,10 +1,10 @@
 import { FaFilter } from "react-icons/fa";
 import SearchSystem from "../../components/Re-useable/SearchSystem";
-import LeftSideFilter from "../../components/ui/LeftSide Filter/LeftSideFilter";
+import LeftSideFilter from "./LeftSideFilter";
 import Card from "../../components/ui/Product Card/Card";
 import { Drawer } from "antd";
 import { useState } from "react";
-import Sorting from "../../components/ui/Sorting/Sorting";
+import Sorting from "./Sorting";
 
 const AllProducts = () => {
   const [open, setOpen] = useState(false);
