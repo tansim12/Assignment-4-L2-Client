@@ -3,11 +3,16 @@
 import { Tabs, Rate, InputNumber, Button, Select } from 'antd';
 import './productDetails.css'; // Import custom CSS for the component
 import ProductSlider from './ProductSlider';
+import { useNavigate } from 'react-router-dom';
 
 const { TabPane } = Tabs;
 const { Option } = Select;
 
 const ProductDetails = () => {
+const navigate = useNavigate()
+    const  handleCheckOut = (id:string)=>{
+        navigate(`/checkout/${id}`)
+    }
   return (
     <div className="container mx-auto my-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
@@ -65,7 +70,7 @@ const ProductDetails = () => {
             </div>
           </div>
           <div className="mt-4 flex space-x-4">
-            <Button type="primary">Buy Now</Button>
+            <Button onClick={()=>handleCheckOut("1")} type="primary">Buy Now</Button>
             <Button>Add to Cart</Button>
             <Button>Save</Button>
           </div>
