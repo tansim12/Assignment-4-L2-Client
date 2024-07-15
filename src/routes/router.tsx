@@ -5,6 +5,8 @@ import NoFoundPage from "../pages/No Found/NoFoundPage";
 import AllProducts from "../pages/All Products/AllProducts";
 import ProductDetails from "../pages/Product Details/ProductDetails";
 import CheckOut from "../pages/CheckOut/CheckOut";
+import ProductManagement from "../pages/Product Management/ProductManagement";
+import AboutUs from "../pages/About Us/AboutUs";
 
 export const router = createBrowserRouter([
   {
@@ -27,6 +29,14 @@ export const router = createBrowserRouter([
       {
         path:"checkout/:id",
         element: <CheckOut />,
+      },
+      {
+        path:"product-management",
+        element: <ProductManagement />,
+      },
+      {
+        path:"about",
+        element: <AboutUs />,
       },
     ],
   },

@@ -18,7 +18,7 @@ const Navbar = () => {
           <NavLink
             to="/"
             className={({ isActive }) =>
-              isActive ? "text-primary text-lg" : "text-black hover:text-primary"
+              isActive ? "text-primary" : "text-black hover:text-primary"
             }
           >
             Home
@@ -30,6 +30,14 @@ const Navbar = () => {
             }
           >
             All Products
+          </NavLink>
+          <NavLink
+            to="/product-management"
+            className={({ isActive }) =>
+              isActive ? "text-primary" : "text-black hover:text-primary"
+            }
+          >
+            Product Management
           </NavLink>
           <NavLink
             to="/about"

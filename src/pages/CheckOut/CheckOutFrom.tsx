@@ -11,7 +11,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
   zip: string;
 }
 
-const CheckOutFrom = ({setUserInfo}) => {
+const CheckOutFrom = ({setUserInfo})=> {
   const {
     register,
     handleSubmit,
