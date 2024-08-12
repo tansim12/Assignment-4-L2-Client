@@ -184,8 +184,8 @@ const CreateProducts: React.FC = () => {
           Description
         </label>
         {descriptionFields.map((field, index) => (
-          <div key={field.id} className="mb-2">
-            <Controller
+          <div key={field.id} className=" flex gap-10 mb-12">
+            <Controller    
               control={control}
               name={`description.${index}`}
               rules={{ required: "Description is required" }}
@@ -214,7 +214,7 @@ const CreateProducts: React.FC = () => {
         <button
           type="button"
           onClick={() => addDescription("")}
-          className="text-blue-500 mt-2"
+          className="text-blue-500 "
         >
           + Add Description
         </button>
