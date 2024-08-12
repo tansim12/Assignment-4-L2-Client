@@ -51,10 +51,10 @@ export const router = createBrowserRouter([
       //   path: "dashboard",
       //   element: <AdminDashboard />,
       // },
-      {
-        path: "product-management",
-        element: <AllProductManagement />,
-      },
+      // {
+      //   path: "product-management",
+      //   element: <AllProductManagement />,
+      // },
       {
         path: "all-products-management",
         element: <AllProductManagement />,

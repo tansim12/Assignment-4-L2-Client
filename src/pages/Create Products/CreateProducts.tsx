@@ -69,11 +69,6 @@ const CreateProducts: React.FC = () => {
     control,
     name: "color",
   });
-  const handleSwitchChange = (checked) => {
-    // setValue("isDelete", checked);
-    console.log(checked);
-    
-  };
 
   const onSubmit = (data: TProduct) => {
     console.log(data);
