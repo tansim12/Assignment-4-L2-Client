@@ -1,7 +1,10 @@
+import { Switch } from "antd";
 import React from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
+
 
 export interface TProduct {
   name: string;
@@ -36,6 +39,7 @@ const CreateProducts: React.FC = () => {
       image: [""],
       description: [""],
       color: [""],
+      isDelete: false, // default value for isDelete
     },
   });
 
@@ -65,6 +69,11 @@ const CreateProducts: React.FC = () => {
     control,
     name: "color",
   });
+  const handleSwitchChange = (checked) => {
+    // setValue("isDelete", checked);
+    console.log(checked);
+    
+  };
 
   const onSubmit = (data: TProduct) => {
     console.log(data);
@@ -104,7 +113,7 @@ const CreateProducts: React.FC = () => {
           )}
         </div>
       </div>
-{/* title  */}
+      {/* title  */}
       <div className="mb-4">
         <label className="block text-gray-700 font-semibold mb-2">Title</label>
         <input
@@ -116,7 +125,7 @@ const CreateProducts: React.FC = () => {
         )}
       </div>
 
-{/* image  */}
+      {/* image  */}
       <div className="mb-4">
         <label className="block text-gray-700 font-semibold mb-2">Images</label>
         {imageFields.map((field, index) => (
@@ -169,7 +178,7 @@ const CreateProducts: React.FC = () => {
           </p>
         )}
       </div>
-
+      {/* Description */}
       <div className="mb-4">
         <label className="block text-gray-700 font-semibold mb-2">
           Description
@@ -211,6 +220,7 @@ const CreateProducts: React.FC = () => {
         </button>
       </div>
 
+      {/* Colors */}
       <div className="mb-4">
         <label className="block text-gray-700 font-semibold mb-2">Colors</label>
         {colorFields.map((field, index) => (
@@ -244,7 +254,8 @@ const CreateProducts: React.FC = () => {
         </button>
       </div>
 
-      <div className="grid grid-cols-2 gap-4 mb-4">
+      <div className="grid grid-cols-3 gap-4 mb-2">
+        {/* price  */}
         <div>
           <label className="block text-gray-700 font-semibold mb-2">
             Price
@@ -258,7 +269,7 @@ const CreateProducts: React.FC = () => {
             <p className="text-red-500 text-sm">{errors.price.message}</p>
           )}
         </div>
-
+        {/* discount  */}
         <div>
           <label className="block text-gray-700 font-semibold mb-2">
             Discount
@@ -272,75 +283,93 @@ const CreateProducts: React.FC = () => {
             <p className="text-red-500 text-sm">{errors.discount.message}</p>
           )}
         </div>
+
+        {/* rating  */}
+        <div className="mb-4">
+          <label className="block text-gray-700 font-semibold mb-2">
+            Rating
+          </label>
+          <input
+            type="number"
+            {...register("rating", {
+              required: "Rating is required",
+              min: { value: 1, message: "Rating must be at least 1" },
+              max: { value: 5, message: "Rating must be at most 5" },
+            })}
+            className="w-full p-2 border border-black rounded-md"
+          />
+          {errors.rating && (
+            <p className="text-red-500 text-sm">{errors.rating.message}</p>
+          )}
+        </div>
       </div>
 
-      <div className="mb-4">
-        <label className="block text-gray-700 font-semibold mb-2">Rating</label>
-        <input
-          type="number"
-          {...register("rating", { required: "Rating is required" })}
-          className="w-full p-2 border border-black rounded-md"
-        />
-        {errors.rating && (
-          <p className="text-red-500 text-sm">{errors.rating.message}</p>
-        )}
+      <div className="grid grid-cols-3 gap-4 mb-2 ">
+        {/* Availability */}
+        <div className="mb-4">
+          <label className="block text-gray-700 font-semibold mb-2">
+            Availability
+          </label>
+          <select
+            {...register("availability", {
+              required: "Availability is required",
+            })}
+            className="w-full p-2 border border-black rounded-md"
+          >
+            <option value="inStock">In Stock</option>
+            <option value="pre-order">Pre-order</option>
+            <option value="upcoming">Upcoming</option>
+          </select>
+          {errors.availability && (
+            <p className="text-red-500 text-sm">
+              {errors.availability.message}
+            </p>
+          )}
+        </div>
+
+        {/* brand  */}
+        <div className="mb-4">
+          <label className="block text-gray-700 font-semibold mb-2">
+            Brand
+          </label>
+          <input
+            {...register("brand", { required: "Brand is required" })}
+            className="w-full p-2 border border-black rounded-md"
+          />
+          {errors.brand && (
+            <p className="text-red-500 text-sm">{errors.brand.message}</p>
+          )}
+        </div>
+
+        {/* type  */}
+        <div className="mb-4">
+          <label className="block text-gray-700 font-semibold mb-2">Type</label>
+          <input
+            {...register("type", { required: "Type is required" })}
+            className="w-full p-2 border border-black rounded-md"
+          />
+          {errors.type && (
+            <p className="text-red-500 text-sm">{errors.type.message}</p>
+          )}
+        </div>
       </div>
 
-      <div className="mb-4">
-        <label className="block text-gray-700 font-semibold mb-2">
-          Availability
-        </label>
-        <select
-          {...register("availability", {
-            required: "Availability is required",
-          })}
-          className="w-full p-2 border border-black rounded-md"
-        >
-          <option value="inStock">In Stock</option>
-          <option value="pre-order">Pre-order</option>
-          <option value="upcoming">Upcoming</option>
-        </select>
-        {errors.availability && (
-          <p className="text-red-500 text-sm">{errors.availability.message}</p>
-        )}
-      </div>
+      <div className="grid grid-cols-3 gap-4 mb-2">
+        {/* materials */}
+        <div className="mb-4">
+          <label className="block text-gray-700 font-semibold mb-2">
+            Materials
+          </label>
+          <input
+            {...register("materials", { required: "Materials is required" })}
+            className="w-full p-2 border border-black rounded-md"
+          />
+          {errors.materials && (
+            <p className="text-red-500 text-sm">{errors.materials.message}</p>
+          )}
+        </div>
 
-      <div className="mb-4">
-        <label className="block text-gray-700 font-semibold mb-2">Brand</label>
-        <input
-          {...register("brand", { required: "Brand is required" })}
-          className="w-full p-2 border border-black rounded-md"
-        />
-        {errors.brand && (
-          <p className="text-red-500 text-sm">{errors.brand.message}</p>
-        )}
-      </div>
-
-      <div className="mb-4">
-        <label className="block text-gray-700 font-semibold mb-2">Type</label>
-        <input
-          {...register("type", { required: "Type is required" })}
-          className="w-full p-2 border border-black rounded-md"
-        />
-        {errors.type && (
-          <p className="text-red-500 text-sm">{errors.type.message}</p>
-        )}
-      </div>
-
-      <div className="mb-4">
-        <label className="block text-gray-700 font-semibold mb-2">
-          Materials
-        </label>
-        <input
-          {...register("materials", { required: "Materials is required" })}
-          className="w-full p-2 border border-black rounded-md"
-        />
-        {errors.materials && (
-          <p className="text-red-500 text-sm">{errors.materials.message}</p>
-        )}
-      </div>
-
-      <div className="grid grid-cols-2 gap-4 mb-4">
+        {/* Quantity */}
         <div>
           <label className="block text-gray-700 font-semibold mb-2">
             Quantity
@@ -368,13 +397,19 @@ const CreateProducts: React.FC = () => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 font-semibold mb-2">
-          Is Deleted
-        </label>
-        <input
-          type="checkbox"
-          {...register("isDelete")}
-          className="p-2 border border-black rounded-md"
+        <label className="block text-gray-700 font-semibold mb-2">Is Deleted</label>
+        <Controller
+          name="isDelete"
+          control={control}
+          render={({ field }) => (
+            <Switch 
+            className="w-16"
+              checkedChildren={<CheckOutlined />}
+              unCheckedChildren={<CloseOutlined />}
+              checked={field.value}
+              onChange={(checked) => field.onChange(checked)}
+            />
+          )}
         />
       </div>
 
