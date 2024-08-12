@@ -5,9 +5,11 @@ import NoFoundPage from "../pages/No Found/NoFoundPage";
 import AllProducts from "../pages/All Products/AllProducts";
 import ProductDetails from "../pages/Product Details/ProductDetails";
 import CheckOut from "../pages/CheckOut/CheckOut";
-import ProductManagement from "../pages/Product Management/ProductManagement";
 import AboutUs from "../pages/About Us/AboutUs";
 import DashboardLayout from "../Layout/Dashboard Layout/DashboardLayout";
+import AllProductManagement from "../pages/All Product Management/AllProductManagement";
+import CreateProducts from "../pages/Create Products/CreateProducts";
+import UpdateProducts from "../pages/Update Products/UpdateProducts";
 // import AdminDashboard from "../Layout/Admin Dashboard/AdminDashboard";
 
 export const router = createBrowserRouter([
@@ -32,7 +34,7 @@ export const router = createBrowserRouter([
         path: "checkout/:id",
         element: <CheckOut />,
       },
-     
+
       {
         path: "about",
         element: <AboutUs />,
@@ -51,7 +53,19 @@ export const router = createBrowserRouter([
       // },
       {
         path: "product-management",
-        element: <ProductManagement />,
+        element: <AllProductManagement />,
+      },
+      {
+        path: "all-products-management",
+        element: <AllProductManagement />,
+      },
+      {
+        path: "create-product",
+        element: <CreateProducts />,
+      },
+      {
+        path: "update-product",
+        element: <UpdateProducts />,
       },
     ],
   },

@@ -1,18 +1,37 @@
 // import AdminDashboard from "../Layout/Admin Dashboard/AdminDashboard";
-import ProductManagement from "../pages/Product Management/ProductManagement";
+// import ProductManagement from "../pages/Product Management/ProductManagement";
+import AllProductManagement from "../pages/All Product Management/AllProductManagement";
+import CreateProducts from "../pages/Create Products/CreateProducts";
+import UpdateProducts from "../pages/Update Products/UpdateProducts";
 import { IAccRoutes } from "../types/admin.types";
 export const adminPath: IAccRoutes[] = [
-  //  feature will be added dashboard
-  //   {
-  //     name: "Dashboard",
-  //     path: "dashboard",
-  //     element: <AdminDashboard />,
-  //   },
+  // {
+  //   name: "Product Manage",
+  //   path: "product-management",
+  //   // feature this will be private route
+  //   element: <ProductManagement />,
+  // },
   {
-    name: "Product Manage",
-    path: "product-management",
-    // feature this will be private route
-    element: <ProductManagement />,
+    name: "Product Management",
+    children: [
+      {
+        name: "All Products",
+        path: "all-products-management",
+        element: <AllProductManagement />,
+      },
+      {
+        name: "Create Product",
+        path: "create-product",
+        element: <CreateProducts />,
+      },
+      {
+        name: "Update Product",
+        path: "update-product",
+        element: <UpdateProducts />,
+      },
+    ],
+    path: "",
+    element: undefined,
   },
 
   //   এই ভাবে children add korte hobe
@@ -39,5 +58,3 @@ export const adminPath: IAccRoutes[] = [
   //     element: undefined,
   //   },
 ];
-
-
