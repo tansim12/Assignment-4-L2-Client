@@ -32,7 +32,7 @@ const Navbar = () => {
             All Products
           </NavLink>
           <NavLink
-            to="/product-management"
+            to="admin/product-management"
             className={({ isActive }) =>
               isActive ? "text-primary" : "text-black hover:text-primary"
             }

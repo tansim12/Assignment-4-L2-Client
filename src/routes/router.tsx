@@ -7,36 +7,51 @@ import ProductDetails from "../pages/Product Details/ProductDetails";
 import CheckOut from "../pages/CheckOut/CheckOut";
 import ProductManagement from "../pages/Product Management/ProductManagement";
 import AboutUs from "../pages/About Us/AboutUs";
+import DashboardLayout from "../Layout/Dashboard Layout/DashboardLayout";
+// import AdminDashboard from "../Layout/Admin Dashboard/AdminDashboard";
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    errorElement:<NoFoundPage />,
+    errorElement: <NoFoundPage />,
     children: [
       {
         index: true,
         element: <HomePage />,
       },
       {
-        path:"all-products",
+        path: "all-products",
         element: <AllProducts />,
       },
       {
-        path:"product-details/:id",
+        path: "product-details/:id",
         element: <ProductDetails />,
       },
       {
-        path:"checkout/:id",
+        path: "checkout/:id",
         element: <CheckOut />,
       },
+     
       {
-        path:"product-management",
-        element: <ProductManagement />,
-      },
-      {
-        path:"about",
+        path: "about",
         element: <AboutUs />,
+      },
+    ],
+  },
+
+  {
+    path: "admin",
+    element: <DashboardLayout />,
+    errorElement: <NoFoundPage />,
+    children: [
+      // {
+      //   path: "dashboard",
+      //   element: <AdminDashboard />,
+      // },
+      {
+        path: "product-management",
+        element: <ProductManagement />,
       },
     ],
   },

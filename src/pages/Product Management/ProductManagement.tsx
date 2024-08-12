@@ -2,7 +2,7 @@
 const ProductManagement = () => {
     return (
         <div>
-            hello
+            product management
         </div>
     );
 };
