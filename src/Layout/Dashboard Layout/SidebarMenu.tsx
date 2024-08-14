@@ -28,7 +28,7 @@ const SidebarMenu = () => {
 
   return (
     <Sider
-    className="h-screen overflow-y-scroll"
+    className="h-screen "
       breakpoint="lg"
       collapsedWidth="0"
       onBreakpoint={(broken) => {

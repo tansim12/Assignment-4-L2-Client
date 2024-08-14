@@ -3,30 +3,8 @@ import React from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { CheckOutlined, CloseOutlined } from '@ant-design/icons';
-
-
-export interface TProduct {
-  name: string;
-  category: string;
-  title: string;
-  image: string[];
-  shortDescription: string;
-  description: string[];
-  price: number;
-  discount: number;
-  rating: number;
-  availability: "inStock" | "pre-order" | "upcoming";
-  brand: string;
-  type: string;
-  color: string[];
-  materials: string;
-  quantity: number;
-  order?: number;
-  isDelete: boolean;
-  specification: string;
-  shoppingInfo: string;
-}
+import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import { TProduct } from "../../types/products.type";
 
 const CreateProducts: React.FC = () => {
   const {
@@ -180,7 +158,7 @@ const CreateProducts: React.FC = () => {
         </label>
         {descriptionFields.map((field, index) => (
           <div key={field.id} className=" flex gap-10 mb-12">
-            <Controller    
+            <Controller
               control={control}
               name={`description.${index}`}
               rules={{ required: "Description is required" }}
@@ -392,13 +370,15 @@ const CreateProducts: React.FC = () => {
       </div>
 
       <div className="mb-4">
-        <label className="block text-gray-700 font-semibold mb-2">Is Deleted</label>
+        <label className="block text-gray-700 font-semibold mb-2">
+          Is Deleted
+        </label>
         <Controller
           name="isDelete"
           control={control}
           render={({ field }) => (
-            <Switch 
-            className="w-16"
+            <Switch
+              className="w-16"
               checkedChildren={<CheckOutlined />}
               unCheckedChildren={<CloseOutlined />}
               checked={field.value}
