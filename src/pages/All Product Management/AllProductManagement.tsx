@@ -68,7 +68,7 @@ const AllProductManagement = () => {
       title: "Image",
       dataIndex: "image",
       key: "image",
-      render: (images:string) => (
+      render: (images: string) => (
         <img
           src={images[0]}
           alt="Product"
@@ -93,7 +93,7 @@ const AllProductManagement = () => {
       title: "Title",
       dataIndex: "title",
       key: "title",
-      render: (text:string) => (
+      render: (text: string) => (
         <span>{text.length > 30 ? `${text.slice(0, 30)}...` : text}</span>
       ),
       //   responsive: ['lg'],
@@ -103,14 +103,14 @@ const AllProductManagement = () => {
       dataIndex: "price",
       key: "price",
       //   responsive: ['md'],
-      render: (text:number) => `$${text}`,
+      render: (text: number) => `$${text}`,
     },
     {
       title: "Discount",
       dataIndex: "discount",
       key: "discount",
       responsive: ["md"],
-      render: (text:string) => `${text}%`,
+      render: (text: string) => `${text}%`,
     },
     {
       title: "Availability",
@@ -128,7 +128,7 @@ const AllProductManagement = () => {
       title: "Color",
       dataIndex: "color",
       key: "color",
-      render: (colors:string[]) => colors.join(", "),
+      render: (colors: string[]) => colors.join(", "),
       //   responsive: ['lg'],
     },
     {
@@ -156,7 +156,8 @@ const AllProductManagement = () => {
             Edit
           </Button>
           <Button
-            type="primary" danger
+            type="primary"
+            danger
             icon={<DeleteOutlined />}
             onClick={() => handleDelete(record?._id)}
           >
@@ -172,7 +173,7 @@ const AllProductManagement = () => {
     // Add your edit logic here
   };
 
-  const handleDelete = (key) => {
+  const handleDelete = (key: string) => {
     console.log("Delete", key);
     // Add your delete logic here
   };
