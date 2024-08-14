@@ -3,18 +3,17 @@ import { MdOutlineNotificationAdd } from "react-icons/md";
 
 const DashboardNavbar = () => {
   return (
-    <div>
-      <div>Welcome to Admin</div>
+    <div className="flex justify-between items-center p-3 px-5 md:px-10 gap-5">
+      {/* should be use role dynamic  */}
+      <div className="text-4xl font-serif font-bold text-secondary  ">Welcome to Admin</div>
 
       {/* notification and profile div  */}
-      <div>
-        {/* notification  */}
+      <div className="flex items-center justify-center gap-12">
         <div>
-          <MdOutlineNotificationAdd />
+          <MdOutlineNotificationAdd size={40} />
         </div>
-        {/* profile  */}
         <div>
-          <CgProfile size={28} />
+          <CgProfile size={40} />
         </div>
       </div>
     </div>
