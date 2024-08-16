@@ -5,9 +5,15 @@ import Card from "../../components/ui/Product Card/Card";
 import { Drawer } from "antd";
 import { useState } from "react";
 import Sorting from "./Sorting";
+import { useGetAllProductsQuery } from "../../Redux/Features/All Products/allProductsApi";
+
 
 const AllProducts = () => {
   const [open, setOpen] = useState(false);
+const {data} = useGetAllProductsQuery(undefined)
+
+console.log(data);
+
 
   const showDrawer = () => {
     setOpen(true);
