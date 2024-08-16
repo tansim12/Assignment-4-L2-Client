@@ -10,7 +10,9 @@ const allProductsApi = baseApi.injectEndpoints({
           method: "GET",
         };
       },
+      providesTags:["AdminAllProducts"]
     }),
+    
   }),
 });
 

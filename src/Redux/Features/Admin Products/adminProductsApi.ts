@@ -8,6 +8,7 @@ const adminProductsApi = baseApi.injectEndpoints({
         method: "POST",
         body: product,
       }),
+      invalidatesTags:["AdminAllProducts"]
     }),
   }),
 });
