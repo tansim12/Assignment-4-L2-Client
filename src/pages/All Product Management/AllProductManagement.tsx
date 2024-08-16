@@ -1,68 +1,25 @@
 import { Table, Button } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
+import { useGetAllProductsQuery } from "../../Redux/Features/All Products/allProductsApi";
+import { useEffect, useState } from "react";
+import { TProduct } from "../../types/products.type";
 
 const AllProductManagement = () => {
-  const data = [
-    {
-      _id: "1",
-      name: "Product A",
-      category: "AAA",
-      title:
-        "Amazing Product A with a very long title that needs to be shortened",
-      image: [
-        "https://example.com/image1.jpg",
-        "https://example.com/image2.jpg",
-      ],
-      price: 29,
-      discount: 5,
-      availability: "inStock",
-      type: "Type A",
-      color: ["Red", "Blue"],
-      quantity: 10,
-      isDelete: false,
-      order: 100,
-    },
-    {
-      _id: "2",
-      name: "Product A",
-      category: "AAA",
-      title:
-        "Amazing Product A with a very long title that needs to be shortened",
-      image: [
-        "https://example.com/image1.jpg",
-        "https://example.com/image2.jpg",
-      ],
-      price: 29,
-      discount: 5,
-      availability: "inStock",
-      type: "Type A",
-      color: ["Red", "Blue"],
-      quantity: 10,
-      isDelete: false,
-      order: 100,
-    },
-    {
-      _id: "3",
-      name: "Product A",
-      category: "AAA",
-      title:
-        "Amazing Product A with a very long title that needs to be shortened",
-      image: [
-        "https://example.com/image1.jpg",
-        "https://example.com/image2.jpg",
-      ],
-      price: 29,
-      discount: 5,
-      availability: "inStock",
-      type: "Type A",
-      color: ["Red", "Blue"],
-      quantity: 10,
-      isDelete: false,
-      order: 100,
-    },
-    // Add more product objects as needed
-  ];
+  const [data, setData] = useState<TProduct[]>([]);
+  const [queryObj, setQueryObj] = useState({
+    limit: 1,
+    fields: "-shoppingInfo,-specification,-materials,-brand,-rating,-description,-shortDescription",
+    page: 1,
+  });
+  const { data: productsData } = useGetAllProductsQuery(queryObj);
+  useEffect(() => {
+    if (productsData?.data) {
+      setData(productsData.data);
+    }
+  }, [productsData]);
 
+  console.log(data);
+  
   const columns = [
     {
       title: "Image",
@@ -142,7 +99,12 @@ const AllProductManagement = () => {
       dataIndex: "order",
       key: "order",
       //   responsive: ['md'],
-    },
+    },{
+            title: 'Created At',
+            dataIndex: 'createdAt',
+            key: 'createdAt',
+            render: (createdAt: string) => new Date(createdAt).toLocaleDateString(),
+          },
     {
       title: "Actions",
       key: "actions",
@@ -168,13 +130,13 @@ const AllProductManagement = () => {
     },
   ];
 
-  const handleEdit = (record) => {
-    console.log("Edit", record);
+  const handleEdit = (id: string) => {
+    console.log("Edit", id);
     // Add your edit logic here
   };
 
-  const handleDelete = (key: string) => {
-    console.log("Delete", key);
+  const handleDelete = (id: string) => {
+    console.log("Delete", id);
     // Add your delete logic here
   };
 

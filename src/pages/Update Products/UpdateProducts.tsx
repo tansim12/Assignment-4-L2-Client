@@ -5,11 +5,12 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { TProduct } from "../../types/products.type";
+import { allCategoryArray, productTypesArray } from "../../types/Const/product.const";
 
 const UpdateProducts: React.FC = () => {
   const [updateData, setUpdateData] = useState({
     name: "Product A",
-    category: "AAA",
+    category: "Camp Furniture",
     title: "Amazing Product A",
     image: ["https://example.com/image1.jpg", "https://example.com/image2.jpg"],
     shortDescription: "Short description of Product A",
@@ -19,7 +20,7 @@ const UpdateProducts: React.FC = () => {
     rating: 4,
     availability: "inStock",
     brand: "Brand A",
-    type: "Type A",
+    type: "Featured",
     color: ["Red", "Blue"],
     materials: "Cotton",
     quantity: 10,
@@ -91,16 +92,26 @@ const UpdateProducts: React.FC = () => {
         </div>
 
         {/* category  */}
-        <div className="mb-4 w-full">
+        <div className="mb-4 w-1/2">
           <label className="block text-gray-700 font-semibold mb-2">
             Category
           </label>
-          <input
-            {...register("category", { required: "Category is required" })}
+          <select
+            {...register("category", {
+              required: "Category is required",
+            })}
             className="w-full p-2 border border-black rounded-md"
-          />
+          >
+            {allCategoryArray?.map((item, i) => (
+              <option key={i} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
           {errors.category && (
-            <p className="text-red-500 text-sm">{errors.category.message}</p>
+            <p className="text-red-500 text-sm">
+              {errors.category.message}
+            </p>
           )}
         </div>
       </div>
@@ -325,6 +336,31 @@ const UpdateProducts: React.FC = () => {
           )}
         </div>
 
+         {/* type  */}
+         <div className="mb-4 ">
+          <label className="block text-gray-700 font-semibold mb-2">
+            Types
+          </label>
+          <select
+            {...register("type", {
+              required: "Type is required",
+            })}
+            className="w-full p-2 border border-black rounded-md"
+          >
+            {productTypesArray?.map((item, i) => (
+              <option key={i} value={item}>
+                {item}
+              </option>
+            ))}
+          </select>
+          {errors.type && (
+            <p className="text-red-500 text-sm">
+              {errors.type.message}
+            </p>
+          )}
+        </div>
+
+
         {/* brand  */}
         <div className="mb-4">
           <label className="block text-gray-700 font-semibold mb-2">
@@ -336,18 +372,6 @@ const UpdateProducts: React.FC = () => {
           />
           {errors.brand && (
             <p className="text-red-500 text-sm">{errors.brand.message}</p>
-          )}
-        </div>
-
-        {/* type  */}
-        <div className="mb-4">
-          <label className="block text-gray-700 font-semibold mb-2">Type</label>
-          <input
-            {...register("type", { required: "Type is required" })}
-            className="w-full p-2 border border-black rounded-md"
-          />
-          {errors.type && (
-            <p className="text-red-500 text-sm">{errors.type.message}</p>
           )}
         </div>
       </div>
