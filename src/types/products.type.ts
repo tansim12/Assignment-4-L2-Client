@@ -19,5 +19,6 @@ export interface TProduct {
     isDelete: boolean;
     specification: string;
     shoppingInfo: string;
+    sellerProfile?:string
   }
   

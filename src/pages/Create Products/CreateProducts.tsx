@@ -5,6 +5,8 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { TProduct } from "../../types/products.type";
+import { useCreateProductMutation } from "../../Redux/Features/Admin Products/adminProductsApi";
+import { useNavigate } from "react-router-dom";
 
 const CreateProducts: React.FC = () => {
   const {
@@ -48,9 +50,20 @@ const CreateProducts: React.FC = () => {
     name: "color",
   });
 
-  const onSubmit = (data: TProduct) => {
-    console.log(data);
+  const [postProduct, { isSuccess }] = useCreateProductMutation();
+  const navigate = useNavigate();
+  const onSubmit = async (data: TProduct) => {
+    const payload = { ...data, sellerProfile: "66ae1bb0429576d1fb219b17" };
+    try {
+      const res = await postProduct(payload).unwrap();
+      if (res?.success) {
+        navigate("/admin/all-products-management");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
+  console.log(isSuccess);
 
   return (
     <form
@@ -179,7 +192,7 @@ const CreateProducts: React.FC = () => {
           </div>
         ))}
         {errors.description &&
-          errors.description.map((error, index) => (
+          errors?.description?.map((error, index) => (
             <p key={index} className="text-red-500 text-sm">
               {error?.message}
             </p>
@@ -213,7 +226,7 @@ const CreateProducts: React.FC = () => {
           </div>
         ))}
         {errors.color &&
-          errors.color.map((error, index) => (
+          errors?.color?.map((error, index) => (
             <p key={index} className="text-red-500 text-sm">
               {error?.message}
             </p>
@@ -235,7 +248,10 @@ const CreateProducts: React.FC = () => {
           </label>
           <input
             type="number"
-            {...register("price", { required: "Price is required" })}
+            {...register("price", {
+              required: "Price is required",
+              valueAsNumber: true,
+            })}
             className="w-full p-2 border border-black rounded-md"
           />
           {errors.price && (
@@ -249,7 +265,10 @@ const CreateProducts: React.FC = () => {
           </label>
           <input
             type="number"
-            {...register("discount", { required: "Discount is required" })}
+            {...register("discount", {
+              required: "Discount is required",
+              valueAsNumber: true,
+            })}
             className="w-full p-2 border border-black rounded-md"
           />
           {errors.discount && (
@@ -268,6 +287,7 @@ const CreateProducts: React.FC = () => {
               required: "Rating is required",
               min: { value: 1, message: "Rating must be at least 1" },
               max: { value: 5, message: "Rating must be at most 5" },
+              valueAsNumber: true,
             })}
             className="w-full p-2 border border-black rounded-md"
           />
@@ -349,7 +369,10 @@ const CreateProducts: React.FC = () => {
           </label>
           <input
             type="number"
-            {...register("quantity", { required: "Quantity is required" })}
+            {...register("quantity", {
+              required: "Quantity is required",
+              valueAsNumber: true,
+            })}
             className="w-full p-2 border border-black rounded-md"
           />
           {errors.quantity && (
@@ -363,7 +386,7 @@ const CreateProducts: React.FC = () => {
           </label>
           <input
             type="number"
-            {...register("order")}
+            {...register("order", { valueAsNumber: true })}
             className="w-full p-2 border border-black rounded-md"
           />
         </div>
