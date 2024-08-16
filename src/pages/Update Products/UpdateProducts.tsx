@@ -24,7 +24,7 @@ const UpdateProducts: React.FC = () => {
     materials: "Cotton",
     quantity: 10,
     isDelete: false,
-    order:100,
+    order: 100,
     specification: "Specifications of Product A",
     shoppingInfo: "Shopping info of Product A",
   });
@@ -253,7 +253,10 @@ const UpdateProducts: React.FC = () => {
           </label>
           <input
             type="number"
-            {...register("price", { required: "Price is required" })}
+            {...register("price", {
+              required: "Price is required",
+              valueAsNumber: true,
+            })}
             className="w-full p-2 border border-black rounded-md"
           />
           {errors.price && (
@@ -267,7 +270,10 @@ const UpdateProducts: React.FC = () => {
           </label>
           <input
             type="number"
-            {...register("discount", { required: "Discount is required" })}
+            {...register("discount", {
+              required: "Discount is required",
+              valueAsNumber: true,
+            })}
             className="w-full p-2 border border-black rounded-md"
           />
           {errors.discount && (
@@ -286,6 +292,7 @@ const UpdateProducts: React.FC = () => {
               required: "Rating is required",
               min: { value: 1, message: "Rating must be at least 1" },
               max: { value: 5, message: "Rating must be at most 5" },
+              valueAsNumber: true,
             })}
             className="w-full p-2 border border-black rounded-md"
           />
@@ -367,7 +374,7 @@ const UpdateProducts: React.FC = () => {
           </label>
           <input
             type="number"
-            {...register("quantity", { required: "Quantity is required" })}
+            {...register("quantity", { required: "Quantity is required",valueAsNumber:true })}
             className="w-full p-2 border border-black rounded-md"
           />
           {errors.quantity && (
@@ -381,7 +388,7 @@ const UpdateProducts: React.FC = () => {
           </label>
           <input
             type="number"
-            {...register("order")}
+            {...register("order", { valueAsNumber: true })}
             className="w-full p-2 border border-black rounded-md"
           />
         </div>
