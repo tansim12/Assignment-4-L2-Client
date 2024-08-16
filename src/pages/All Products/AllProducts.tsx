@@ -6,15 +6,15 @@ import { Drawer } from "antd";
 import { useState } from "react";
 import Sorting from "./Sorting";
 import { useGetAllProductsQuery } from "../../Redux/Features/All Products/allProductsApi";
-
+import { useAppDispatch, useAppSelector } from "../../Redux/hook";
+import { allProductsData } from "../../Redux/Features/All Products/allProducts.slice";
 
 const AllProducts = () => {
   const [open, setOpen] = useState(false);
-const {data} = useGetAllProductsQuery(undefined)
-
-console.log(data);
-
-
+  const { data } = useGetAllProductsQuery(undefined);
+  const dispatch = useAppDispatch();
+  dispatch(allProductsData(data?.data));
+  const products = useAppSelector((state)=>state?.allProducts)
   const showDrawer = () => {
     setOpen(true);
   };
@@ -22,6 +22,9 @@ console.log(data);
   const onClose = () => {
     setOpen(false);
   };
+
+  console.log(products);
+  
 
   return (
     <div>
