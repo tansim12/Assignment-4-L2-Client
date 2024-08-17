@@ -7,7 +7,7 @@ const allProductsApi = baseApi.injectEndpoints({
         const { limit, page, fields, sort, searchTerm } = body;
 
         // Construct the query parameters
-        let queryParams = new URLSearchParams();
+        const queryParams = new URLSearchParams();
         if (searchTerm) queryParams.append("searchTerm", searchTerm);
         if (sort) queryParams.append("sort", sort);
         if (limit) queryParams.append("limit", limit);

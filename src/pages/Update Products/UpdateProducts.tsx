@@ -6,8 +6,16 @@ import "react-quill/dist/quill.snow.css";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { TProduct } from "../../types/products.type";
 import { allCategoryArray, productTypesArray } from "../../types/Const/product.const";
+import { useGetOneProductQuery, useUpdateProductMutation } from "../../Redux/Features/Admin Products/adminProductsApi";
+import { useParams } from "react-router-dom";
 
 const UpdateProducts: React.FC = () => {
+  
+  const {id}=useParams()
+  const {data} = useGetOneProductQuery(id)
+  console.log(data);
+  
+  const [productUpdate] = useUpdateProductMutation()
   const [updateData, setUpdateData] = useState({
     name: "Product A",
     category: "Camp Furniture",

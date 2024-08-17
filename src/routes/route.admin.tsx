@@ -1,8 +1,6 @@
-// import AdminDashboard from "../Layout/Admin Dashboard/AdminDashboard";
-// import ProductManagement from "../pages/Product Management/ProductManagement";
+
 import AllProductManagement from "../pages/All Product Management/AllProductManagement";
 import CreateProducts from "../pages/Create Products/CreateProducts";
-import UpdateProducts from "../pages/Update Products/UpdateProducts";
 import { IAccRoutes } from "../types/admin.types";
 export const adminPath: IAccRoutes[] = [
   // {
@@ -23,11 +21,6 @@ export const adminPath: IAccRoutes[] = [
         name: "Create Product",
         path: "create-product",
         element: <CreateProducts />,
-      },
-      {
-        name: "Update Product",
-        path: "update-product",
-        element: <UpdateProducts />,
       },
     ],
     path: "",

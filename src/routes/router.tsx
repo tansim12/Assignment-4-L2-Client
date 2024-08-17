@@ -47,14 +47,6 @@ export const router = createBrowserRouter([
     element: <DashboardLayout />,
     errorElement: <NoFoundPage />,
     children: [
-      // {
-      //   path: "dashboard",
-      //   element: <AdminDashboard />,
-      // },
-      // {
-      //   path: "product-management",
-      //   element: <AllProductManagement />,
-      // },
       {
         path: "all-products-management",
         element: <AllProductManagement />,
@@ -64,7 +56,7 @@ export const router = createBrowserRouter([
         element: <CreateProducts />,
       },
       {
-        path: "update-product",
+        path: "update-product/:id",
         element: <UpdateProducts />,
       },
     ],

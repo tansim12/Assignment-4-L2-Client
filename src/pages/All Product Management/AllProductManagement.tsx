@@ -7,8 +7,10 @@ import { TProduct } from "../../types/products.type";
 import { Pagination } from "antd";
 import Swal from "sweetalert2";
 import { useDeleteProductMutation } from "../../Redux/Features/Admin Products/adminProductsApi";
+import { useNavigate } from "react-router-dom";
 
 const AllProductManagement = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState<TProduct[]>([]);
   const [pageCount, setPageCount] = useState(5);
   const [queryObj, setQueryObj] = useState({
@@ -26,7 +28,6 @@ const AllProductManagement = () => {
     }
   }, [productsData]);
 
-  console.log(data);
 
   const columns = [
     {
@@ -143,8 +144,7 @@ const AllProductManagement = () => {
   };
 
   const handleEdit = (id: string) => {
-    console.log("Edit", id);
-    // Add your edit logic here
+    navigate(`/admin/update-product/${id}`);
   };
 
   const handleDelete = (id: string) => {
