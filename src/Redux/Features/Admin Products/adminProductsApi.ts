@@ -8,9 +8,17 @@ const adminProductsApi = baseApi.injectEndpoints({
         method: "POST",
         body: product,
       }),
-      invalidatesTags:["AdminAllProducts"]
+      invalidatesTags: ["AdminAllProducts"],
+    }),
+    deleteProduct: builder.mutation({
+      query: (id) => ({
+        url: `/products/delete-product/${id}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: ["AdminAllProducts"],
     }),
   }),
 });
 
-export const { useCreateProductMutation } = adminProductsApi;
+export const { useCreateProductMutation, useDeleteProductMutation } =
+  adminProductsApi;

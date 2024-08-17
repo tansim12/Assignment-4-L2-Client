@@ -6,6 +6,7 @@ import { TProduct } from "../../types/products.type";
 
 import { Pagination } from "antd";
 import Swal from "sweetalert2";
+import { useDeleteProductMutation } from "../../Redux/Features/Admin Products/adminProductsApi";
 
 const AllProductManagement = () => {
   const [data, setData] = useState<TProduct[]>([]);
@@ -16,6 +17,7 @@ const AllProductManagement = () => {
     page: 1,
   });
   const { data: productsData } = useGetAllProductsQuery(queryObj);
+  const [deleteProduct] = useDeleteProductMutation();
   useEffect(() => {
     if (productsData?.data) {
       setData(productsData.data);
@@ -144,45 +146,48 @@ const AllProductManagement = () => {
   };
 
   const handleDelete = (id: string) => {
-    console.log("Delete", id);
-
-    const swalWithTailwindButtons = Swal.mixin({
+  const swalWithTailwindButtons = Swal.mixin({
       customClass: {
-        confirmButton: "bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded ml-5", // Add margin-right to confirm button
-        cancelButton: "bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
-
+        confirmButton:
+          "bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded ml-5", // Add margin-right to confirm button
+        cancelButton:
+          "bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded",
       },
-      buttonsStyling: false // Ensure custom classes are applied
+      buttonsStyling: false, // Ensure custom classes are applied
     });
-    
-    swalWithTailwindButtons.fire({
-      title: "Are you sure?",
-      text: "You won't be able to revert this!",
-      icon: "warning",
-      showCancelButton: true,
-      confirmButtonText: "Yes, delete it!",
-      cancelButtonText: "No, cancel!",
-      reverseButtons: true
-    }).then((result) => {
-      if (result.isConfirmed) {
-        swalWithTailwindButtons.fire({
-          title: "Deleted!",
-          text: "Your file has been deleted.",
-          icon: "success"
-        });
-      } else if (result.dismiss === Swal.DismissReason.cancel) {
-        swalWithTailwindButtons.fire({
-          title: "Cancelled",
-          text: "Your imaginary file is safe :)",
-          icon: "error"
-        });
-      }
-    });
-    
-    
+
+    swalWithTailwindButtons
+      .fire({
+        title: "Are you sure?",
+        text: "You won't be able to revert this!",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: "Yes, delete it!",
+        cancelButtonText: "No, cancel!",
+        reverseButtons: true,
+      })
+      .then(async (result) => {
+        if (result.isConfirmed) {
+          const res = await deleteProduct(id).unwrap();
+          if (res?.success) {
+            swalWithTailwindButtons.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+          }
+        } else if (result.dismiss === Swal.DismissReason.cancel) {
+          swalWithTailwindButtons.fire({
+            title: "Cancelled",
+            text: "Your imaginary file is safe :)",
+            icon: "error",
+          });
+        }
+      });
+
     // Add your delete logic here
   };
- 
+
   return (
     <div className="p-4">
       <Table
