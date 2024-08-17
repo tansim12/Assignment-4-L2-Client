@@ -11,10 +11,16 @@ import { allProductsData } from "../../Redux/Features/All Products/allProducts.s
 
 const AllProducts = () => {
   const [open, setOpen] = useState(false);
-  const { data } = useGetAllProductsQuery(undefined);
+  const [queryObj, setQueryObj] = useState({
+    // limit: 10,
+    // fields:
+    //   "-shoppingInfo,-specification,-materials,-brand,-rating,-description,-shortDescription",
+    // page: 1,
+  });
+  const { data: productsData } = useGetAllProductsQuery(queryObj);
   const dispatch = useAppDispatch();
-  dispatch(allProductsData(data?.data));
-  const products = useAppSelector((state)=>state?.allProducts)
+  dispatch(allProductsData(productsData?.data?.result));
+  const products = useAppSelector((state) => state?.allProducts);
   const showDrawer = () => {
     setOpen(true);
   };
@@ -22,9 +28,9 @@ const AllProducts = () => {
   const onClose = () => {
     setOpen(false);
   };
-
   console.log(products);
-  
+
+  // console.log(products);
 
   return (
     <div>

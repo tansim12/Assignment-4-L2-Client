@@ -19,8 +19,8 @@ const AllProductManagement = () => {
   const { data: productsData } = useGetAllProductsQuery(queryObj);
   const [deleteProduct] = useDeleteProductMutation();
   useEffect(() => {
-    if (productsData?.data) {
-      setData(productsData.data);
+    if (productsData?.data?.result) {
+      setData(productsData?.data?.result);
     }
   }, [productsData]);
 
