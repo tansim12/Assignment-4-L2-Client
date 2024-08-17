@@ -78,10 +78,7 @@ const UpdateProducts: React.FC = () => {
   });
 
   const onSubmit =async (data: TProduct) => {
-    console.log(data);
-   const res = await productUpdate({ id, data }).unwrap();
-   console.log(res);
-   
+   const res = await productUpdate({ id, data }).unwrap(); 
     if (res?.success) {
       Swal.fire({
         position: "center",

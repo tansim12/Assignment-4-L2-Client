@@ -2,14 +2,11 @@ import { Layout, Menu } from "antd";
 const { Sider } = Layout;
 import generateRoutesNavLinks from "../../utils/generateRoutesNavLinks";
 import { adminPath } from "../../routes/route.admin";
+import { useNavigate } from "react-router-dom";
 const SidebarMenu = () => {
-
-
-
-
+  const navigate = useNavigate();
   const userRole = {
     ADMIN: "admin",
-   
   };
   const role = "admin" as string;
 
@@ -23,26 +20,27 @@ const SidebarMenu = () => {
       break;
   }
 
-
-
-
   return (
     <Sider
-    className="h-screen "
+      className="h-screen "
       breakpoint="lg"
       collapsedWidth="0"
-      onBreakpoint={(broken) => {
-        console.log(broken);
-      }}
+      onBreakpoint={(broken) => {}}
       onCollapse={(collapsed, type) => {
         console.log(collapsed, type);
       }}
     >
-      <div className="demo-logo-vertical" />
+      <div onClick={()=>navigate("/")} className="demo-logo-vertical rounded-b-xl p-2 border-b-4 border-black flex justify-center cursor-pointer">
+        <img
+          src="https://i.ibb.co/FDnCPmH/pngwing-com-25.png"
+          alt="Camping"
+          className="size-16 mr-4"
+        />
+      </div>
       <Menu
         theme="dark"
         mode="inline"
-        defaultSelectedKeys={["1"]}
+        defaultSelectedKeys={["0"]}
         items={sidebarItems}
       />
     </Sider>
