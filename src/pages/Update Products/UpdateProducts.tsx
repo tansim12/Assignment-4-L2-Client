@@ -1,51 +1,53 @@
 import { Switch } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { TProduct } from "../../types/products.type";
-import { allCategoryArray, productTypesArray } from "../../types/Const/product.const";
-import { useGetOneProductQuery, useUpdateProductMutation } from "../../Redux/Features/Admin Products/adminProductsApi";
-import { useParams } from "react-router-dom";
+import {
+  allCategoryArray,
+  productTypesArray,
+} from "../../types/Const/product.const";
+import {
+  useGetOneProductQuery,
+  useUpdateProductMutation,
+} from "../../Redux/Features/Admin Products/adminProductsApi";
+import { useNavigate, useParams } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const UpdateProducts: React.FC = () => {
-  
-  const {id}=useParams()
-  const {data} = useGetOneProductQuery(id)
-  console.log(data);
-  
-  const [productUpdate] = useUpdateProductMutation()
-  const [updateData, setUpdateData] = useState({
-    name: "Product A",
-    category: "Camp Furniture",
-    title: "Amazing Product A",
-    image: ["https://example.com/image1.jpg", "https://example.com/image2.jpg"],
-    shortDescription: "Short description of Product A",
-    description: ["Full description line 1", "Full description line 2"],
-    price: 29,
-    discount: 5,
-    rating: 4,
-    availability: "inStock",
-    brand: "Brand A",
-    type: "Featured",
-    color: ["Red", "Blue"],
-    materials: "Cotton",
-    quantity: 10,
-    isDelete: false,
-    order: 100,
-    specification: "Specifications of Product A",
-    shoppingInfo: "Shopping info of Product A",
-  });
+  const navigate =useNavigate()
+  const [updateData, setUpdateData] = useState<TProduct | null>(null);
+  const { id } = useParams();
+  const { data } = useGetOneProductQuery(id);
+  console.log(data?.data);
+  useEffect(() => {
+    if (data?.data) {
+      setUpdateData(data?.data);
+    }
+  }, [data?.data, updateData]);
+
+  const [productUpdate,{isSuccess}] = useUpdateProductMutation();
+
+  console.log(updateData);
 
   const {
     register,
     control,
     handleSubmit,
     formState: { errors },
+    reset, // Import the reset method
   } = useForm<TProduct>({
-    defaultValues: updateData, // Pass the updateData as default values
+    defaultValues: updateData || {}, // Initial default values
   });
+
+  useEffect(() => {
+    if (data?.data) {
+      setUpdateData(data.data);
+      reset(data.data); // Reset the form with the new data
+    }
+  }, [data, reset, updateData]);
 
   // Reuse the same logic for handling images, descriptions, and colors
   const {
@@ -75,8 +77,21 @@ const UpdateProducts: React.FC = () => {
     name: "color",
   });
 
-  const onSubmit = (data: TProduct) => {
+  const onSubmit =async (data: TProduct) => {
     console.log(data);
+   const res = await productUpdate({ id, data }).unwrap();
+   console.log(res);
+   
+    if (res?.success) {
+      Swal.fire({
+        position: "center",
+        icon: "success",
+        title: "product Update Successfully Done",
+        showConfirmButton: false,
+        timer: 1500
+      });
+      navigate("/admin/all-products-management")
+    }
   };
 
   return (
@@ -117,9 +132,7 @@ const UpdateProducts: React.FC = () => {
             ))}
           </select>
           {errors.category && (
-            <p className="text-red-500 text-sm">
-              {errors.category.message}
-            </p>
+            <p className="text-red-500 text-sm">{errors.category.message}</p>
           )}
         </div>
       </div>
@@ -344,8 +357,8 @@ const UpdateProducts: React.FC = () => {
           )}
         </div>
 
-         {/* type  */}
-         <div className="mb-4 ">
+        {/* type  */}
+        <div className="mb-4 ">
           <label className="block text-gray-700 font-semibold mb-2">
             Types
           </label>
@@ -362,12 +375,9 @@ const UpdateProducts: React.FC = () => {
             ))}
           </select>
           {errors.type && (
-            <p className="text-red-500 text-sm">
-              {errors.type.message}
-            </p>
+            <p className="text-red-500 text-sm">{errors.type.message}</p>
           )}
         </div>
-
 
         {/* brand  */}
         <div className="mb-4">
@@ -406,7 +416,10 @@ const UpdateProducts: React.FC = () => {
           </label>
           <input
             type="number"
-            {...register("quantity", { required: "Quantity is required",valueAsNumber:true })}
+            {...register("quantity", {
+              required: "Quantity is required",
+              valueAsNumber: true,
+            })}
             className="w-full p-2 border border-black rounded-md"
           />
           {errors.quantity && (
