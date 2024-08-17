@@ -4,11 +4,14 @@ import { useGetAllProductsQuery } from "../../Redux/Features/All Products/allPro
 import { useEffect, useState } from "react";
 import { TProduct } from "../../types/products.type";
 
+import { Pagination } from "antd";
+
 const AllProductManagement = () => {
   const [data, setData] = useState<TProduct[]>([]);
   const [queryObj, setQueryObj] = useState({
-    limit: 1,
-    fields: "-shoppingInfo,-specification,-materials,-brand,-rating,-description,-shortDescription",
+    limit: 10,
+    fields:
+      "-shoppingInfo,-specification,-materials,-brand,-rating,-description,-shortDescription",
     page: 1,
   });
   const { data: productsData } = useGetAllProductsQuery(queryObj);
@@ -19,7 +22,7 @@ const AllProductManagement = () => {
   }, [productsData]);
 
   console.log(data);
-  
+
   const columns = [
     {
       title: "Image",
@@ -99,12 +102,13 @@ const AllProductManagement = () => {
       dataIndex: "order",
       key: "order",
       //   responsive: ['md'],
-    },{
-            title: 'Created At',
-            dataIndex: 'createdAt',
-            key: 'createdAt',
-            render: (createdAt: string) => new Date(createdAt).toLocaleDateString(),
-          },
+    },
+    {
+      title: "Created At",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (createdAt: string) => new Date(createdAt).toLocaleDateString(),
+    },
     {
       title: "Actions",
       key: "actions",
@@ -139,150 +143,34 @@ const AllProductManagement = () => {
     console.log("Delete", id);
     // Add your delete logic here
   };
-
+  const handlePage = (currentPageNumber: number) => {
+    setQueryObj({ ...queryObj, page: currentPageNumber });
+    console.log(currentPageNumber);
+  };
   return (
     <div className="p-4">
       <Table
         columns={columns}
         dataSource={data}
-        pagination={{ pageSize: 5 }}
-        scroll={{ x: "100%" }} // Ensures responsiveness
+        pagination={false}
+        scroll={{ x: "150%" }} // Ensures responsiveness
         className="w-full border"
         bordered={true}
       />
+
+      <div className="my-20">
+        <Pagination
+          // size="small"
+          total={1000}
+          showSizeChanger
+          showQuickJumper
+          onChange={handlePage}
+          align="center"
+          responsive={true}
+        />
+      </div>
     </div>
   );
 };
 
 export default AllProductManagement;
-
-// import React, { useEffect, useState } from 'react';
-// import { Table, Button, Pagination } from 'antd';
-// import { EditOutlined, DeleteOutlined } from '@ant-design/icons';
-// import axios from 'axios';
-
-// interface Product {
-//   name: string;
-//   category: string;
-//   title: string;
-//   image: string[];
-//   price: number;
-//   discount: number;
-//   availability: string;
-//   type: string;
-//   color: string[];
-//   quantity: number;
-//   isDelete: boolean;
-//   order: number;
-//   createdAt: string;
-// }
-
-// const ProductsTable: React.FC = () => {
-//   const [data, setData] = useState<Product[]>([]);
-//   const [loading, setLoading] = useState(false);
-//   const [currentPage, setCurrentPage] = useState(1);
-//   const [totalItems, setTotalItems] = useState(0);
-
-//   const fetchProducts = async (page: number, limit: number) => {
-//     setLoading(true);
-//     try {
-//       const response = await axios.get(`/api/products?page=${page}&limit=${limit}`);
-//       setData(response.data.products);
-//       setTotalItems(response.data.totalItems);
-//     } catch (error) {
-//       console.error('Error fetching products:', error);
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   useEffect(() => {
-//     fetchProducts(currentPage, 10);
-//   }, [currentPage]);
-
-//   const handleEdit = (record: Product) => {
-//     console.log('Edit:', record);
-//   };
-
-//   const handleDelete = (record: Product) => {
-//     console.log('Delete:', record);
-//   };
-
-//   const columns = [
-//     {
-//       title: 'Name',
-//       dataIndex: 'name',
-//       key: 'name',
-//     },
-//     {
-//       title: 'Category',
-//       dataIndex: 'category',
-//       key: 'category',
-//     },
-//     {
-//       title: 'Title',
-//       dataIndex: 'title',
-//       key: 'title',
-//     },
-//     {
-//       title: 'Price',
-//       dataIndex: 'price',
-//       key: 'price',
-//       render: (price: number) => `$${price.toFixed(2)}`,
-//     },
-//     {
-//       title: 'Discount',
-//       dataIndex: 'discount',
-//       key: 'discount',
-//       render: (discount: number) => `${discount}%`,
-//     },
-//     {
-//       title: 'Availability',
-//       dataIndex: 'availability',
-//       key: 'availability',
-//     },
-//     {
-//       title: 'Quantity',
-//       dataIndex: 'quantity',
-//       key: 'quantity',
-//     },
-//     {
-//       title: 'Created At',
-//       dataIndex: 'createdAt',
-//       key: 'createdAt',
-//       render: (createdAt: string) => new Date(createdAt).toLocaleDateString(),
-//     },
-//     {
-//       title: 'Actions',
-//       key: 'actions',
-//       render: (_: any, record: Product) => (
-//         <div className="flex gap-2">
-//           <Button onClick={() => handleEdit(record)} icon={<EditOutlined />} />
-//           <Button onClick={() => handleDelete(record)} danger icon={<DeleteOutlined />} />
-//         </div>
-//       ),
-//     },
-//   ];
-
-//   return (
-//     <div className="p-4">
-//       <Table
-//         columns={columns}
-//         dataSource={data}
-//         rowKey="name"
-//         loading={loading}
-//         pagination={false}
-//         responsiv
-//       />
-//       <Pagination
-//         className="mt-4"
-//         current={currentPage}
-//         pageSize={10}
-//         total={totalItems}
-//         onChange={(page) => setCurrentPage(page)}
-//       />
-//     </div>
-//   );
-// };
-
-// export default ProductsTable;
