@@ -10,6 +10,7 @@ import { useDeleteProductMutation } from "../../Redux/Features/Admin Products/ad
 
 const AllProductManagement = () => {
   const [data, setData] = useState<TProduct[]>([]);
+  const [pageCount, setPageCount] = useState(5);
   const [queryObj, setQueryObj] = useState({
     limit: 10,
     fields:
@@ -21,6 +22,7 @@ const AllProductManagement = () => {
   useEffect(() => {
     if (productsData?.data?.result) {
       setData(productsData?.data?.result);
+      setPageCount(productsData?.data?.totalDataCount);
     }
   }, [productsData]);
 
@@ -136,8 +138,8 @@ const AllProductManagement = () => {
       ),
     },
   ];
-  const handlePage = (currentPageNumber: number) => {
-    setQueryObj({ ...queryObj, page: currentPageNumber });
+  const handlePage = (currentPageNumber: number, pageSize: number) => {
+    setQueryObj({ ...queryObj, page: currentPageNumber, limit: pageSize });
   };
 
   const handleEdit = (id: string) => {
@@ -146,7 +148,7 @@ const AllProductManagement = () => {
   };
 
   const handleDelete = (id: string) => {
-  const swalWithTailwindButtons = Swal.mixin({
+    const swalWithTailwindButtons = Swal.mixin({
       customClass: {
         confirmButton:
           "bg-green-500 hover:bg-green-600 text-white font-bold py-2 px-4 rounded ml-5", // Add margin-right to confirm button
@@ -202,7 +204,7 @@ const AllProductManagement = () => {
       <div className="my-20">
         <Pagination
           // size="small"
-          total={1000}
+          total={pageCount}
           showSizeChanger
           showQuickJumper
           onChange={handlePage}
