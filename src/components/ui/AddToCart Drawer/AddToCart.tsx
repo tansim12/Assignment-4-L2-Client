@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const Cart = ({ checkOutPage = false }) => {
+const AddToCart = ({ checkOutPage = false }) => {
   const [cartItems, setCartItems] = useState([
     {
       id: 1,
@@ -128,4 +128,4 @@ const Cart = ({ checkOutPage = false }) => {
   );
 };
 
-export default Cart;
+export default AddToCart;
