@@ -4,10 +4,10 @@ import { FaRegHeart } from "react-icons/fa";
 import { IoCartOutline } from "react-icons/io5";
 import { NavLink } from "react-router-dom";
 import SearchSystem from "../../Re-useable/SearchSystem";
+import AddToCartDrawer from "../AddToCart Drawer/AddToCartDrawer";
 
 const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
- 
 
   return (
     <div>
@@ -45,7 +45,7 @@ const Navbar = () => {
               isActive ? "text-primary" : "text-black hover:text-primary"
             }
           >
-           About Us
+            About Us
           </NavLink>
         </div>
       </div>
@@ -106,8 +106,8 @@ const Navbar = () => {
         </div>
         <div className="flex items-center space-x-4 mt-3 lg:mt-0">
           <CgProfile size={28} />
-          <FaRegHeart size={28} />
-          <IoCartOutline size={28} />
+          <FaRegHeart size={28} />   
+          <AddToCartDrawer />
         </div>
       </div>
     </div>

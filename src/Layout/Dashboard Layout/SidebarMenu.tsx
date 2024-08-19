@@ -25,7 +25,7 @@ const SidebarMenu = () => {
       className="h-screen "
       breakpoint="lg"
       collapsedWidth="0"
-      onBreakpoint={(broken) => {}}
+      onBreakpoint={() => {}}
       onCollapse={(collapsed, type) => {
         console.log(collapsed, type);
       }}
