@@ -1,8 +1,9 @@
 import { Modal } from "antd";
-import { FormEvent, useState } from "react";
+import React, { FormEvent, useState } from "react";
 import { FaSearch } from "react-icons/fa";
+import { LeftSideFilterProps } from "../../types/quearyFilter.type";
 
-const SearchSystem = () => {
+const SearchSystem:React.FC<LeftSideFilterProps> = ({setQueryObj}) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -15,8 +16,9 @@ const SearchSystem = () => {
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    const searchValue = e.target.search.value as string;
-    console.log(searchValue);
+    const searchTerm = e.target.search.value as string;
+    setQueryObj((prev) => ({ ...prev, searchTerm }));
+
   };
   return (
     <>

@@ -4,18 +4,18 @@ import LeftSideFilter from "./LeftSideFilter";
 import Card from "../../components/ui/Product Card/Card";
 import { Drawer } from "antd";
 import { useState } from "react";
-import Sorting from "./Sorting";
 import { useGetAllProductsQuery } from "../../Redux/Features/All Products/allProductsApi";
 import { useAppDispatch, useAppSelector } from "../../Redux/hook";
 import { allProductsData } from "../../Redux/Features/All Products/allProducts.slice";
+import { TQueryObj } from "../../types/quearyFilter.type";
 
 const AllProducts = () => {
   const [open, setOpen] = useState(false);
-  const [queryObj, setQueryObj] = useState({
-    // limit: 10,
-    // fields:
-    //   "-shoppingInfo,-specification,-materials,-brand,-rating,-description,-shortDescription",
-    // page: 1,
+  const [queryObj, setQueryObj] = useState<TQueryObj>({
+    limit: 10,
+    fields:
+      "-shoppingInfo,-specification,-materials,-brand,-rating,-description,-shortDescription",
+    page: 1,
   });
   const { data: productsData } = useGetAllProductsQuery(queryObj);
   const dispatch = useAppDispatch();
@@ -28,9 +28,17 @@ const AllProducts = () => {
   const onClose = () => {
     setOpen(false);
   };
-  console.log(products);
-
   // console.log(products);
+  console.log(queryObj);
+
+  const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newSort = event.target.value as "-price" | "price" | ""; // Type assertion
+    setQueryObj((prev) => ({ ...prev, sort: newSort }));
+  };
+  const handleLimitChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newLimit = event.target.value as number // Type assertion
+    setQueryObj((prev) => ({ ...prev, limit: newLimit }));
+  };
 
   return (
     <div>
@@ -42,10 +50,42 @@ const AllProducts = () => {
           </div>
         </div>
         <div>
-          <SearchSystem />
+          <SearchSystem setQueryObj={setQueryObj} />
         </div>
-        <div>
-          <Sorting />
+        <div className="flex flex-col gap-3">
+          {/* sort div  */}
+          <div>
+            <select
+              onChange={handleSortChange}
+              value={queryObj.sort}
+              style={{ width: "100%" }}
+              className="font-bold border"
+            >
+              <option selected={true} value="">
+                Sort
+              </option>
+              <option value="-price">Low to High</option>
+              <option value="price">High to Low</option>
+            </select>
+            {/* Other components and filters */}
+          </div>
+
+          {/* page limit  */}
+
+          <div>
+            <select
+              onChange={handleLimitChange}
+              value={queryObj.limit}
+              style={{ width: "100%" }}
+              className="font-bold border"
+            >
+             
+              <option selected={true} value={10}>10</option>
+              <option value={20}>20</option>
+              <option value={30}>30</option>
+            </select>
+            {/* Other components and filters */}
+          </div>
         </div>
       </div>
 
@@ -53,7 +93,7 @@ const AllProducts = () => {
       <div className="my-10 flex gap-4 ">
         {/* filter div  */}
         <div className="basis-1/4 hidden md:block">
-          <LeftSideFilter />
+          <LeftSideFilter setQueryObj={setQueryObj} />
         </div>
 
         {/* card div  */}
@@ -90,7 +130,7 @@ const AllProducts = () => {
           open={open}
           key={"right"}
         >
-          <LeftSideFilter />
+          <LeftSideFilter setQueryObj={setQueryObj} />
         </Drawer>
       </div>
     </div>
