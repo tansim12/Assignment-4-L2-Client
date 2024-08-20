@@ -55,9 +55,9 @@ const LeftSideFilter: React.FC<LeftSideFilterProps> = ({ setQueryObj }) => {
                 onChange={field.onChange}
                 style={{ display: 'flex', flexDirection: 'column' }}
               >
-                <Radio value="In Stock">In Stock</Radio>
-                <Radio value="Pre Order">Pre Order</Radio>
-                <Radio value="Up Coming">Up Coming</Radio>
+                <Radio value="inStock">In Stock</Radio>
+                <Radio value="pre-order">Pre Order</Radio>
+                <Radio value="upcoming">Up Coming</Radio>
               </Radio.Group>
             )}
           />

@@ -5,8 +5,6 @@ import Card from "../../components/ui/Product Card/Card";
 import { Drawer } from "antd";
 import { useState } from "react";
 import { useGetAllProductsQuery } from "../../Redux/Features/All Products/allProductsApi";
-import { useAppDispatch, useAppSelector } from "../../Redux/hook";
-import { allProductsData } from "../../Redux/Features/All Products/allProducts.slice";
 import { TQueryObj } from "../../types/quearyFilter.type";
 
 const AllProducts = () => {
@@ -18,9 +16,7 @@ const AllProducts = () => {
     page: 1,
   });
   const { data: productsData } = useGetAllProductsQuery(queryObj);
-  const dispatch = useAppDispatch();
-  dispatch(allProductsData(productsData?.data?.result));
-  const products = useAppSelector((state) => state?.allProducts);
+
   const showDrawer = () => {
     setOpen(true);
   };
@@ -28,8 +24,6 @@ const AllProducts = () => {
   const onClose = () => {
     setOpen(false);
   };
-  // console.log(products);
-  console.log(queryObj);
 
   const handleSortChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newSort = event.target.value as "-price" | "price" | ""; // Type assertion
@@ -39,6 +33,9 @@ const AllProducts = () => {
     const newLimit = event.target.value as number // Type assertion
     setQueryObj((prev) => ({ ...prev, limit: newLimit }));
   };
+
+  console.log(productsData);
+  // console.log(queryObj);
 
   return (
     <div>
@@ -64,8 +61,8 @@ const AllProducts = () => {
               <option selected={true} value="">
                 Sort
               </option>
-              <option value="-price">Low to High</option>
-              <option value="price">High to Low</option>
+              <option value="price">Low to High</option>
+              <option value="-price">High to Low</option>
             </select>
             {/* Other components and filters */}
           </div>

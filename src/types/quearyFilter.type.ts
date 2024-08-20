@@ -4,6 +4,8 @@ export interface TQueryObj {
     page?:number,
     searchTerm?:string,
     sort?:string,
+    category?:string,
+    // sort?:string,
   }
 
 export interface LeftSideFilterProps {
