@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick-theme.css";
 import "./review.css";
 import ReviewCard from "./ReviewCard";
 import { reviews } from "../../../types/reviewSlides.type";
+import Title from "../../Re-useable/Title";
 
 function NextArrow(props) {
   const { className, style, onClick } = props;
@@ -50,7 +51,7 @@ function StyledSlider() {
     slidesPerRow: 1,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
-   
+
     responsive: [
       {
         breakpoint: 1024,
@@ -87,27 +88,30 @@ function StyledSlider() {
     ],
   };
 
-
   return (
-    <div className="slider-container mx-auto p-2 max-w-screen-xl">
-      <Slider {...settings}>
-        {reviews?.length &&
-          reviews?.map((review, index) => (
-            <div key={index} className="p-2">
-              <div
-                className={`flex items-center justify-center rounded-lg `}
-              >
-                <ReviewCard
-                  title={review.title}
-                  content={review.content}
-                  author={review.author}
-                  imageUrl={review.imageUrl}
-                />
+    <>
+    <div>{/* title div  */}
+        <div className="mt-20 mb-12">
+            <Title  mainText="Our Review" additionalText="Lorem ipsum dolor sit, amet consectetur adipisicing elit. regfg"/>
+        </div></div>
+      <div className="slider-container mx-auto p-2 max-w-screen-xl">
+        <Slider {...settings}>
+          {reviews?.length &&
+            reviews?.map((review, index) => (
+              <div key={index} className="p-2">
+                <div className={`flex items-center justify-center rounded-lg `}>
+                  <ReviewCard
+                    title={review.title}
+                    content={review.content}
+                    author={review.author}
+                    imageUrl={review.imageUrl}
+                  />
+                </div>
               </div>
-            </div>
-          ))}
-      </Slider>
-    </div>
+            ))}
+        </Slider>
+      </div>
+    </>
   );
 }
 
