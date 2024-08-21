@@ -28,7 +28,7 @@ type PropType = {
 const EmblaCarousel: React.FC<PropType> = (props) => {
   const { slides, options } = props;
   const [emblaRef, emblaApi] = useEmblaCarousel(options, [
-    Autoplay({ playOnInit: true, delay: 1500 }), // Autoplay starts automatically
+    Autoplay({ playOnInit: true, delay: 2500 }), // Autoplay starts automatically
   ]);
   const tweenFactor = useRef(0);
   const tweenNodes = useRef<HTMLElement[]>([]);
@@ -110,13 +110,13 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
   }, [emblaApi, tweenScale]);
 
   return (
-    <div className="embla">
+    <div className="embla h-96">
       <div className="embla__viewport" ref={emblaRef}>
-        <div className="embla__container">
+        <div className="embla__container w-screen rounded-xl">
           {slides.map((item, index) => (
             <div className="embla__slide" key={index}>
               <div className="embla__slide__number">
-                <img src={item?.img} alt="" />
+                <img src={item?.img} className="" alt="" />
               </div>
             </div>
           ))}

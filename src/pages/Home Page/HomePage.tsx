@@ -11,17 +11,23 @@ export interface TSlides {
 }
 const HomePage = () => {
   const OPTIONS = { loop: true };
+//   https://i.ibb.co/SnjRV9n/1.webp
+// https://i.ibb.co/qWJSppK/2.webp
+// https://i.ibb.co/vc7mQ8s/3.jpg
+// https://i.ibb.co/7KrYLQJ/3.webp
+// https://i.ibb.co/mG2tw39/4.webp
 
   const SLIDES: TSlides[] = [
-    { img: "https://i.ibb.co/xjW4tkM/Silver.png", text: "sjfgdjkgkdfjg" },
-    { img: "https://i.ibb.co/dKYNn2C/Platinum-1.png", text: "sjfgdjkgkdfjg" },
-    { img: "https://i.ibb.co/2M8cKFy/Blue.png", text: "sjfgdjkgkdfjg" },
-    { img: "https://i.ibb.co/pwQ9jtn/Gold.png", text: "sjfgdjkgkdfjg" },
+    { img: "https://i.ibb.co/SnjRV9n/1.webp", text: "sjfgdjkgkdfjg" },
+    { img: "https://i.ibb.co/qWJSppK/2.webp", text: "sjfgdjkgkdfjg" },
+    { img: "https://i.ibb.co/vc7mQ8s/3.jpg", text: "sjfgdjkgkdfjg" },
+    { img: "https://i.ibb.co/7KrYLQJ/3.webp", text: "sjfgdjkgkdfjg" },
+    { img: "https://i.ibb.co/mG2tw39/4.webp", text: "sjfgdjkgkdfjg" },
   ];
   return (
     <div>
       
-      <div>
+      <div className="mt-5 md:mt-20">
         <EmblaCarousel slides={SLIDES} options={OPTIONS} />
       </div>
       {/* Best Selling  */}
