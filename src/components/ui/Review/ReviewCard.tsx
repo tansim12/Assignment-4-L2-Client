@@ -6,7 +6,6 @@ type ReviewCardProps = {
   author: string;
   imageUrl: string;
 };
-import "./review.css"
 
 const ReviewCard: React.FC<ReviewCardProps> = ({
   title,
@@ -15,8 +14,8 @@ const ReviewCard: React.FC<ReviewCardProps> = ({
   imageUrl,
 }) => {
   return (
-    <div className="p-4 rounded-lg shadow-md w-64 h-80 flex flex-col justify-between border-2 border-transparent animate-border bg-white">
-      <div className="flex justify-center items-center ">
+    <div className="gradient-border rounded-lg  h-80 flex flex-col justify-between">
+      <div className="flex justify-center items-center">
         <img
           src={imageUrl}
           alt={title}

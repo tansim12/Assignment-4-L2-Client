@@ -43,7 +43,7 @@ function StyledSlider() {
     className: "center",
     centerMode: true,
     infinite: true,
-    centerPadding: "60px",
+    centerPadding: "80px",
     slidesToShow: 4,
     speed: 500,
     rows: 2,
@@ -59,6 +59,14 @@ function StyledSlider() {
           slidesToScroll: 3,
           infinite: true,
           dots: true,
+        },
+      },
+      {
+        breakpoint: 770,
+        settings: {
+          slidesToShow: 2,
+          slidesToScroll: 2,
+          initialSlide: 2,
         },
       },
       {
