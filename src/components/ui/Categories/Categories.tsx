@@ -1,7 +1,9 @@
+import { allCategoryArrayWithIcon } from "../../../types/Const/product.const";
 import Title from "../../Re-useable/Title";
 import CategoryCard from "./CategoryCard";
 
 const Categories = () => {
+
   return (
     <div>
       {/* title div  */}
@@ -13,18 +15,14 @@ const Categories = () => {
       </div>
 
       {/* category Card */}
-      <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-7 gap-4">
-        <CategoryCard />
-        <CategoryCard />
-        <CategoryCard />
-        <CategoryCard />
-        <CategoryCard />
-        <CategoryCard />
-        <CategoryCard />
-        <CategoryCard />
-        <CategoryCard />
-        <CategoryCard />
-        <CategoryCard />
+      <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-6 lg:grid-cols-7 gap-4 mt-10 mb-16">
+        {allCategoryArrayWithIcon &&
+          allCategoryArrayWithIcon?.map((item, i) => (
+            <div key={i}>
+              <CategoryCard item={item} />
+            </div>
+          ))}
+        
       </div>
     </div>
   );

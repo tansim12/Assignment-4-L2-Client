@@ -1,0 +1,30 @@
+
+  .slick-prev, .slick-next {
+    z-index: 50;
+  }
+    
+  @keyframes border-animation {
+    0% {
+      border-color: red;
+    }
+    25% {
+      border-color: orange;
+    }
+    50% {
+      border-color: yellow;
+    }
+    75% {
+      border-color: green;
+    }
+    100% {
+      border-color: blue;
+    }
+  }
+  
+  .animate-border {
+    border-image: linear-gradient(90deg, red, orange, yellow, green, blue) 1;
+    border-width: 4px;
+    border-style: solid;
+    animation: border-animation 4s linear infinite;
+  }
+  
