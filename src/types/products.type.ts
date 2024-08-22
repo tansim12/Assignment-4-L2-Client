@@ -22,7 +22,7 @@ export interface TProduct {
   price: number;
   discount: number;
   rating: number;
-  availability: "inStock" | "pre-order" | "upcoming"|"stock-out";
+  availability: "inStock" | "pre-order" | "upcoming" | "stock-out";
   brand: string;
   type: TProductTypes;
   color: string[];
@@ -34,3 +34,15 @@ export interface TProduct {
   shoppingInfo: string;
   sellerProfile?: string;
 }
+
+export const availableProduct: {
+  INSTOCK: string;
+  PREORDER: string;
+  UPCOMING: string;
+  STOCKOUT: string;
+} = {
+  INSTOCK: "inStock",
+  PREORDER: "pre-order",
+  UPCOMING: "upcoming",
+  STOCKOUT: "stock-out",
+};

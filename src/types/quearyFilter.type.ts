@@ -5,7 +5,7 @@ export interface TQueryObj {
   searchTerm?: string;
   sort?: string;
   category?: string;
-  type: string;
+  type?: string;
 }
 
 export interface LeftSideFilterProps {

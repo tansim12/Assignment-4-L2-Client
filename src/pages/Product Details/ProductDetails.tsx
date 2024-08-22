@@ -1,76 +1,109 @@
-
-
-import { Tabs, Rate, InputNumber, Button, Select } from 'antd';
-import './productDetails.css'; // Import custom CSS for the component
-import ProductSlider from './ProductSlider';
-import { useNavigate } from 'react-router-dom';
+import { Tabs, Rate, InputNumber, Button, Select } from "antd";
+import "./productDetails.css"; // Import custom CSS for the component
+import ProductSlider from "./ProductSlider";
+import { useNavigate, useParams } from "react-router-dom";
+import { useGetOneProductQuery } from "../../Redux/Features/Admin Products/adminProductsApi";
+import { useEffect, useState } from "react";
+import { availableProduct, TProduct } from "../../types/products.type";
+import { discountPrice } from "../../utils/discountPrice";
 
 const { TabPane } = Tabs;
-const { Option } = Select;
 
 const ProductDetails = () => {
-const navigate = useNavigate()
-    const  handleCheckOut = (id:string)=>{
-        navigate(`/checkout/${id}`)
+  const [productData, setProductData] = useState<Partial<TProduct>>({});
+  const { id } = useParams();
+  const { data } = useGetOneProductQuery(id);
+  useEffect(() => {
+    if (data?.data) {
+      setProductData(data?.data);
     }
+  }, [data?.data]);
+
+  console.log(productData);
+  
+
+  const navigate = useNavigate();
+  const handleCheckOut = (id: string) => {
+    navigate(`/checkout/${id}`);
+  };
+
   return (
     <div className="container mx-auto my-8">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
         {/* img section div left side */}
         <div className="">
-         <ProductSlider />
+          <ProductSlider slides={productData?.image as string[]} />
         </div>
         {/* details div right side  */}
         <div className="">
-          <h1 className="text-2xl font-bold">Quality Men's Hoodie for Winter, Men's Fashion Casual Hoodie</h1>
+          <h1 className="text-2xl font-bold">{productData?.title}</h1>
           <div className="flex items-center mt-2">
-            <Rate disabled defaultValue={4.5} />
-            <span className="ml-2 text-gray-600">(154 orders)</span>
-            <span className="ml-2 text-green-600">In stock</span>
+            <Rate disabled defaultValue={productData?.rating} />
+            <span className="ml-2 text-gray-600">
+              ({productData?.order} orders)
+            </span>
+            {productData?.availability === availableProduct?.INSTOCK && (
+              <span className="ml-2 text-green-600">In stock</span>
+            )}
+            {productData?.availability === availableProduct?.UPCOMING && (
+              <span className="ml-2 text-green-600">Up coming</span>
+            )}
+            {productData?.availability === availableProduct?.PREORDER && (
+              <span className="ml-2 text-green-600">Pre Order</span>
+            )}
+            {productData?.availability === availableProduct?.STOCKOUT && (
+              <span className="ml-2 text-red-600">Stock Out</span>
+            )}
           </div>
           <div className="mt-4">
-            <span className="text-3xl font-bold">$75.00</span>
-            <span className="text-gray-600"> / per box</span>
+            <span className="text-3xl font-bold">
+              {discountPrice(productData?.price, productData?.discount)}৳
+            </span>
+            <span className="text-gray-600"> / per item</span>
           </div>
           <p className="mt-4 text-gray-700">
-            Modern look and quality demo item is a streetwear-inspired collection that continues to break away from the
-            conventions of mainstream fashion. Made in Italy, these black and brown clothing low-top shirts for men.
+            {productData?.title?.slice(0, 100)} <br />{" "}
+            <span>{productData?.shortDescription?.slice(0,300)}</span>
           </p>
           <div className="mt-4">
-            <div className="flex items-center mb-4">
-              <span className="w-24">Type:</span>
-              <span>Regular</span>
+            {/* category  */}
+            <div className="flex items-center mb-2">
+              <span className="w-24 font-semibold">Category:</span>
+              <span>{productData?.category}</span>
             </div>
-            <div className="flex items-center mb-4">
-              <span className="w-24">Color:</span>
-              <span>Brown</span>
+            {/* type  */}
+            <div className="flex items-center mb-2">
+              <span className="w-24 font-semibold ">Type:</span>
+              <span>{productData?.type}</span>
             </div>
-            <div className="flex items-center mb-4">
-              <span className="w-24">Material:</span>
-              <span>Cotton, Jeans</span>
+            {/* color  */}
+            <div className="flex items-center mb-2">
+              <span className="w-24 font-semibold ">Color:</span>
+              {productData?.color?.length &&
+                productData?.color?.map((item) => (
+                  <span key={item}>{item}, </span>
+                ))}
             </div>
-            <div className="flex items-center mb-4">
-              <span className="w-24">Brand:</span>
+            {/* material  */}
+            <div className="flex items-center mb-2">
+              <span className="w-24 font-semibold ">Material:</span>
+              <span>{productData?.materials}</span>
+            </div>
+            <div className="flex items-center mb-2">
+              <span className="w-24 font-semibold">Brand:</span>
               <span>Reebok</span>
             </div>
           </div>
           <div className="mt-4">
-            <div className="flex items-center mb-4">
-              <span className="w-24">Size:</span>
-              <Select defaultValue="Small" className="w-32">
-                <Option value="Small">Small</Option>
-                <Option value="Medium">Medium</Option>
-                <Option value="Large">Large</Option>
-                <Option value="X-Large">X-Large</Option>
-              </Select>
-            </div>
             <div className="flex items-center mb-4">
               <span className="w-24">Quantity:</span>
               <InputNumber min={1} max={100} defaultValue={14} />
             </div>
           </div>
           <div className="mt-4 flex space-x-4">
-            <Button onClick={()=>handleCheckOut("1")} type="primary">Buy Now</Button>
+            <Button onClick={() => handleCheckOut("1")} type="primary">
+              Buy Now
+            </Button>
             <Button>Add to Cart</Button>
             <Button>Save</Button>
           </div>
@@ -79,7 +112,10 @@ const navigate = useNavigate()
       <div className="mt-8">
         <Tabs defaultActiveKey="1">
           <TabPane tab="Specification" key="1">
-            <p>With supporting text below as a natural lead-in to additional content...</p>
+            <p>
+              With supporting text below as a natural lead-in to additional
+              content...
+            </p>
             <ul className="list-disc ml-6">
               <li>Some great feature name here</li>
               <li>Easy fast and very good</li>
@@ -92,7 +128,8 @@ const navigate = useNavigate()
                 <strong>Display:</strong> 13.3-inch LED-backlit display with IPS
               </div>
               <div>
-                <strong>Processor capacity:</strong> 2.3GHz dual-core Intel Core i5
+                <strong>Processor capacity:</strong> 2.3GHz dual-core Intel Core
+                i5
               </div>
               <div>
                 <strong>Camera quality:</strong> 720p FaceTime HD camera
