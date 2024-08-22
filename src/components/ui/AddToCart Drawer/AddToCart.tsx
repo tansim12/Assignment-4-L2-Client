@@ -1,34 +1,27 @@
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { TCartData } from "../../../types/addToCart.type";
+import { MdDeleteForever } from "react-icons/md";
+import { handleRemoveFromCart } from "../../../utils/addToCartFn";
 
-const AddToCart = ({ checkOutPage = false }) => {
-  const [cartItems, setCartItems] = useState([
-    {
-      _id: "1",
-      name: "Intel Core i3-12100 12th Gen Budget Desktop PC",
-      price: 1,
-      buyQuantity: 1,
-      image: "https://i.ibb.co/0j6knzB/pngwing-com-28.png", // replace with actual image
-    },
-    {
-      _id: "2",
-      name: "Yison Celebrat W52 True Wireless Earbuds",
-      price: 1,
-      buyQuantity: 1,
-      image: "https://i.ibb.co/0j6knzB/pngwing-com-28.png", // replace with actual image
-    },
-    {
-      _id: "3",
-      name: "Intel Core i3-12100 12th Gen Budget Desktop PC",
-      price: 1,
-      buyQuantity: 1,
-      image: "https://i.ibb.co/0j6knzB/pngwing-com-28.png", // replace with actual image
-    },
-  ]);
+const AddToCart = ({
+  checkOutPage = false,
+  refetchCartData,
+  setRefetchCartData,
+}: {
+  checkOutPage: boolean;
+  refetchCartData: boolean;
+  setRefetchCartData: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
+  const [cartItems, setCartItems] = useState<TCartData[]>([]);
   const [promoCode, setPromoCode] = useState("");
-  const [subtotal, setSubtotal] = useState(0);
+
+  useEffect(() => {
+    const data = localStorage.getItem("addToCart");
+    setCartItems(JSON.parse(data));
+  }, [refetchCartData]);
 
   const calculateSubtotal = () => {
-    return cartItems.reduce(
+    return cartItems?.reduce(
       (total, item) => total + item.price * item.buyQuantity,
       0
     );
@@ -36,11 +29,12 @@ const AddToCart = ({ checkOutPage = false }) => {
 
   const handleQuantityChange = (_id, change) => {
     setCartItems((prevItems) =>
-      prevItems.map((item) =>
+      prevItems?.map((item) =>
         item._id === _id
           ? {
               ...item,
-              buyQuantity: item.buyQuantity + change > 0 ? item.buyQuantity + change : 1,
+              buyQuantity:
+                item.buyQuantity + change > 0 ? item.buyQuantity + change : 1,
             }
           : item
       )
@@ -52,13 +46,23 @@ const AddToCart = ({ checkOutPage = false }) => {
     alert(`This system coming soon`);
   };
 
+  const handleDeleteCartData = (id: string) => {
+    handleRemoveFromCart(id);
+    setRefetchCartData((pre) => !pre);
+  };
   return (
     <div className=" bg-white shadow-lg rounded-lg h-[84vh] relative ">
-      {cartItems.map((item) => (
+      {cartItems?.map((item) => (
         <div
           key={item._id}
-          className="flex justify-between items-center my-4  border-b-2 p-2  "
+          className="flex justify-between items-center my-4  border-b-2 p-2 relative "
         >
+          <button
+            onClick={() => handleDeleteCartData(item?._id)}
+            className="absolute top-0 left-0"
+          >
+            <MdDeleteForever size={25} color="#ff0000" />
+          </button>
           <img
             src={item.image}
             alt={item.name}
@@ -67,7 +71,8 @@ const AddToCart = ({ checkOutPage = false }) => {
           <div className="flex-1 ml-4">
             <p className="text-sm font-semibold">{item.name}</p>
             <div className="text-gray-500">
-              {item.price}৳ × {item.buyQuantity} = {item.price * item.buyQuantity}৳
+              {item.price}৳ × {item.buyQuantity} ={" "}
+              {item.price * item.buyQuantity}৳
             </div>
           </div>
           <div className="flex flex-col items-center">
@@ -117,7 +122,6 @@ const AddToCart = ({ checkOutPage = false }) => {
             <span>Total:</span> <span>{calculateSubtotal()}৳</span>
           </span>{" "}
           <br />
-          
         </div>
 
         <button className="bg-orange-600 text-white w-full py-2 rounded-md font-bold">

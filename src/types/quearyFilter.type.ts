@@ -9,5 +9,5 @@ export interface TQueryObj {
 }
 
 export interface LeftSideFilterProps {
-  setQueryObj: React.Dispatch<React.SetStateAction<TQueryObj>>;
+  setQueryObj?: React.Dispatch<React.SetStateAction<TQueryObj>>;
 }

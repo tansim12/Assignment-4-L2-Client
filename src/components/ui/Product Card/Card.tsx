@@ -7,10 +7,7 @@ import Button from "../../Re-useable/Button";
 import { ICard } from "../../../types/card.type";
 import { useNavigate } from "react-router-dom";
 import { discountPrice } from "../../../utils/discountPrice";
-import {
-  handleAddToCart,
-  TSetProductsLocalStorageData,
-} from "../../../utils/addToCartFn";
+import { handleAddToCart, TCartData } from "../../../utils/addToCartFn";
 import toast from "react-hot-toast";
 
 const Card = ({ showBuyButton, item }: ICard) => {
@@ -28,14 +25,11 @@ const Card = ({ showBuyButton, item }: ICard) => {
     navigate(`/product-details/${id}`);
   };
 
-  const handleAddToCartButton = (
-    data: Partial<TSetProductsLocalStorageData>
-  ) => {
+  const handleAddToCartButton = (data: Partial<TCartData>) => {
     const overItem = handleAddToCart(data);
     if (overItem?.message) {
       toast.success(overItem?.message);
     }
-    console.log(data);
   };
 
   return (

@@ -4,6 +4,7 @@ import { IoCartOutline } from "react-icons/io5";
 import AddToCart from "./AddToCart";
 
 const AddToCartDrawer = () => {
+  const [refetchCartData, setRefetchCartData] = useState(false);
   const [open, setOpen] = useState(false);
 
   const showDrawer = () => {
@@ -16,7 +17,9 @@ const AddToCartDrawer = () => {
 
   return (
     <>
-      <button onClick={showDrawer}>
+      <button onClick={()=>{
+        showDrawer()
+      }}>
         {" "}
         <IoCartOutline size={28} />
       </button>
@@ -35,7 +38,7 @@ const AddToCartDrawer = () => {
         onClose={onClose}
         open={open}
       >
-        <AddToCart />
+        <AddToCart refetchCartData={refetchCartData} setRefetchCartData={setRefetchCartData} />
       </Drawer>
     </>
   );

@@ -16,7 +16,6 @@ const FeaturedProduct = () => {
   });
 
   const { data } = useGetAllProductsQuery(queryObj);
-  console.log(data?.data?.result);
 
   return (
     <div className="my-10">

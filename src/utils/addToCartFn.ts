@@ -1,23 +1,14 @@
-export interface TSetProductsLocalStorageData {
-  _id: string;
-  name: string;
-  price: number;
-  buyQuantity: number;
-  image: string;
-}
+import { TCartData } from "../types/addToCart.type";
 
-export const handleAddToCart = (
-  data: Partial<TSetProductsLocalStorageData>
-) => {
+export const handleAddToCart = (data: Partial<TCartData>) => {
   // Retrieve the current cart data from local storage
   const getAddToCartData = localStorage.getItem("addToCart");
 
   // Initialize the cart with existing data or an empty array if none exists
-  const cartItems: TSetProductsLocalStorageData[] = getAddToCartData
+  const cartItems: TCartData[] = getAddToCartData
     ? JSON.parse(getAddToCartData)
     : [];
 
- 
   // Check if the item is already in the cart
   const existingProductIndex = cartItems.findIndex(
     (item) => item._id === data._id
@@ -27,13 +18,12 @@ export const handleAddToCart = (
     // If the item is already in the cart, update the quantity
     cartItems[existingProductIndex].buyQuantity += data.buyQuantity || 1;
   } else {
-
     if (cartItems?.length > 2) {
       return {
         message: "Already 3 Product Added Cart",
       };
     }
-  
+
     // If the item is not in the cart, add it
     cartItems.push({
       _id: data?._id as string,
@@ -45,5 +35,22 @@ export const handleAddToCart = (
   }
 
   // Save the updated cart back to local storage
-   localStorage.setItem("addToCart", JSON.stringify(cartItems));
+  localStorage.setItem("addToCart", JSON.stringify(cartItems));
+};
+
+
+export const handleRemoveFromCart = (_id: string) => {
+  // Retrieve the current cart data from local storage
+  const getAddToCartData = localStorage.getItem("addToCart");
+
+  // Initialize the cart with existing data or an empty array if none exists
+  let cartItems: TCartData[] = getAddToCartData
+    ? JSON.parse(getAddToCartData)
+    : [];
+
+  // Filter out the item with the matching _id
+  cartItems = cartItems.filter((item) => item._id !== _id);
+  // Save the updated cart back to local storage
+  localStorage.setItem("addToCart", JSON.stringify(cartItems));
+
 };
