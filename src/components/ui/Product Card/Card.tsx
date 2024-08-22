@@ -7,6 +7,11 @@ import Button from "../../Re-useable/Button";
 import { ICard } from "../../../types/card.type";
 import { useNavigate } from "react-router-dom";
 import { discountPrice } from "../../../utils/discountPrice";
+import {
+  handleAddToCart,
+  TSetProductsLocalStorageData,
+} from "../../../utils/addToCartFn";
+import toast from "react-hot-toast";
 
 const Card = ({ showBuyButton, item }: ICard) => {
   const [hoverOption, setHoverOption] = useState(false);
@@ -21,6 +26,16 @@ const Card = ({ showBuyButton, item }: ICard) => {
 
   const clickDetailsPage = (id: string) => {
     navigate(`/product-details/${id}`);
+  };
+
+  const handleAddToCartButton = (
+    data: Partial<TSetProductsLocalStorageData>
+  ) => {
+    const overItem = handleAddToCart(data);
+    if (overItem?.message) {
+      toast.success(overItem?.message);
+    }
+    console.log(data);
   };
 
   return (
@@ -43,7 +58,11 @@ const Card = ({ showBuyButton, item }: ICard) => {
                 color={"#2e5b3d"}
                 placement="bottom"
               >
-                <TbListDetails size={38} className="text-white" />
+                <TbListDetails
+                  onClick={() => clickDetailsPage(item?._id as string)}
+                  size={38}
+                  className="text-white"
+                />
               </Tooltip>
 
               {/* wishlist */}
@@ -63,7 +82,19 @@ const Card = ({ showBuyButton, item }: ICard) => {
                 color={"#2e5b3d"}
                 placement="bottom"
               >
-                <IoCartOutline size={38} className="text-white" />
+                <IoCartOutline
+                  onClick={() =>
+                    handleAddToCartButton({
+                      _id: item?._id,
+                      image: item?.image?.[0],
+                      buyQuantity: 1,
+                      name: item?.name,
+                      price: discountPrice(item?.price, item?.discount),
+                    })
+                  }
+                  size={38}
+                  className="text-white"
+                />
               </Tooltip>
             </div>
           </div>
@@ -72,7 +103,7 @@ const Card = ({ showBuyButton, item }: ICard) => {
         {/* discount  */}
         {item?.discount !== undefined && item?.discount > 0 && (
           <div className="absolute bg-secondary text-white top-5 py-1 px-2 text-sm rounded-r-full">
-            <p>Save: {item.discount}৳</p>
+            <p>Save: {item?.discount}৳</p>
           </div>
         )}
         <br />
@@ -130,7 +161,7 @@ const Card = ({ showBuyButton, item }: ICard) => {
           </p>
           {item?.discount && (
             <p className="text-gray-500 line-through">
-              {(item?.price as number) }৳
+              {item?.price as number}৳
             </p>
           )}
         </div>

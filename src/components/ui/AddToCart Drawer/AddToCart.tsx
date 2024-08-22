@@ -3,24 +3,24 @@ import { useState } from "react";
 const AddToCart = ({ checkOutPage = false }) => {
   const [cartItems, setCartItems] = useState([
     {
-      id: 1,
+      _id: "1",
       name: "Intel Core i3-12100 12th Gen Budget Desktop PC",
-      price: 28000,
-      quantity: 12,
+      price: 1,
+      buyQuantity: 1,
       image: "https://i.ibb.co/0j6knzB/pngwing-com-28.png", // replace with actual image
     },
     {
-      id: 2,
+      _id: "2",
       name: "Yison Celebrat W52 True Wireless Earbuds",
-      price: 1090,
-      quantity: 1,
+      price: 1,
+      buyQuantity: 1,
       image: "https://i.ibb.co/0j6knzB/pngwing-com-28.png", // replace with actual image
     },
     {
-      id: 3,
+      _id: "3",
       name: "Intel Core i3-12100 12th Gen Budget Desktop PC",
-      price: 28000,
-      quantity: 12,
+      price: 1,
+      buyQuantity: 1,
       image: "https://i.ibb.co/0j6knzB/pngwing-com-28.png", // replace with actual image
     },
   ]);
@@ -29,18 +29,18 @@ const AddToCart = ({ checkOutPage = false }) => {
 
   const calculateSubtotal = () => {
     return cartItems.reduce(
-      (total, item) => total + item.price * item.quantity,
+      (total, item) => total + item.price * item.buyQuantity,
       0
     );
   };
 
-  const handleQuantityChange = (id, change) => {
+  const handleQuantityChange = (_id, change) => {
     setCartItems((prevItems) =>
       prevItems.map((item) =>
-        item.id === id
+        item._id === _id
           ? {
               ...item,
-              quantity: item.quantity + change > 0 ? item.quantity + change : 1,
+              buyQuantity: item.buyQuantity + change > 0 ? item.buyQuantity + change : 1,
             }
           : item
       )
@@ -56,7 +56,7 @@ const AddToCart = ({ checkOutPage = false }) => {
     <div className=" bg-white shadow-lg rounded-lg h-[84vh] relative ">
       {cartItems.map((item) => (
         <div
-          key={item.id}
+          key={item._id}
           className="flex justify-between items-center my-4  border-b-2 p-2  "
         >
           <img
@@ -67,18 +67,18 @@ const AddToCart = ({ checkOutPage = false }) => {
           <div className="flex-1 ml-4">
             <p className="text-sm font-semibold">{item.name}</p>
             <div className="text-gray-500">
-              {item.price}৳ × {item.quantity} = {item.price * item.quantity}৳
+              {item.price}৳ × {item.buyQuantity} = {item.price * item.buyQuantity}৳
             </div>
           </div>
           <div className="flex flex-col items-center">
             <button
-              onClick={() => handleQuantityChange(item.id, 1)}
+              onClick={() => handleQuantityChange(item._id, 1)}
               className="bg-green-600 text-white px-2 py-1 font-bold rounded-md"
             >
               +
             </button>
             <button
-              onClick={() => handleQuantityChange(item.id, -1)}
+              onClick={() => handleQuantityChange(item._id, -1)}
               className="bg-red-600 text-white px-2 py-1 font-bold rounded-md mt-1"
             >
               -
