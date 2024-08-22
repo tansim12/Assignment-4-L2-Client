@@ -6,6 +6,8 @@ import { Drawer } from "antd";
 import { useState } from "react";
 import { useGetAllProductsQuery } from "../../Redux/Features/All Products/allProductsApi";
 import { TQueryObj } from "../../types/quearyFilter.type";
+import { TProduct } from "../../types/products.type";
+import NoDataFound from "../../components/ui/No Data Found/NoDataFound";
 
 const AllProducts = () => {
   const [open, setOpen] = useState(false);
@@ -30,11 +32,11 @@ const AllProducts = () => {
     setQueryObj((prev) => ({ ...prev, sort: newSort }));
   };
   const handleLimitChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newLimit = event.target.value as number // Type assertion
+    const newLimit = event.target.value as number; // Type assertion
     setQueryObj((prev) => ({ ...prev, limit: newLimit }));
   };
 
-  console.log(productsData);
+  console.log(productsData?.data?.result);
   // console.log(queryObj);
 
   return (
@@ -76,8 +78,9 @@ const AllProducts = () => {
               style={{ width: "100%" }}
               className="font-bold border"
             >
-             
-              <option selected={true} value={10}>10</option>
+              <option selected={true} value={10}>
+                10
+              </option>
               <option value={20}>20</option>
               <option value={30}>30</option>
             </select>
@@ -96,23 +99,13 @@ const AllProducts = () => {
         {/* card div  */}
         <div className="md:basis-3/4">
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 ">
-            <Card showBuyButton={true} />
-
-            <Card showBuyButton={true} />
-
-            <Card showBuyButton={true} />
-
-            <Card showBuyButton={true} />
-
-            <Card showBuyButton={true} />
-
-            <Card showBuyButton={true} />
-
-            <Card showBuyButton={true} />
-
-            <Card showBuyButton={true} />
-
-            <Card showBuyButton={true} />
+            {productsData?.data?.result?.length ? (
+              productsData?.data?.result?.map((item: Partial<TProduct>) => (
+                <Card key={item?._id} item={item} showBuyButton={true} />
+              ))
+            ) : (
+              <div className="col-span-3"><NoDataFound /></div>
+            )}
           </div>
         </div>
       </div>

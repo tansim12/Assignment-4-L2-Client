@@ -1,4 +1,4 @@
-import { Tabs, Rate, InputNumber, Button, Select } from "antd";
+import { Tabs, Rate, InputNumber, Button } from "antd";
 import "./productDetails.css"; // Import custom CSS for the component
 import ProductSlider from "./ProductSlider";
 import { useNavigate, useParams } from "react-router-dom";
