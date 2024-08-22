@@ -78,7 +78,7 @@ const Card = ({ showBuyButton, item }: ICard) => {
         <div className="flex justify-center items-center p-4 hover:cursor-pointer">
           <img
             className="object-contain h-32 w-40"
-            src={item?.image[0] as string}
+            src={item?.image[0] as string }
             alt="Product image"
           />
         </div>
@@ -111,7 +111,7 @@ const Card = ({ showBuyButton, item }: ICard) => {
           </div>
 
           <p
-            onClick={() => clickDetailsPage("1")}
+            onClick={() => clickDetailsPage(item?._id as string)}
             className="font-semibold mt-3 hover:underline hover:text-primary hover:cursor-pointer "
           >
             {item?.title?.slice(0,50)}
