@@ -20,12 +20,14 @@ const ProductDetails = () => {
   }, [data?.data]);
 
   console.log(productData);
-  
 
   const navigate = useNavigate();
   const handleCheckOut = (id: string) => {
     navigate(`/checkout/${id}`);
   };
+
+  const [buyQuantity, setBuyQuantity] = useState(1);
+  console.log(buyQuantity);
 
   return (
     <div className="container mx-auto my-8">
@@ -63,7 +65,7 @@ const ProductDetails = () => {
           </div>
           <p className="mt-4 text-gray-700">
             {productData?.title?.slice(0, 100)} <br />{" "}
-            <span>{productData?.shortDescription?.slice(0,300)}</span>
+            <span>{productData?.shortDescription?.slice(0, 300)}</span>
           </p>
           <div className="mt-4">
             {/* category  */}
@@ -95,10 +97,21 @@ const ProductDetails = () => {
             </div>
           </div>
           <div className="mt-4">
-            <div className="flex items-center mb-4">
+            <div className="flex items-center mb-1">
               <span className="w-24">Quantity:</span>
-              <InputNumber min={1} max={100} defaultValue={14} />
+              <InputNumber
+                onChange={(e) => setBuyQuantity(e as number)}
+                min={1}
+                defaultValue={1}
+              />
             </div>
+            <p>
+              {buyQuantity > (productData?.quantity as number) && (
+                <span className="text-red-600">
+                  This product quantity out of Stock {productData?.quantity}{" "}
+                </span>
+              )}
+            </p>
           </div>
           <div className="mt-4 flex space-x-4">
             <Button onClick={() => handleCheckOut("1")} type="primary">
