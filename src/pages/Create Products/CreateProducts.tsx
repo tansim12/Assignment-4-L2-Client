@@ -323,6 +323,7 @@ const CreateProducts: React.FC = () => {
             <option value="inStock">In Stock</option>
             <option value="pre-order">Pre-order</option>
             <option value="upcoming">Upcoming</option>
+            <option value="stock-out">Stock-out</option>
           </select>
           {errors.availability && (
             <p className="text-red-500 text-sm">

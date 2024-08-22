@@ -7,7 +7,7 @@ import Button from "../../Re-useable/Button";
 import { ICard } from "../../../types/card.type";
 import { useNavigate } from "react-router-dom";
 
-const Card = ({ showBuyButton }: ICard) => {
+const Card = ({ showBuyButton, item }: ICard) => {
   const [hoverOption, setHoverOption] = useState(false);
   const navigate = useNavigate();
   const handleMouseEnter = () => {
@@ -70,31 +70,51 @@ const Card = ({ showBuyButton }: ICard) => {
 
         {/* discount  */}
         <div className="absolute bg-secondary text-white top-5 py-1 px-2 text-sm rounded-r-full">
-          <p>Save: 3000৳</p>
+          <p>Save: {item?.discount}৳</p>
         </div>
         <br />
         <br />
         {/* img div  */}
         <div className="flex justify-center items-center p-4 hover:cursor-pointer">
           <img
-            className="object-cover "
-            src="https://i.ibb.co/xjW4tkM/Silver.png"
-            alt=""
+            className="object-contain h-32 w-40"
+            src={item?.image[0] as string}
+            alt="Product image"
           />
         </div>
 
         {/* description div  */}
-        {/* todo onClick redirect detail page  */}
-        <div className="px-3 ">
+        <div className="px-3 text-sm ">
           <span>
-            <span className="font-bold">Name</span>: Lorem, ipsum dolor.
+            <span className="font-bold">Name</span>: {item?.name?.slice(0, 30)}
           </span>
 
+          <div className="flex justify-between items-center my-3">
+            <p>
+              <span className="font-bold">Available:</span>
+              {item?.availability === "inStock" && (
+                <span className="text-secondary"> In Stock</span>
+              )}
+              {item?.availability === "upcoming" && (
+                <span className="text-black"> Upcoming</span>
+              )}
+              {item?.availability === "pre-order" && (
+                <span className="text-balance"> Pre Order</span>
+              )}
+              {item?.availability === "stock-out" && (
+                <span className="text-red-600"> Stock-Out</span>
+              )}
+            </p>
+            <p>
+              <span className="font-bold">Orders:</span> {item?.order}{" "}
+            </p>
+          </div>
+
           <p
-          
-          onClick={()=>clickDetailsPage("1")}
-          className="font-semibold mt-1 hover:underline hover:text-primary hover:cursor-pointer ">
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. regfg{" "}
+            onClick={() => clickDetailsPage("1")}
+            className="font-semibold mt-3 hover:underline hover:text-primary hover:cursor-pointer "
+          >
+            {item?.title?.slice(0,50)}
           </p>
         </div>
 
