@@ -78,6 +78,8 @@ const UpdateProducts: React.FC = () => {
   });
 
   const onSubmit =async (data: TProduct) => {
+    console.log(data);
+    
    const res = await productUpdate({ id, data }).unwrap(); 
     if (res?.success) {
       Swal.fire({
@@ -226,7 +228,7 @@ const UpdateProducts: React.FC = () => {
           </div>
         ))}
         {errors.description &&
-          errors.description.map((error, index) => (
+          errors.description?.map((error, index) => (
             <p key={index} className="text-red-500 text-sm">
               {error?.message}
             </p>
@@ -317,6 +319,7 @@ const UpdateProducts: React.FC = () => {
           </label>
           <input
             type="number"
+            step={.1}
             {...register("rating", {
               required: "Rating is required",
               min: { value: 1, message: "Rating must be at least 1" },

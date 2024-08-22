@@ -23,13 +23,14 @@ const adminProductsApi = baseApi.injectEndpoints({
         body: body?.data,
         method: "PUT",
       }),
-      invalidatesTags: ["AdminAllProducts"],
+      invalidatesTags: ["AdminAllProducts", "SingleData"],
     }),
     getOneProduct: builder.query({
       query: (id) => ({
         url: `/products/${id}`,
-        method: "GET"
+        method: "GET",
       }),
+      providesTags: ["SingleData"],
     }),
   }),
 });

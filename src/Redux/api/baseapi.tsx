@@ -17,7 +17,7 @@ const baseQueryFn = fetchBaseQuery({
 // Export hooks for usage in functional components, which are
 // auto-generated based on the defined endpoints
 export const baseApi = createApi({
-  tagTypes: ["AdminAllProducts"],
+  tagTypes: ["AdminAllProducts","SingleData"],
   reducerPath: "baseApi",
   baseQuery: baseQueryFn,
   endpoints: () => ({}),

@@ -27,7 +27,6 @@ const ProductDetails = () => {
   };
 
   const [buyQuantity, setBuyQuantity] = useState(1);
-  console.log(buyQuantity);
 
   return (
     <div className="container mx-auto my-8">
@@ -40,7 +39,7 @@ const ProductDetails = () => {
         <div className="">
           <h1 className="text-2xl font-bold">{productData?.title}</h1>
           <div className="flex items-center mt-2">
-            <Rate disabled defaultValue={productData?.rating} />
+            <Rate disabled defaultValue={5} value={productData?.rating} />
             <span className="ml-2 text-gray-600">
               ({productData?.order} orders)
             </span>
@@ -124,45 +123,22 @@ const ProductDetails = () => {
       </div>
       <div className="mt-8">
         <Tabs defaultActiveKey="1">
-          <TabPane tab="Specification" key="1">
-            <p>
-              With supporting text below as a natural lead-in to additional
-              content...
-            </p>
-            <ul className="list-disc ml-6">
-              <li>Some great feature name here</li>
-              <li>Easy fast and very good</li>
-              <li>Some great feature name here</li>
-              <li>Modern style and design</li>
-              <li>Optical heart sensor</li>
-            </ul>
-            <div className="grid grid-cols-2 gap-4 mt-4">
-              <div>
-                <strong>Display:</strong> 13.3-inch LED-backlit display with IPS
-              </div>
-              <div>
-                <strong>Processor capacity:</strong> 2.3GHz dual-core Intel Core
-                i5
-              </div>
-              <div>
-                <strong>Camera quality:</strong> 720p FaceTime HD camera
-              </div>
-              <div>
-                <strong>Memory:</strong> 8 GB RAM or 16 GB RAM
-              </div>
-              <div>
-                <strong>Graphics:</strong> Intel Iris Plus Graphics 640
-              </div>
+          <TabPane tab="Details" key="1">
+            <div>
+              {productData?.description &&
+                productData.description.map((item, i) => (
+                  <div className="my-3" key={i} dangerouslySetInnerHTML={{ __html: item }} />
+                ))}
             </div>
           </TabPane>
-          <TabPane tab="Warranty Info" key="2">
-            <p>Details about warranty info...</p>
+          <TabPane tab="Specification" key="2">
+            <p>{productData?.specification && productData?.specification}</p>
           </TabPane>
           <TabPane tab="Shipping Info" key="3">
-            <p>Details about shipping info...</p>
+          <p>{productData?.shoppingInfo && productData?.shoppingInfo}</p>
           </TabPane>
           <TabPane tab="Seller Profile" key="4">
-            <p>Details about seller profile...</p>
+            <p>Coming Soon ..... 😢</p>
           </TabPane>
         </Tabs>
       </div>
