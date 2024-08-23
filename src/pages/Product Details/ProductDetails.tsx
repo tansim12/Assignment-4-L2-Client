@@ -23,8 +23,8 @@ const ProductDetails = () => {
   }, [data?.data]);
 
   const navigate = useNavigate();
-  const handleCheckOut = (id: string) => {
-    navigate(`/checkout/${id}`);
+  const handleCheckOut = () => {
+    navigate(`/checkout`);
   };
 
   const [buyQuantity, setBuyQuantity] = useState(1);
@@ -122,7 +122,7 @@ const ProductDetails = () => {
             </p>
           </div>
           <div className="mt-4 flex space-x-4">
-            <Button onClick={() => handleCheckOut("1")} type="primary">
+            <Button onClick={() => handleCheckOut()} type="primary">
               Buy Now
             </Button>
             <Button

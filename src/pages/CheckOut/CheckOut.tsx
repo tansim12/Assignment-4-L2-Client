@@ -1,13 +1,55 @@
-import { useState } from 'react';
-import CheckOutFrom from './CheckOutFrom';
-
+import { useEffect, useState } from "react";
+import CheckOutFrom from "./CheckOutFrom";
+import { useAppSelector } from "../../Redux/hook";
+import { TCartData } from "../../types/addToCart.type";
+import { MdDeleteForever } from "react-icons/md";
 
 const CheckOut = () => {
-const [userInfo , setUserInfo ]= useState({})
+  const [cartItems, setCartItems] = useState<TCartData[]>([]);
+  const buyingData = useAppSelector((s) => s.checkOut);
+  const [userInfo, setUserInfo] = useState({});
+  useEffect(() => {
+    setCartItems(buyingData);
+  }, [buyingData]);
 
-console.log(userInfo);
+  console.log(cartItems);
 
-  
+  const calculateSubtotal = () => {
+    return cartItems?.reduce(
+      (total, item) => total + item.price * item?.buyQuantity,
+      0
+    );
+  };
+
+  const handleQuantityChange = (_id, change) => {
+    console.log(_id, change);
+
+    setCartItems((prevItems) =>
+      prevItems?.map((item) =>
+        item._id === _id
+          ? {
+              ...item,
+              buyQuantity:
+                item?.quantity > item?.buyQuantity
+                  ? item?.buyQuantity + change > 0
+                    ? item?.buyQuantity + change
+                    : 1
+                  : item?.quantity - 1,
+            }
+          : item
+      )
+    );
+  };
+
+  // delete for filter by cartItems
+  const handleDeleteCartData = (id: string) => {
+    const filterData = cartItems?.filter((item) => item?._id !== id);
+    setCartItems(filterData);
+  };
+
+  // console.log(userInfo);
+  console.log(cartItems);
+
   return (
     <div className="bg-white rounded-lg my-16">
       <div className="flex flex-col items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
@@ -96,34 +138,52 @@ console.log(userInfo);
             Check your items. And select a suitable shipping method.
           </p>
           <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
-            <div className="flex flex-col rounded-lg bg-white sm:flex-row">
-              <img
-                className="m-2 h-24 w-28 rounded-md border object-cover object-center"
-                src="https://images.unsplash.com/flagged/photo-1556637640-2c80d3201be8?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-                alt=""
-              />
-              <div className="flex w-full flex-col px-4 py-4">
-                <span className="font-semibold">
-                  Nike Air Max Pro 8888 - Super Light
-                </span>
-                <span className="float-right text-gray-400">42EU - 8.5US</span>
-                <p className="text-lg font-bold">$138.99</p>
-              </div>
-            </div>
-            <div className="flex flex-col rounded-lg bg-white sm:flex-row">
-              <img
-                className="m-2 h-24 w-28 rounded-md border object-cover object-center"
-                src="https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8OHx8c25lYWtlcnxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60"
-                alt=""
-              />
-              <div className="flex w-full flex-col px-4 py-4">
-                <span className="font-semibold">
-                  Nike Air Max Pro 8888 - Super Light
-                </span>
-                <span className="float-right text-gray-400">42EU - 8.5US</span>
-                <p className="mt-auto text-lg font-bold">$238.99</p>
-              </div>
-            </div>
+            {/* showing buyingCart data  */}
+            {cartItems?.length ? (
+              cartItems?.map((item) => (
+                <div
+                  key={item._id}
+                  className="flex justify-between items-center my-4  border-b-2 p-2 relative "
+                >
+                  <button
+                    onClick={() => handleDeleteCartData(item?._id)}
+                    className="absolute top-0 left-0"
+                  >
+                    <MdDeleteForever size={25} color="#2b2b2b" />
+                  </button>
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    className="w-12 h-12 object-contain"
+                  />
+                  <div className="flex-1 ml-4">
+                    <p className="text-sm font-semibold">{item.name}</p>
+                    <div className="text-gray-500">
+                      {item.price}৳ × {item.buyQuantity} ={" "}
+                      {item.price * item.buyQuantity}৳
+                    </div>
+                  </div>
+                  <div className="flex flex-col items-center">
+                    <button
+                      onClick={() => handleQuantityChange(item._id, 1)}
+                      className="bg-green-600 text-white px-2 py-1 font-bold rounded-md"
+                    >
+                      +
+                    </button>
+                    <button
+                      onClick={() => handleQuantityChange(item._id, -1)}
+                      className="bg-red-600 text-white px-2 py-1 font-bold rounded-md mt-1"
+                    >
+                      -
+                    </button>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <span className="flex justify-center items-center text-secondary">
+                There Is No Data Available 😢
+              </span>
+            )}
           </div>
 
           <p className="mt-8 text-lg font-medium">Shipping Methods</p>
@@ -137,10 +197,7 @@ console.log(userInfo);
                 checked
               />
               <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
-              <label
-                className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
-                
-              >
+              <label className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4">
                 <img
                   className="w-14 object-contain"
                   src="/images/naorrAeygcJzX0SyNI4Y0.png"
@@ -163,10 +220,7 @@ console.log(userInfo);
                 checked
               />
               <span className="peer-checked:border-gray-700 absolute right-4 top-1/2 box-content block h-3 w-3 -translate-y-1/2 rounded-full border-8 border-gray-300 bg-white"></span>
-              <label
-                className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4"
-               
-              >
+              <label className="peer-checked:border-2 peer-checked:border-gray-700 peer-checked:bg-gray-50 flex cursor-pointer select-none rounded-lg border border-gray-300 p-4">
                 <img
                   className="w-14 object-contain"
                   src="/images/oG8xsl3xsOkwkMsrLGKM4.png"
@@ -188,20 +242,13 @@ console.log(userInfo);
             Complete your order by providing your payment details.
           </p>
 
-
-
-
-{/* checkout form  */}
-<div className='mt-20'>
-    <CheckOutFrom setUserInfo={setUserInfo} />
-</div>
-
-
-
-
-         
-
-        
+          {/* checkout form  */}
+          <div className="mt-20">
+            <CheckOutFrom
+              setUserInfo={setUserInfo}
+              totalPrice={calculateSubtotal()}
+            />
+          </div>
         </div>
       </div>
     </div>

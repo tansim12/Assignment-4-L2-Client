@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { TCartData } from "../../../types/addToCart.type";
 import { MdDeleteForever } from "react-icons/md";
 import { handleRemoveFromCart } from "../../../utils/addToCartFn";
+import { useAppDispatch } from "../../../Redux/hook";
+import { buyingData } from "../../../Redux/Features/Check Out/checkOut.slice";
+import { useNavigate } from "react-router-dom";
 
 const AddToCart = ({
   checkOutPage = false,
@@ -12,6 +15,8 @@ const AddToCart = ({
   refetchCartData: boolean;
   setRefetchCartData: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
+  const navigate =useNavigate()
+  const updateBuyingData = useAppDispatch();
   const [cartItems, setCartItems] = useState<TCartData[]>([]);
   const [promoCode, setPromoCode] = useState("");
 
@@ -50,10 +55,24 @@ const AddToCart = ({
     alert(`This system coming soon`);
   };
 
+  // delete local storage
   const handleDeleteCartData = (id: string) => {
     handleRemoveFromCart(id);
     setRefetchCartData((pre) => !pre);
   };
+
+  // handleCheckOutPage
+  const handleCheckOutPage = () => {
+    if (cartItems?.length) {
+     updateBuyingData(buyingData(cartItems));
+      navigate("/checkout")
+    }
+  };
+
+
+
+
+
   return (
     <div className=" bg-white shadow-lg rounded-lg h-[84vh] relative ">
       {cartItems?.map((item) => (
@@ -129,9 +148,10 @@ const AddToCart = ({
         </div>
 
         <button
+          onClick={handleCheckOutPage}
           disabled={!cartItems?.length}
           className={`${
-            !cartItems?.length ? "bg-gray-400" : "bg-orange-600"
+            !cartItems?.length ? "bg-gray-400" : "bg-secondary"
           } text-white w-full py-2 rounded-md font-bold`}
         >
           Checkout

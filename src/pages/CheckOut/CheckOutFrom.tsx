@@ -1,6 +1,6 @@
 import { useForm, SubmitHandler } from "react-hook-form";
 
- interface IUserInfo {
+interface IUserInfo {
   email: string;
   cardHolder: string;
   cardNo?: string;
@@ -11,7 +11,8 @@ import { useForm, SubmitHandler } from "react-hook-form";
   zip: string;
 }
 
-const CheckOutFrom = ({setUserInfo})=> {
+const CheckOutFrom = ({ setUserInfo, totalPrice }) => {
+
   const {
     register,
     handleSubmit,
@@ -19,8 +20,7 @@ const CheckOutFrom = ({setUserInfo})=> {
   } = useForm<IUserInfo>();
 
   const onSubmit: SubmitHandler<IUserInfo> = (data) => {
-    console.log(data); // Handle form submission logic here
-    setUserInfo(data)
+    setUserInfo({...data,totalPrice});
   };
 
   return (
@@ -104,78 +104,6 @@ const CheckOutFrom = ({setUserInfo})=> {
             </div>
           </div>
 
-          {/* Card Details */}
-          {/* <label className="mt-4 mb-2 block text-sm font-medium">Card Details</label>
-        <div className="flex">
-          <div className="relative w-7/12 flex-shrink-0">
-            <input
-              type="text"
-              id="cardNo"
-              
-              className="w-full rounded-md border border-gray-200 px-2 py-3 pl-11 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
-              placeholder="xxxx-xxxx-xxxx-xxxx"
-              {...register('cardNo', {
-                required: 'Card number is required',
-                pattern: {
-                  value: /^[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{4}$/,
-                  message: 'Invalid card number format',
-                },
-              })}
-            />
-            {errors.cardNo && (
-              <span className="text-red-500 text-sm">{errors.cardNo.message}</span>
-            )}
-            <div className="pointer-events-none absolute inset-y-0 left-0 inline-flex items-center px-3">
-              <svg
-                className="h-4 w-4 text-gray-400"
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                fill="currentColor"
-                viewBox="0 0 16 16"
-              >
-                <path d="M11 5.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-1z" />
-                <path d="M2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H2zm13 2v5H1V4a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1zm-1 9H2a1 1 0 0 1-1-1v-1h14v1a1 1 0 0 1-1 1z" />
-              </svg>
-            </div>
-          </div>
-          <input
-            type="text"
-            id="expiry"
-            required={false}
-            className="w-full rounded-md border border-gray-200 px-2 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
-            placeholder="MM/YY"
-            {...register('expiry', {
-              required: 'Expiry date is required',
-              pattern: {
-                value: /^(0[1-9]|1[0-2])\/?([0-9]{2})$/,
-                message: 'Invalid expiry date format (MM/YY)',
-              },
-            })}
-          />
-          {errors.expiry && (
-            <span className="text-red-500 text-sm">{errors.expiry.message}</span>
-          )}
-          <input
-            type="text"
-            id="cvc"
-            
-            className="w-1/6 flex-shrink-0 rounded-md border border-gray-200 px-2 py-3 text-sm shadow-sm outline-none focus:z-10 focus:border-blue-500 focus:ring-blue-500"
-            placeholder="CVC"
-            
-            {...register('cvc', {
-              required: 'CVC is required',
-              pattern: {
-                value: /^[0-9]{3}$/,
-                message: 'Invalid CVC format (3 digits)',
-              },
-            })}
-          />
-          {errors.cvc && (
-            <span className="text-red-500 text-sm">{errors.cvc.message}</span>
-          )}
-        </div> */}
-
           {/* Billing Address */}
           <label className="mt-4 mb-2 block text-sm font-medium">
             Billing Address
@@ -232,21 +160,26 @@ const CheckOutFrom = ({setUserInfo})=> {
           <div className="mt-6 border-t border-b py-2">
             <div className="flex items-center justify-between">
               <p className="text-sm font-medium text-gray-900">Subtotal</p>
-              <p className="font-semibold text-gray-900">$399.00</p>
+              <p className="font-semibold text-gray-900">{totalPrice}৳</p>
             </div>
             <div className="flex items-center justify-between">
-              <p className="text-sm font-medium text-gray-900">Shipping</p>
-              <p className="font-semibold text-gray-900">$8.00</p>
+              <p className="text-sm font-medium text-gray-900">Tax</p>
+              <p className="font-semibold text-gray-900">00 ৳</p>
             </div>
           </div>
           <div className="mt-6 flex items-center justify-between">
             <p className="text-sm font-medium text-gray-900">Total</p>
-            <p className="text-2xl font-semibold text-gray-900">$408.00</p>
+            <p className="text-2xl font-semibold text-gray-900">
+              {totalPrice}৳
+            </p>
           </div>
 
           <button
+            disabled={totalPrice <= 0}
             type="submit"
-            className="mt-4 mb-8 w-full rounded-md bg-secondary px-6 py-3 font-medium text-white"
+            className={`mt-4 mb-8 w-full rounded-md px-6 py-3 font-medium text-white ${
+              totalPrice <= 0 ? "bg-gray-400" : "bg-secondary"
+            }`}
           >
             Place Order
           </button>

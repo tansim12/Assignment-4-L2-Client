@@ -2,11 +2,13 @@ import { configureStore } from "@reduxjs/toolkit";
 import { baseApi } from "./api/baseapi";
 import { allProductReducer } from "./Features/All Products/allProducts.slice";
 import { queryCategoryReducer } from "./Features/Query Manage/queryCategory.slice";
+import { checkOutReducer } from "./Features/Check Out/checkOut.slice";
 
 export const store = configureStore({
   reducer: {
     allProducts: allProductReducer,
     queryByCategory: queryCategoryReducer,
+    checkOut:checkOutReducer,
     [baseApi.reducerPath]: baseApi.reducer,
   },
 
