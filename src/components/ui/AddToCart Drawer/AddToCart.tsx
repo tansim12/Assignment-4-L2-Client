@@ -22,7 +22,7 @@ const AddToCart = ({
 
   const calculateSubtotal = () => {
     return cartItems?.reduce(
-      (total, item) => total + item.price * item.buyQuantity,
+      (total, item) => total + item.price * item?.buyQuantity,
       0
     );
   };
@@ -34,7 +34,11 @@ const AddToCart = ({
           ? {
               ...item,
               buyQuantity:
-                item.buyQuantity + change > 0 ? item.buyQuantity + change : 1,
+                item?.quantity > item?.buyQuantity
+                  ? item?.buyQuantity + change > 0
+                    ? item?.buyQuantity + change
+                    : 1
+                  : item?.quantity-1,
             }
           : item
       )
@@ -61,7 +65,7 @@ const AddToCart = ({
             onClick={() => handleDeleteCartData(item?._id)}
             className="absolute top-0 left-0"
           >
-            <MdDeleteForever size={25} color="#ff0000" />
+            <MdDeleteForever size={25} color="#2b2b2b" />
           </button>
           <img
             src={item.image}

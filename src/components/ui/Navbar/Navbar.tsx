@@ -13,10 +13,6 @@ const Navbar = () => {
   const [refetchCartData, setRefetchCartData] = useState(false);
   const getCartData = localStorage.getItem("addToCart")
   const totalCarts = JSON.parse(getCartData)?.length || 0
-  
-  // const totalCarts = JSON.parse(localStorage.getItem("addToCart"))
-  //   .length as number;
-
   return (
     <div>
       {/* Top Bar */}
