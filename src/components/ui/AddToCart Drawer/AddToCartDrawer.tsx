@@ -3,8 +3,15 @@ import { Drawer } from "antd";
 import { IoCartOutline } from "react-icons/io5";
 import AddToCart from "./AddToCart";
 
-const AddToCartDrawer = () => {
-  const [refetchCartData, setRefetchCartData] = useState(false);
+const AddToCartDrawer = ({
+  totalCarts,
+  setRefetchCartData,
+  refetchCartData,
+}: {
+  totalCarts: number;
+  refetchCartData: boolean;
+  setRefetchCartData: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   const [open, setOpen] = useState(false);
 
   const showDrawer = () => {
@@ -17,11 +24,16 @@ const AddToCartDrawer = () => {
 
   return (
     <>
-      <button onClick={()=>{
-        showDrawer()
-      }}>
-        {" "}
-        <IoCartOutline size={28} />
+      <button
+        className="relative"
+        onClick={() => {
+          showDrawer();
+        }}
+      >
+        <span className="absolute text-white text-sm px-1 bg-red-600 rounded-full">
+          {totalCarts}
+        </span>{" "}
+        <IoCartOutline size={32} />
       </button>
 
       <Drawer
@@ -38,7 +50,11 @@ const AddToCartDrawer = () => {
         onClose={onClose}
         open={open}
       >
-        <AddToCart refetchCartData={refetchCartData} setRefetchCartData={setRefetchCartData} />
+        <AddToCart
+          checkOutPage={false}
+          refetchCartData={refetchCartData}
+          setRefetchCartData={setRefetchCartData}
+        />
       </Drawer>
     </>
   );

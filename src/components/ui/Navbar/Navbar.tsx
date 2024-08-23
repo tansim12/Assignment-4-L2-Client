@@ -7,6 +7,9 @@ import AddToCartDrawer from "../AddToCart Drawer/AddToCartDrawer";
 
 const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [refetchCartData, setRefetchCartData] = useState(false);
+  const totalCarts = JSON.parse(localStorage.getItem("addToCart"))
+    .length as number;
 
   return (
     <div>
@@ -105,8 +108,12 @@ const Navbar = () => {
         </div>
         <div className="flex items-center space-x-4 mt-3 lg:mt-0">
           <CgProfile size={28} />
-          <FaRegHeart size={28} />   
-          <AddToCartDrawer />
+          <FaRegHeart size={28} />
+          <AddToCartDrawer
+            totalCarts={totalCarts}
+            refetchCartData={refetchCartData}
+            setRefetchCartData={setRefetchCartData}
+          />
         </div>
       </div>
     </div>
