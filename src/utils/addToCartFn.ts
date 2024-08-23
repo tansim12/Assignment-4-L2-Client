@@ -20,6 +20,7 @@ export const handleAddToCart = (data: Partial<TCartData>) => {
   } else {
     if (cartItems?.length > 2) {
       return {
+        status:false,
         message: "Already 3 Product Added Cart",
       };
     }
@@ -36,6 +37,10 @@ export const handleAddToCart = (data: Partial<TCartData>) => {
 
   // Save the updated cart back to local storage
   localStorage.setItem("addToCart", JSON.stringify(cartItems));
+  return {
+    status:true,
+    message: "Product Added To Cart",
+  };
 };
 
 

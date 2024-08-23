@@ -6,6 +6,9 @@ import { useGetOneProductQuery } from "../../Redux/Features/Admin Products/admin
 import { useEffect, useState } from "react";
 import { availableProduct, TProduct } from "../../types/products.type";
 import { discountPrice } from "../../utils/discountPrice";
+import { handleAddToCart } from "../../utils/addToCartFn";
+import { TCartData } from "../../types/addToCart.type";
+import toast from "react-hot-toast";
 
 const { TabPane } = Tabs;
 
@@ -19,14 +22,18 @@ const ProductDetails = () => {
     }
   }, [data?.data]);
 
-  console.log(productData);
-
   const navigate = useNavigate();
   const handleCheckOut = (id: string) => {
     navigate(`/checkout/${id}`);
   };
 
   const [buyQuantity, setBuyQuantity] = useState(1);
+  const handleAddToCartButton = (data: Partial<TCartData>) => {
+    const overItem = handleAddToCart(data);
+    if (overItem?.message) {
+      toast.success(overItem?.message);
+    }
+  };
 
   return (
     <div className="container mx-auto my-8">
@@ -116,7 +123,22 @@ const ProductDetails = () => {
             <Button onClick={() => handleCheckOut("1")} type="primary">
               Buy Now
             </Button>
-            <Button>Add to Cart</Button>
+            <Button
+              onClick={() =>
+                handleAddToCartButton({
+                  _id: productData?._id,
+                  image: productData?.image?.[0],
+                  buyQuantity: buyQuantity,
+                  name: productData?.name,
+                  price: discountPrice(
+                    productData?.price,
+                    productData?.discount
+                  ),
+                })
+              }
+            >
+              Add to Cart
+            </Button>
             <Button>Save</Button>
           </div>
         </div>
@@ -127,7 +149,11 @@ const ProductDetails = () => {
             <div>
               {productData?.description &&
                 productData.description.map((item, i) => (
-                  <div className="my-3" key={i} dangerouslySetInnerHTML={{ __html: item }} />
+                  <div
+                    className="my-3"
+                    key={i}
+                    dangerouslySetInnerHTML={{ __html: item }}
+                  />
                 ))}
             </div>
           </TabPane>
@@ -135,7 +161,7 @@ const ProductDetails = () => {
             <p>{productData?.specification && productData?.specification}</p>
           </TabPane>
           <TabPane tab="Shipping Info" key="3">
-          <p>{productData?.shoppingInfo && productData?.shoppingInfo}</p>
+            <p>{productData?.shoppingInfo && productData?.shoppingInfo}</p>
           </TabPane>
           <TabPane tab="Seller Profile" key="4">
             <p>Coming Soon ..... 😢</p>

@@ -7,8 +7,9 @@ import Button from "../../Re-useable/Button";
 import { ICard } from "../../../types/card.type";
 import { useNavigate } from "react-router-dom";
 import { discountPrice } from "../../../utils/discountPrice";
-import { handleAddToCart, TCartData } from "../../../utils/addToCartFn";
+import { handleAddToCart, } from "../../../utils/addToCartFn";
 import toast from "react-hot-toast";
+import { TCartData } from "../../../types/addToCart.type";
 
 const Card = ({ showBuyButton, item }: ICard) => {
   const [hoverOption, setHoverOption] = useState(false);
@@ -26,9 +27,11 @@ const Card = ({ showBuyButton, item }: ICard) => {
   };
 
   const handleAddToCartButton = (data: Partial<TCartData>) => {
-    const overItem = handleAddToCart(data);
-    if (overItem?.message) {
-      toast.success(overItem?.message);
+    const result = handleAddToCart(data);
+    if (result?.status=== true) {
+      toast.success(result?.message);
+    }else{
+      toast?.error(result?.message)
     }
   };
 
