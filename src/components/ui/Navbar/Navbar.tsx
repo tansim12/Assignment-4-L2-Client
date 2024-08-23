@@ -4,12 +4,18 @@ import { FaRegHeart } from "react-icons/fa";
 import { NavLink } from "react-router-dom";
 import SearchSystem from "../../Re-useable/SearchSystem";
 import AddToCartDrawer from "../AddToCart Drawer/AddToCartDrawer";
+import { useAppDispatch } from "../../../Redux/hook";
+import { categoryQuery } from "../../../Redux/Features/Query Manage/queryCategory.slice";
 
 const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const updateQueryCart = useAppDispatch();
   const [refetchCartData, setRefetchCartData] = useState(false);
-  const totalCarts = JSON.parse(localStorage.getItem("addToCart"))
-    .length as number;
+  const getCartData = localStorage.getItem("addToCart")
+  const totalCarts = JSON.parse(getCartData)?.length || 0
+  
+  // const totalCarts = JSON.parse(localStorage.getItem("addToCart"))
+  //   .length as number;
 
   return (
     <div>
@@ -26,6 +32,9 @@ const Navbar = () => {
             Home
           </NavLink>
           <NavLink
+            onClick={() => {
+              updateQueryCart(categoryQuery({ category: "" }));
+            }}
             to="/all-products"
             className={({ isActive }) =>
               isActive ? "text-primary" : "text-black hover:text-primary"

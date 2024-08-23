@@ -29,9 +29,11 @@ const ProductDetails = () => {
 
   const [buyQuantity, setBuyQuantity] = useState(1);
   const handleAddToCartButton = (data: Partial<TCartData>) => {
-    const overItem = handleAddToCart(data);
-    if (overItem?.message) {
-      toast.success(overItem?.message);
+    const result = handleAddToCart(data);
+    if (result?.status === true) {
+      toast.success(result?.message);
+    } else {
+      toast?.error(result?.message);
     }
   };
 
@@ -134,6 +136,7 @@ const ProductDetails = () => {
                     productData?.price,
                     productData?.discount
                   ),
+                  quantity: productData?.quantity,
                 })
               }
             >

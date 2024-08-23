@@ -13,9 +13,16 @@ export const handleAddToCart = (data: Partial<TCartData>) => {
   const existingProductIndex = cartItems.findIndex(
     (item) => item._id === data._id
   );
+console.log(existingProductIndex);
 
   if (existingProductIndex >= 0) {
-    // If the item is already in the cart, update the quantity
+    // If the item is already in the cart, update the quantity  
+    if (cartItems[existingProductIndex].buyQuantity >= data?.quantity ) {
+      return{
+        status:false,
+        message : `This product quantity out of Stock ${data?.quantity}`
+      }
+    }
     cartItems[existingProductIndex].buyQuantity += data.buyQuantity || 1;
   } else {
     if (cartItems?.length > 2) {
@@ -32,6 +39,7 @@ export const handleAddToCart = (data: Partial<TCartData>) => {
       price: data?.price as number,
       buyQuantity: data?.buyQuantity || 1,
       image: data?.image as string,
+      quantity:data?.quantity as number
     });
   }
 

@@ -4,5 +4,6 @@ export interface TCartData {
     price: number;
     buyQuantity: number;
     image: string;
+    quantity:number
   }
   

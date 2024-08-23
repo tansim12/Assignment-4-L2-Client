@@ -21,8 +21,11 @@ const AllProducts = () => {
     page: 1,
   });
 
+  
   useEffect(() => {
-    if (categoryFilterByHomePage?.category) {
+    if (categoryFilterByHomePage?.category?.category  !== "") {
+      console.log("....");
+      
       setQueryObj((prev) => ({
         ...prev,
         category: categoryFilterByHomePage?.category,

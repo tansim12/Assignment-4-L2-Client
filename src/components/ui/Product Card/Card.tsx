@@ -87,6 +87,7 @@ const Card = ({ showBuyButton, item }: ICard) => {
                       buyQuantity: 1,
                       name: item?.name,
                       price: discountPrice(item?.price, item?.discount),
+                      quantity:item?.quantity
                     })
                   }
                   size={38}

@@ -11,7 +11,7 @@ const BestSelling = () => {
   const [queryObj, setQueryObj] = useState<TQueryObj>({
     limit: 10,
     fields:
-      "-shoppingInfo,-specification,-materials,-brand,-rating,-description,-sellerProfile,-isDelete,-quantity,-materials,-color,-type,-band,-shortDescription,-category",
+      "-shoppingInfo,-specification,-materials,-brand,-rating,-description,-sellerProfile,-isDelete,-materials,-color,-type,-band,-shortDescription,-category",
     page: 1,
     sort: "-order",
   });

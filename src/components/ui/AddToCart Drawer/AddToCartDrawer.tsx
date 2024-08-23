@@ -31,7 +31,7 @@ const AddToCartDrawer = ({
         }}
       >
         <span className="absolute text-white text-sm px-1 bg-red-600 rounded-full">
-          {totalCarts}
+          {totalCarts ? totalCarts : 0}
         </span>{" "}
         <IoCartOutline size={32} />
       </button>

@@ -10,7 +10,7 @@ const FeaturedProduct = () => {
   const [queryObj, setQueryObj] = useState<TQueryObj>({
     limit: 10,
     fields:
-      "-shoppingInfo,-specification,-materials,-brand,-rating,-description,-sellerProfile,-isDelete,-quantity,-materials,-color,-band,-shortDescription",
+      "-shoppingInfo,-specification,-materials,-brand,-rating,-description,-sellerProfile,-isDelete,-materials,-color,-band,-shortDescription",
     page: 1,
     type: "Featured",
   });
