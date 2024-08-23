@@ -7,9 +7,10 @@ import Button from "../../Re-useable/Button";
 import { ICard } from "../../../types/card.type";
 import { useNavigate } from "react-router-dom";
 import { discountPrice } from "../../../utils/discountPrice";
-import { handleAddToCart, } from "../../../utils/addToCartFn";
+import { handleAddToCart } from "../../../utils/addToCartFn";
 import toast from "react-hot-toast";
 import { TCartData } from "../../../types/addToCart.type";
+import { availableProduct } from "../../../types/products.type";
 
 const Card = ({ showBuyButton, item }: ICard) => {
   const [hoverOption, setHoverOption] = useState(false);
@@ -28,10 +29,10 @@ const Card = ({ showBuyButton, item }: ICard) => {
 
   const handleAddToCartButton = (data: Partial<TCartData>) => {
     const result = handleAddToCart(data);
-    if (result?.status=== true) {
+    if (result?.status === true) {
       toast.success(result?.message);
-    }else{
-      toast?.error(result?.message)
+    } else {
+      toast?.error(result?.message);
     }
   };
 
@@ -80,16 +81,20 @@ const Card = ({ showBuyButton, item }: ICard) => {
                 placement="bottom"
               >
                 <IoCartOutline
-                  onClick={() =>
-                    handleAddToCartButton({
-                      _id: item?._id,
-                      image: item?.image?.[0],
-                      buyQuantity: 1,
-                      name: item?.name,
-                      price: discountPrice(item?.price, item?.discount),
-                      quantity:item?.quantity
-                    })
-                  }
+                  onClick={() => {
+                    if (item?.availability === availableProduct.STOCKOUT) {
+                      toast.error("This Product Stock Out 😢");
+                    } else {
+                      handleAddToCartButton({
+                        _id: item?._id,
+                        image: item?.image?.[0],
+                        buyQuantity: 1,
+                        name: item?.name,
+                        price: discountPrice(item?.price, item?.discount),
+                        quantity: item?.quantity,
+                      });
+                    }
+                  }}
                   size={38}
                   className="text-white"
                 />
@@ -168,7 +173,7 @@ const Card = ({ showBuyButton, item }: ICard) => {
       {/* buy button div  */}
       {showBuyButton && (
         <div className="p-3">
-          <Button name="Buy Now" />
+          <Button item={item} name="Buy Now" />
         </div>
       )}
     </div>

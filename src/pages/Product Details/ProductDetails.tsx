@@ -9,6 +9,8 @@ import { discountPrice } from "../../utils/discountPrice";
 import { handleAddToCart } from "../../utils/addToCartFn";
 import { TCartData } from "../../types/addToCart.type";
 import toast from "react-hot-toast";
+import { useAppDispatch } from "../../Redux/hook";
+import { buyingData } from "../../Redux/Features/Check Out/checkOut.slice";
 
 const { TabPane } = Tabs;
 
@@ -23,9 +25,7 @@ const ProductDetails = () => {
   }, [data?.data]);
 
   const navigate = useNavigate();
-  const handleCheckOut = () => {
-    navigate(`/checkout`);
-  };
+  
 
   const [buyQuantity, setBuyQuantity] = useState(1);
   const handleAddToCartButton = (data: Partial<TCartData>) => {
@@ -35,6 +35,24 @@ const ProductDetails = () => {
     } else {
       toast?.error(result?.message);
     }
+  };
+
+  const updateBuyingData = useAppDispatch();
+  // handleCheckOutPage
+  const handleCheckOutPage = (item: Partial<TProduct>) => {
+    updateBuyingData(
+      buyingData([
+        {
+          _id: item?._id,
+          name: item?.name,
+          image: item?.image?.[0],
+          quantity: item?.quantity,
+          buyQuantity: buyQuantity,
+          price: item?.price,
+        },
+      ])
+    );
+    navigate("/checkout");
   };
 
   return (
@@ -122,10 +140,15 @@ const ProductDetails = () => {
             </p>
           </div>
           <div className="mt-4 flex space-x-4">
-            <Button onClick={() => handleCheckOut()} type="primary">
+            <Button
+              disabled={productData?.availability === availableProduct.STOCKOUT}
+              onClick={() => handleCheckOutPage(productData)}
+              type="primary"
+            >
               Buy Now
             </Button>
             <Button
+              disabled={productData?.availability === availableProduct.STOCKOUT}
               onClick={() =>
                 handleAddToCartButton({
                   _id: productData?._id,
