@@ -38,7 +38,7 @@ const AddToCart = ({
                   ? item?.buyQuantity + change > 0
                     ? item?.buyQuantity + change
                     : 1
-                  : item?.quantity-1,
+                  : item?.quantity - 1,
             }
           : item
       )
@@ -128,7 +128,12 @@ const AddToCart = ({
           <br />
         </div>
 
-        <button className="bg-orange-600 text-white w-full py-2 rounded-md font-bold">
+        <button
+          disabled={!cartItems?.length}
+          className={`${
+            !cartItems?.length ? "bg-gray-400" : "bg-orange-600"
+          } text-white w-full py-2 rounded-md font-bold`}
+        >
           Checkout
         </button>
       </div>
