@@ -3,13 +3,16 @@ import SearchSystem from "../../components/Re-useable/SearchSystem";
 import LeftSideFilter from "./LeftSideFilter";
 import Card from "../../components/ui/Product Card/Card";
 import { Drawer } from "antd";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetAllProductsQuery } from "../../Redux/Features/All Products/allProductsApi";
 import { TQueryObj } from "../../types/quearyFilter.type";
 import { TProduct } from "../../types/products.type";
 import NoDataFound from "../../components/ui/No Data Found/NoDataFound";
+import { useAppSelector } from "../../Redux/hook";
+import LoadingPage from "../Loading/LoadingPage";
 
 const AllProducts = () => {
+  const categoryFilterByHomePage = useAppSelector((s) => s.queryByCategory);
   const [open, setOpen] = useState(false);
   const [queryObj, setQueryObj] = useState<TQueryObj>({
     limit: 10,
@@ -17,7 +20,17 @@ const AllProducts = () => {
       "-shoppingInfo,-specification,-materials,-brand,-rating,-description,-shortDescription",
     page: 1,
   });
-  const { data: productsData } = useGetAllProductsQuery(queryObj);
+
+  useEffect(() => {
+    if (categoryFilterByHomePage?.category) {
+      setQueryObj((prev) => ({
+        ...prev,
+        category: categoryFilterByHomePage?.category,
+      }));
+    }
+  }, [categoryFilterByHomePage?.category]);
+
+  const { data: productsData, isLoading } = useGetAllProductsQuery(queryObj);
 
   const showDrawer = () => {
     setOpen(true);
@@ -35,9 +48,6 @@ const AllProducts = () => {
     const newLimit = event.target.value as number; // Type assertion
     setQueryObj((prev) => ({ ...prev, limit: newLimit }));
   };
-
-  console.log(productsData?.data?.result);
-  // console.log(queryObj);
 
   return (
     <div>
@@ -98,15 +108,17 @@ const AllProducts = () => {
 
         {/* card div  */}
         <div className="md:basis-3/4">
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 ">
+         { !isLoading ?<div className="grid grid-cols-2 sm:grid-cols-3 gap-3 ">
             {productsData?.data?.result?.length ? (
               productsData?.data?.result?.map((item: Partial<TProduct>) => (
                 <Card key={item?._id} item={item} showBuyButton={true} />
               ))
             ) : (
-              <div className="col-span-3"><NoDataFound /></div>
+              <div className="col-span-3">
+                <NoDataFound />
+              </div>
             )}
-          </div>
+          </div>:<LoadingPage/>}
         </div>
       </div>
 
