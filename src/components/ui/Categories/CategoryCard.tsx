@@ -8,13 +8,15 @@ const CategoryCard = ({ item }: { item: TCategoryWithIcon }) => {
   const updateCategoryByHomePage = useAppDispatch();
 
   const handleFilterCategory = (category: { category: string }) => {
+    console.log(category);
+    
     updateCategoryByHomePage(categoryQuery(category));
     navigate("/all-products");
   };
 
   return (
     <div
-      onClick={() => handleFilterCategory(item?.name as string)}
+      onClick={() => handleFilterCategory(item?.name as never)}
       className="bg-white rounded-xl shadow-2xl cursor-pointer"
     >
       {/* icon div  */}

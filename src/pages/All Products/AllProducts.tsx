@@ -23,15 +23,13 @@ const AllProducts = () => {
 
   
   useEffect(() => {
-    if (categoryFilterByHomePage?.category?.category  !== "") {
-      console.log("....");
-      
+    if (categoryFilterByHomePage !== "") {
       setQueryObj((prev) => ({
         ...prev,
-        category: categoryFilterByHomePage?.category,
+        category: categoryFilterByHomePage,
       }));
     }
-  }, [categoryFilterByHomePage?.category]);
+  }, [categoryFilterByHomePage]);
 
   const { data: productsData, isLoading } = useGetAllProductsQuery(queryObj);
 
@@ -48,7 +46,7 @@ const AllProducts = () => {
     setQueryObj((prev) => ({ ...prev, sort: newSort }));
   };
   const handleLimitChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const newLimit = event.target.value as number; // Type assertion
+    const newLimit = event.target.value as never; // Type assertion
     setQueryObj((prev) => ({ ...prev, limit: newLimit }));
   };
 
@@ -111,17 +109,21 @@ const AllProducts = () => {
 
         {/* card div  */}
         <div className="md:basis-3/4">
-         { !isLoading ?<div className="grid grid-cols-2 sm:grid-cols-3 gap-3 ">
-            {productsData?.data?.result?.length ? (
-              productsData?.data?.result?.map((item: Partial<TProduct>) => (
-                <Card key={item?._id} item={item} showBuyButton={true} />
-              ))
-            ) : (
-              <div className="col-span-3">
-                <NoDataFound />
-              </div>
-            )}
-          </div>:<LoadingPage/>}
+          {!isLoading ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 ">
+              {productsData?.data?.result?.length ? (
+                productsData?.data?.result?.map((item: Partial<TProduct>) => (
+                  <Card key={item?._id} item={item} showBuyButton={true} />
+                ))
+              ) : (
+                <div className="col-span-3">
+                  <NoDataFound />
+                </div>
+              )}
+            </div>
+          ) : (
+            <LoadingPage />
+          )}
         </div>
       </div>
 

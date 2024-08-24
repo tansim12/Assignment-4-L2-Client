@@ -10,7 +10,7 @@ import { discountPrice } from "../../../utils/discountPrice";
 import { handleAddToCart } from "../../../utils/addToCartFn";
 import toast from "react-hot-toast";
 import { TCartData } from "../../../types/addToCart.type";
-import { availableProduct } from "../../../types/products.type";
+import { availableProduct, TProduct } from "../../../types/products.type";
 
 const Card = ({ showBuyButton, item }: ICard) => {
   const [hoverOption, setHoverOption] = useState(false);
@@ -173,7 +173,7 @@ const Card = ({ showBuyButton, item }: ICard) => {
       {/* buy button div  */}
       {showBuyButton && (
         <div className="p-3">
-          <Button item={item} name="Buy Now" />
+          <Button item={item as TProduct} name="Buy Now" />
         </div>
       )}
     </div>

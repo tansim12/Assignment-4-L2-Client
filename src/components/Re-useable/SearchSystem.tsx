@@ -3,7 +3,7 @@ import React, { FormEvent, useState } from "react";
 import { FaSearch } from "react-icons/fa";
 import { LeftSideFilterProps } from "../../types/quearyFilter.type";
 
-const SearchSystem:React.FC<LeftSideFilterProps> = ({setQueryObj}) => {
+const SearchSystem: React.FC<LeftSideFilterProps> = ({ setQueryObj }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const showModal = () => {
@@ -14,11 +14,17 @@ const SearchSystem:React.FC<LeftSideFilterProps> = ({setQueryObj}) => {
     setIsModalOpen(false);
   };
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const searchTerm = e.target.search.value as string;
-    setQueryObj((prev) => ({ ...prev, searchTerm }));
-
+    const form = e.target as HTMLFormElement;
+    const searchInput = form.elements.namedItem('search') as HTMLInputElement;
+    const searchTerm = searchInput?.value ?? ''; // Default to an empty string if searchInput is null or undefined
+  
+    if (setQueryObj) {
+      setQueryObj((prev) => ({ ...prev, searchTerm }));
+    } else {
+      console.warn("setQueryObj is not defined");
+    }
   };
   return (
     <>

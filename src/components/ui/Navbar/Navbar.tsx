@@ -13,7 +13,8 @@ const Navbar = () => {
   const updateQueryCart = useAppDispatch();
   const [refetchCartData, setRefetchCartData] = useState(false);
   const getCartData = localStorage.getItem("addToCart");
-  const totalCarts = JSON.parse(getCartData)?.length || 0;
+  const cartData = getCartData ? JSON.parse(getCartData) : null;
+  const totalCarts = cartData?.length || 0;
 
   return (
     <div>

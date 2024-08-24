@@ -14,6 +14,7 @@ const FeaturedProduct = () => {
     page: 1,
     type: "Featured",
   });
+console.log(setQueryObj);
 
   const { data } = useGetAllProductsQuery(queryObj);
 

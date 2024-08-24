@@ -7,7 +7,7 @@ import { MdDeleteForever } from "react-icons/md";
 const CheckOut = () => {
   const [cartItems, setCartItems] = useState<TCartData[]>([]);
   const buyingData = useAppSelector((s) => s.checkOut);
-  const [userInfo, setUserInfo] = useState({});
+
   useEffect(() => {
     setCartItems(buyingData);
   }, [buyingData]);
@@ -19,7 +19,7 @@ const CheckOut = () => {
     );
   };
 
-  const handleQuantityChange = (_id, change) => {
+  const handleQuantityChange = (_id: string, change: number) => {
     console.log(_id, change);
 
     setCartItems((prevItems) =>
@@ -52,28 +52,24 @@ const CheckOut = () => {
       })
     : [];
 
+  useEffect(() => {
+    const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+      if (cartItems.length > 0) {
+        // Show a warning message
+        event.preventDefault();
+        event.returnValue = ""; // This is required for most browsers
+      }
+    };
 
+    // Attach the event listener
+    window.addEventListener("beforeunload", handleBeforeUnload);
 
-    useEffect(() => {
-      const handleBeforeUnload = (event: BeforeUnloadEvent) => {
-        if (cartItems.length > 0) {
-          // Show a warning message
-          event.preventDefault();
-          event.returnValue = ''; // This is required for most browsers
-        }
-      };
-  
-      // Attach the event listener
-      window.addEventListener('beforeunload', handleBeforeUnload);
-  
-      // Cleanup the event listener on component unmount
-      return () => {
-        window.removeEventListener('beforeunload', handleBeforeUnload);
-      };
-    }, [cartItems]);
-  
+    // Cleanup the event listener on component unmount
+    return () => {
+      window.removeEventListener("beforeunload", handleBeforeUnload);
+    };
+  }, [cartItems]);
 
-  
   return (
     <div className="bg-white rounded-lg my-16">
       <div className="flex flex-col items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
@@ -269,7 +265,7 @@ const CheckOut = () => {
           {/* checkout form  */}
           <div className="mt-20">
             <CheckOutFrom
-            newCartItem={newCartItem}
+              newCartItem={newCartItem as Partial<TCartData[]>}
               totalPrice={calculateSubtotal()}
             />
           </div>

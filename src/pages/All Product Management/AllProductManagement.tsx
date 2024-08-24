@@ -1,4 +1,5 @@
-import { Table, Button } from "antd";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { Table, Button, TableProps } from "antd";
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons";
 import { useGetAllProductsQuery } from "../../Redux/Features/All Products/allProductsApi";
 import { useEffect, useState } from "react";
@@ -30,7 +31,7 @@ const AllProductManagement = () => {
   }, [productsData]);
 
 
-  const columns = [
+  const columns: TableProps<TProduct>['columns'] = [
     {
       title: "Image",
       dataIndex: "image",
@@ -119,7 +120,7 @@ const AllProductManagement = () => {
     {
       title: "Actions",
       key: "actions",
-      render: (_, record) => (
+      render: (_: any, record: { _id: string; }) => (       
         <div className="flex gap-2">
           <Button
             type="primary"

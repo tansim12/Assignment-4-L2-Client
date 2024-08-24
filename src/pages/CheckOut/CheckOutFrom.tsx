@@ -2,6 +2,7 @@ import { useForm, SubmitHandler } from "react-hook-form";
 import { usePostCheckOutDataMutation } from "../../Redux/Features/Check Out/checkOut.api";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { TCartData } from "../../types/addToCart.type";
 
 interface IUserInfo {
   email: string;
@@ -14,7 +15,9 @@ interface IUserInfo {
   zip: string;
 }
 
-const CheckOutFrom = ({ totalPrice, newCartItem }) => {
+const CheckOutFrom = ({ totalPrice, newCartItem }:{
+  totalPrice:number,newCartItem:Partial<TCartData[]>
+}) => {
   const navigate = useNavigate();
   const [postCheckOutData, { isLoading, isError }] =
     usePostCheckOutDataMutation();

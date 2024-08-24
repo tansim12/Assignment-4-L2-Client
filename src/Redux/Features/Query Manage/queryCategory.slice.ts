@@ -1,15 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState: { category: string } = {
-  category: "",
-};
+// const initialState: { category: string } = {
+//   category: "",
+// };
+const initialState: string = "";
 
 const queryCategorySlice = createSlice({
   name: "queryByCategory",
   initialState,
   reducers: {
-    categoryQuery: (state, actions) => {
-      return { category: actions.payload };
+    categoryQuery: (_state, actions) => {
+      if (actions?.payload?.category === "") {
+        return;
+      } else {
+        return actions?.payload;
+      }
     },
   },
 });

@@ -22,7 +22,13 @@ const AddToCart = ({
 
   useEffect(() => {
     const data = localStorage.getItem("addToCart");
-    setCartItems(JSON.parse(data));
+    try {
+      const parsedData = data ? JSON.parse(data) : [];
+      setCartItems(parsedData);
+    } catch (error) {
+      console.error("Error parsing cart data from localStorage", error);
+      setCartItems([]);
+    }
   }, [refetchCartData]);
 
   const calculateSubtotal = () => {
@@ -32,7 +38,7 @@ const AddToCart = ({
     );
   };
 
-  const handleQuantityChange = (_id, change) => {
+  const handleQuantityChange = (_id:string, change:number) => {
     setCartItems((prevItems) =>
       prevItems?.map((item) =>
         item._id === _id

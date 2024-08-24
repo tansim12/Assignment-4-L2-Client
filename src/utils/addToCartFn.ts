@@ -13,11 +13,11 @@ export const handleAddToCart = (data: Partial<TCartData>) => {
   const existingProductIndex = cartItems.findIndex(
     (item) => item._id === data._id
   );
-console.log(existingProductIndex);
 
   if (existingProductIndex >= 0) {
+    const availableQuantity = data?.quantity || 0;
     // If the item is already in the cart, update the quantity  
-    if (cartItems[existingProductIndex].buyQuantity >= data?.quantity ) {
+    if (cartItems[existingProductIndex].buyQuantity >= availableQuantity) {
       return{
         status:false,
         message : `This product quantity out of Stock ${data?.quantity}`

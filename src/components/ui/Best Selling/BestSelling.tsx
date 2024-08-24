@@ -17,6 +17,7 @@ const BestSelling = () => {
   });
 
   const { data } = useGetAllProductsQuery(queryObj);
+console.log(setQueryObj);
 
 
   return (

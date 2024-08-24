@@ -53,7 +53,7 @@ const UpdateProducts: React.FC = () => {
     remove: removeImage,
   } = useFieldArray({
     control,
-    name: "image",
+    name: "image" as never,
   });
 
   const {
@@ -62,7 +62,7 @@ const UpdateProducts: React.FC = () => {
     remove: removeDescription,
   } = useFieldArray({
     control,
-    name: "description",
+    name: "description" as never,
   });
 
   const {
@@ -71,12 +71,12 @@ const UpdateProducts: React.FC = () => {
     remove: removeColor,
   } = useFieldArray({
     control,
-    name: "color",
+    name: "color" as never,
   });
 
   const onSubmit = async (data: TProduct) => {
     console.log(data?.image);
-    
+
     if (!imageFields?.length) {
       return toast.error("Image Fields Required");
     } else if (!descriptionFields?.length) {
@@ -173,10 +173,14 @@ const UpdateProducts: React.FC = () => {
           </div>
         ))}
         {errors.image &&
-          errors.image.map((error, index) => (
-            <p key={index} className="text-red-500 text-sm">
-              {error?.message}
-            </p>
+          (Array.isArray(errors.image) ? (
+            errors.image.map((error, index) => (
+              <p key={index} className="text-red-500 text-sm">
+                {error?.message}
+              </p>
+            ))
+          ) : (
+            <p className="text-red-500 text-sm">{errors.image.message}</p>
           ))}
         <button
           type="button"
@@ -231,11 +235,16 @@ const UpdateProducts: React.FC = () => {
             </button>
           </div>
         ))}
+
         {errors.description &&
-          errors.description?.map((error, index) => (
-            <p key={index} className="text-red-500 text-sm">
-              {error?.message}
-            </p>
+          (Array.isArray(errors.description) ? (
+            errors.description.map((error, index) => (
+              <p key={index} className="text-red-500 text-sm">
+                {error?.message}
+              </p>
+            ))
+          ) : (
+            <p className="text-red-500 text-sm">{errors.description.message}</p>
           ))}
         <button
           type="button"
@@ -266,10 +275,14 @@ const UpdateProducts: React.FC = () => {
           </div>
         ))}
         {errors.color &&
-          errors.color.map((error, index) => (
-            <p key={index} className="text-red-500 text-sm">
-              {error?.message}
-            </p>
+          (Array.isArray(errors.color) ? (
+            errors.color.map((error, index) => (
+              <p key={index} className="text-red-500 text-sm">
+                {error?.message}
+              </p>
+            ))
+          ) : (
+            <p className="text-red-500 text-sm">{errors.color.message}</p>
           ))}
         <button
           type="button"

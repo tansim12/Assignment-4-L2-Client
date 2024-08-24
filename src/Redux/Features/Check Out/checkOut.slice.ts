@@ -17,7 +17,7 @@ const buyProductSlice = createSlice({
   name: "checkOut",
   initialState,
   reducers: {
-    buyingData: (state, actions) => {
+    buyingData: (_state, actions) => {
       return [...actions.payload];
     },
   },

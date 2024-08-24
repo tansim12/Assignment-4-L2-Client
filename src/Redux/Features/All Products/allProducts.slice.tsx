@@ -7,7 +7,7 @@ const allProductSlice = createSlice({
   name: "allProducts",
   initialState: allProducts,
   reducers: {
-    allProductsData: (state, action: PayloadAction<TProduct[]>) => {
+    allProductsData: (_state, action: PayloadAction<TProduct[]>) => {
       return action?.payload;
     },
   },

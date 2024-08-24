@@ -1,8 +1,11 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 const baseQueryFn = fetchBaseQuery({
-  baseUrl: "http://localhost:5000/api/v1",
+  baseUrl: import.meta.env.VITE_URL_PROD,
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
+    console.log(getState);
+    
     // todo sent token Credential
     // const token = (getState() as RootState).auth.token
 

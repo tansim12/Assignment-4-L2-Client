@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -6,8 +6,12 @@ import "./review.css";
 import ReviewCard from "./ReviewCard";
 import { reviews } from "../../../types/reviewSlides.type";
 import Title from "../../Re-useable/Title";
-
-function NextArrow(props) {
+interface ArrowProps {
+  className: string;
+  style: React.CSSProperties;
+  onClick: () => void;
+}
+function NextArrow(props:ArrowProps) {
   const { className, style, onClick } = props;
   return (
     <div
@@ -23,7 +27,9 @@ function NextArrow(props) {
   );
 }
 
-function PrevArrow(props) {
+function PrevArrow(props:ArrowProps) {
+  console.log(props);
+  
   const { className, style, onClick } = props;
   return (
     <div
@@ -49,8 +55,8 @@ function StyledSlider() {
     speed: 500,
     rows: 2,
     slidesPerRow: 1,
-    nextArrow: <NextArrow />,
-    prevArrow: <PrevArrow />,
+    nextArrow: <NextArrow className="slick-arrow" style={{}} onClick={() => {}} />, // Provide dummy values
+    prevArrow: <PrevArrow className="slick-arrow" style={{}} onClick={() => {}} />,
 
     responsive: [
       {

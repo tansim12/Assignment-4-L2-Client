@@ -2,17 +2,17 @@ import { useState } from "react";
 import { Drawer } from "antd";
 import { IoCartOutline } from "react-icons/io5";
 import AddToCart from "./AddToCart";
-import { TCartData } from "../../../types/addToCart.type";
+
 
 const AddToCartDrawer = ({
   totalCarts,
   setRefetchCartData,
-  refetchCartData,getCartData
+  refetchCartData
 }: {
   totalCarts: number;
   refetchCartData: boolean;
   setRefetchCartData: React.Dispatch<React.SetStateAction<boolean>>;
-  getCartData:TCartData[]
+ 
 }) => {
   const [open, setOpen] = useState(false);
 

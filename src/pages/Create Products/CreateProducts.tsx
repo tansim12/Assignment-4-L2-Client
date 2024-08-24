@@ -34,7 +34,7 @@ const CreateProducts: React.FC = () => {
     remove: removeImage,
   } = useFieldArray({
     control,
-    name: "image",
+    name: "image" as never,
   });
 
   const {
@@ -43,7 +43,7 @@ const CreateProducts: React.FC = () => {
     remove: removeDescription,
   } = useFieldArray({
     control,
-    name: "description",
+    name: "description"  as never,
   });
 
   const {
@@ -52,7 +52,7 @@ const CreateProducts: React.FC = () => {
     remove: removeColor,
   } = useFieldArray({
     control,
-    name: "color",
+    name: "color"  as never,
   });
 
   const [postProduct] = useCreateProductMutation();
@@ -152,10 +152,14 @@ const CreateProducts: React.FC = () => {
           </div>
         ))}
         {errors.image &&
-          errors.image.map((error, index) => (
-            <p key={index} className="text-red-500 text-sm">
-              {error?.message}
-            </p>
+          (Array.isArray(errors.image) ? (
+            errors.image.map((error, index) => (
+              <p key={index} className="text-red-500 text-sm">
+                {error?.message}
+              </p>
+            ))
+          ) : (
+            <p className="text-red-500 text-sm">{errors.image.message}</p>
           ))}
         <button
           type="button"
@@ -209,11 +213,15 @@ const CreateProducts: React.FC = () => {
             </button>
           </div>
         ))}
-        {errors.description &&
-          errors?.description?.map((error, index) => (
-            <p key={index} className="text-red-500 text-sm">
-              {error?.message}
-            </p>
+          {errors.description &&
+          (Array.isArray(errors.description) ? (
+            errors.description.map((error, index) => (
+              <p key={index} className="text-red-500 text-sm">
+                {error?.message}
+              </p>
+            ))
+          ) : (
+            <p className="text-red-500 text-sm">{errors.description.message}</p>
           ))}
         <button
           type="button"
@@ -243,11 +251,15 @@ const CreateProducts: React.FC = () => {
             </button>
           </div>
         ))}
-        {errors.color &&
-          errors?.color?.map((error, index) => (
-            <p key={index} className="text-red-500 text-sm">
-              {error?.message}
-            </p>
+         {errors.color &&
+          (Array.isArray(errors.color) ? (
+            errors.color.map((error, index) => (
+              <p key={index} className="text-red-500 text-sm">
+                {error?.message}
+              </p>
+            ))
+          ) : (
+            <p className="text-red-500 text-sm">{errors.color.message}</p>
           ))}
         <button
           type="button"
