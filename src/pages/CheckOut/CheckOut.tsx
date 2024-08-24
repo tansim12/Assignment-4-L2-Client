@@ -52,6 +52,27 @@ const CheckOut = () => {
       })
     : [];
 
+
+
+    useEffect(() => {
+      const handleBeforeUnload = (event: BeforeUnloadEvent) => {
+        if (cartItems.length > 0) {
+          // Show a warning message
+          event.preventDefault();
+          event.returnValue = ''; // This is required for most browsers
+        }
+      };
+  
+      // Attach the event listener
+      window.addEventListener('beforeunload', handleBeforeUnload);
+  
+      // Cleanup the event listener on component unmount
+      return () => {
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+      };
+    }, [cartItems]);
+  
+
   
   return (
     <div className="bg-white rounded-lg my-16">
@@ -249,7 +270,6 @@ const CheckOut = () => {
           <div className="mt-20">
             <CheckOutFrom
             newCartItem={newCartItem}
-             
               totalPrice={calculateSubtotal()}
             />
           </div>

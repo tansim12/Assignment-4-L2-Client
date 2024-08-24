@@ -1,18 +1,19 @@
 import { useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { FaRegHeart } from "react-icons/fa";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import SearchSystem from "../../Re-useable/SearchSystem";
 import AddToCartDrawer from "../AddToCart Drawer/AddToCartDrawer";
 import { useAppDispatch } from "../../../Redux/hook";
 import { categoryQuery } from "../../../Redux/Features/Query Manage/queryCategory.slice";
 
 const Navbar = () => {
+  const navigate = useNavigate();
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const updateQueryCart = useAppDispatch();
   const [refetchCartData, setRefetchCartData] = useState(false);
-  const getCartData = localStorage.getItem("addToCart")
-  const totalCarts = JSON.parse(getCartData)?.length || 0
+  const getCartData = localStorage.getItem("addToCart");
+  const totalCarts = JSON.parse(getCartData)?.length || 0;
 
   return (
     <div>
@@ -61,9 +62,12 @@ const Navbar = () => {
       <div className="container mx-auto flex justify-between items-center py-1 flex-nowrap">
         <div className="flex items-center">
           <img
+            onClick={() => {
+              navigate("/");
+            }}
             src="https://i.ibb.co/FDnCPmH/pngwing-com-25.png"
             alt="Camping"
-            className="size-16 mr-4"
+            className="size-16 mr-4 cursor-pointer"
           />
           <div className="relative">
             <button
