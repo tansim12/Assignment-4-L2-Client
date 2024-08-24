@@ -10,6 +10,7 @@ import DashboardLayout from "../Layout/Dashboard Layout/DashboardLayout";
 import AllProductManagement from "../pages/All Product Management/AllProductManagement";
 import CreateProducts from "../pages/Create Products/CreateProducts";
 import UpdateProducts from "../pages/Update Products/UpdateProducts";
+import PaymentSuccess from "../pages/Payment Success & Failed/PaymentSuccess";
 // import AdminDashboard from "../Layout/Admin Dashboard/AdminDashboard";
 
 export const router = createBrowserRouter([
@@ -38,6 +39,10 @@ export const router = createBrowserRouter([
       {
         path: "about",
         element: <AboutUs />,
+      },
+      {
+        path: "paymentSuccess",
+        element: <PaymentSuccess />,
       },
     ],
   },

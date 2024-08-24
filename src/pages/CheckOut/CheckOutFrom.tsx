@@ -1,4 +1,7 @@
 import { useForm, SubmitHandler } from "react-hook-form";
+import { usePostCheckOutDataMutation } from "../../Redux/Features/Check Out/checkOut.api";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 
 interface IUserInfo {
   email: string;
@@ -12,21 +15,32 @@ interface IUserInfo {
 }
 
 const CheckOutFrom = ({ totalPrice, newCartItem }) => {
+  const navigate = useNavigate();
+  const [postCheckOutData, { isLoading, isError }] =
+    usePostCheckOutDataMutation();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<IUserInfo>();
 
-  const onSubmit: SubmitHandler<IUserInfo> = (data) => {
+  const onSubmit: SubmitHandler<IUserInfo> = async (data) => {
     const payload = {
-      useInfo: { ...data, userId: "66c9a76b4b34afee1fc51f13" },
+      userInfo: data,
       buyingProduct: newCartItem,
       totalPrice,
     };
-
-    console.log(payload);
+    const res = await postCheckOutData(payload).unwrap();
+    if (res?.success) {
+      toast.success("CheckOut Successfully Done", { duration: 3000 });
+      localStorage.clear();
+      navigate("/paymentSuccess");
+    }
   };
+
+  if (isError) {
+    toast.error("CheckOut transaction failed");
+  }
 
   return (
     <div>
@@ -180,13 +194,40 @@ const CheckOutFrom = ({ totalPrice, newCartItem }) => {
           </div>
 
           <button
-            disabled={totalPrice <= 0}
+            disabled={totalPrice <= 0 || isLoading}
             type="submit"
-            className={`mt-4 mb-8 w-full rounded-md px-6 py-3 font-medium text-white ${
+            className={`mt-4 mb-8 w-full ${
+              isLoading
+                ? "rounded-full flex justify-center items-center"
+                : "rounded-md"
+            } px-6 py-3 font-medium text-white ${
               totalPrice <= 0 ? "bg-gray-400" : "bg-secondary"
             }`}
           >
-            Place Order
+            {isLoading ? (
+              <svg
+                className="animate-spin h-5 w-5 text-white"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+              >
+                <circle
+                  className="opacity-25"
+                  cx="12"
+                  cy="12"
+                  r="10"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                ></circle>
+                <path
+                  className="opacity-75"
+                  fill="currentColor"
+                  d="M4 12a8 8 0 018-8v8H4z"
+                ></path>
+              </svg>
+            ) : (
+              "Place Order"
+            )}
           </button>
         </div>
       </form>
