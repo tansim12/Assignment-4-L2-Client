@@ -15,23 +15,20 @@ import {
 } from "../../Redux/Features/Admin Products/adminProductsApi";
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
+import toast from "react-hot-toast";
 
 const UpdateProducts: React.FC = () => {
-  const navigate =useNavigate()
+  const navigate = useNavigate();
   const [updateData, setUpdateData] = useState<TProduct | null>(null);
   const { id } = useParams();
   const { data } = useGetOneProductQuery(id);
-  console.log(data?.data);
   useEffect(() => {
     if (data?.data) {
       setUpdateData(data?.data);
     }
   }, [data?.data, updateData]);
 
-  const [productUpdate,{isSuccess}] = useUpdateProductMutation();
-
-  console.log(updateData);
-
+  const [productUpdate] = useUpdateProductMutation();
   const {
     register,
     control,
@@ -77,19 +74,26 @@ const UpdateProducts: React.FC = () => {
     name: "color",
   });
 
-  const onSubmit =async (data: TProduct) => {
-    console.log(data);
+  const onSubmit = async (data: TProduct) => {
+    console.log(data?.image);
     
-   const res = await productUpdate({ id, data }).unwrap(); 
+    if (!imageFields?.length) {
+      return toast.error("Image Fields Required");
+    } else if (!descriptionFields?.length) {
+      return toast.error("Description Fields Required");
+    } else if (!colorFields?.length) {
+      return toast.error("Color Fields Required");
+    }
+    const res = await productUpdate({ id, data }).unwrap();
     if (res?.success) {
       Swal.fire({
         position: "center",
         icon: "success",
         title: "product Update Successfully Done",
         showConfirmButton: false,
-        timer: 1500
+        timer: 1500,
       });
-      navigate("/admin/all-products-management")
+      navigate("/admin/all-products-management");
     }
   };
 
@@ -319,7 +323,7 @@ const UpdateProducts: React.FC = () => {
           </label>
           <input
             type="number"
-            step={.1}
+            step={0.1}
             {...register("rating", {
               required: "Rating is required",
               min: { value: 1, message: "Rating must be at least 1" },

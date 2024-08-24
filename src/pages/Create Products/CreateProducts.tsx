@@ -7,7 +7,11 @@ import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { TProduct } from "../../types/products.type";
 import { useCreateProductMutation } from "../../Redux/Features/Admin Products/adminProductsApi";
 import { useNavigate } from "react-router-dom";
-import { allCategoryArray, productTypesArray } from "../../types/Const/product.const";
+import {
+  allCategoryArray,
+  productTypesArray,
+} from "../../types/Const/product.const";
+import toast from "react-hot-toast";
 
 const CreateProducts: React.FC = () => {
   const {
@@ -51,9 +55,16 @@ const CreateProducts: React.FC = () => {
     name: "color",
   });
 
-  const [postProduct, { isSuccess }] = useCreateProductMutation();
+  const [postProduct] = useCreateProductMutation();
   const navigate = useNavigate();
   const onSubmit = async (data: TProduct) => {
+    if (data?.image?.[0] === "") {
+      return toast?.error("Image Fields Required");
+    } else if (data?.description?.[0] === "") {
+      return toast?.error("Description Fields Required");
+    } else if (data?.color?.[0] === "") {
+      return toast?.error("Color Fields Required");
+    }
     const payload = { ...data, sellerProfile: "66ae1bb0429576d1fb219b17" };
     try {
       const res = await postProduct(payload).unwrap();
@@ -64,7 +75,6 @@ const CreateProducts: React.FC = () => {
       console.log(error);
     }
   };
-  console.log(isSuccess);
 
   return (
     <form
@@ -104,9 +114,7 @@ const CreateProducts: React.FC = () => {
             ))}
           </select>
           {errors.category && (
-            <p className="text-red-500 text-sm">
-              {errors.category.message}
-            </p>
+            <p className="text-red-500 text-sm">{errors.category.message}</p>
           )}
         </div>
       </div>
@@ -122,7 +130,7 @@ const CreateProducts: React.FC = () => {
         )}
       </div>
 
-      {/* image  */}
+      {/* Image fields */}
       <div className="mb-4">
         <label className="block text-gray-700 font-semibold mb-2">Images</label>
         {imageFields.map((field, index) => (
@@ -157,7 +165,6 @@ const CreateProducts: React.FC = () => {
           + Add Image
         </button>
       </div>
-
       {/* Short Description */}
       <div className="mb-4">
         <label className="block text-gray-700 font-semibold mb-2">
@@ -332,9 +339,8 @@ const CreateProducts: React.FC = () => {
           )}
         </div>
 
-
-          {/* type  */}
-          <div className="mb-4 ">
+        {/* type  */}
+        <div className="mb-4 ">
           <label className="block text-gray-700 font-semibold mb-2">
             Types
           </label>
@@ -351,9 +357,7 @@ const CreateProducts: React.FC = () => {
             ))}
           </select>
           {errors.type && (
-            <p className="text-red-500 text-sm">
-              {errors.type.message}
-            </p>
+            <p className="text-red-500 text-sm">{errors.type.message}</p>
           )}
         </div>
 
@@ -370,8 +374,6 @@ const CreateProducts: React.FC = () => {
             <p className="text-red-500 text-sm">{errors.brand.message}</p>
           )}
         </div>
-
-      
       </div>
 
       <div className="grid grid-cols-3 gap-4 mb-2">
@@ -398,6 +400,8 @@ const CreateProducts: React.FC = () => {
             type="number"
             {...register("quantity", {
               required: "Quantity is required",
+              min: { value: 1, message: "Rating must be at least 1" },
+              max: { value: 99, message: "Rating must be at most 99" },
               valueAsNumber: true,
             })}
             className="w-full p-2 border border-black rounded-md"

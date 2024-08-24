@@ -18,7 +18,7 @@ const AllProductManagement = () => {
     fields:
       "-shoppingInfo,-specification,-materials,-brand,-rating,-description,-shortDescription",
     page: 1,
-    sort:"createdAt"
+    sort:"-createdAt"
   });
   const { data: productsData } = useGetAllProductsQuery(queryObj);
   const [deleteProduct] = useDeleteProductMutation();
