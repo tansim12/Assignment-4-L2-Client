@@ -12,8 +12,6 @@ const CheckOut = () => {
     setCartItems(buyingData);
   }, [buyingData]);
 
-  console.log(cartItems);
-
   const calculateSubtotal = () => {
     return cartItems?.reduce(
       (total, item) => total + item.price * item?.buyQuantity,
@@ -47,9 +45,14 @@ const CheckOut = () => {
     setCartItems(filterData);
   };
 
-  // console.log(userInfo);
-  console.log(cartItems);
+  const newCartItem = cartItems?.[0]?._id
+    ? cartItems?.map((item) => {
+        const { _id, buyQuantity, quantity } = item;
+        return { _id, buyQuantity, quantity };
+      })
+    : [];
 
+  
   return (
     <div className="bg-white rounded-lg my-16">
       <div className="flex flex-col items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
@@ -245,7 +248,8 @@ const CheckOut = () => {
           {/* checkout form  */}
           <div className="mt-20">
             <CheckOutFrom
-              setUserInfo={setUserInfo}
+            newCartItem={newCartItem}
+             
               totalPrice={calculateSubtotal()}
             />
           </div>

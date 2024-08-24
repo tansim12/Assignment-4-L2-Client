@@ -11,8 +11,7 @@ interface IUserInfo {
   zip: string;
 }
 
-const CheckOutFrom = ({ setUserInfo, totalPrice }) => {
-
+const CheckOutFrom = ({ totalPrice, payload, newCartItem }) => {
   const {
     register,
     handleSubmit,
@@ -20,7 +19,13 @@ const CheckOutFrom = ({ setUserInfo, totalPrice }) => {
   } = useForm<IUserInfo>();
 
   const onSubmit: SubmitHandler<IUserInfo> = (data) => {
-    setUserInfo({...data,totalPrice});
+    const payload = {
+      useInfo: data,
+      buyingProduct: newCartItem,
+      totalPrice,
+    };
+
+    console.log(payload);
   };
 
   return (
