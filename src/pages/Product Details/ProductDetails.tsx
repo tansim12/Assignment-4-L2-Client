@@ -11,10 +11,12 @@ import { TCartData } from "../../types/addToCart.type";
 import toast from "react-hot-toast";
 import { useAppDispatch } from "../../Redux/hook";
 import { buyingData } from "../../Redux/Features/Check Out/checkOut.slice";
+import { addToCartAction } from "../../Redux/Features/AddToCart/addToCart.slice";
 
 const { TabPane } = Tabs;
 
 const ProductDetails = () => {
+  const updateAddToCart = useAppDispatch();
   const [productData, setProductData] = useState<Partial<TProduct>>({});
   const { id } = useParams();
   const { data } = useGetOneProductQuery(id);
@@ -25,10 +27,10 @@ const ProductDetails = () => {
   }, [data?.data]);
 
   const navigate = useNavigate();
-  
 
   const [buyQuantity, setBuyQuantity] = useState(1);
   const handleAddToCartButton = (data: Partial<TCartData>) => {
+    updateAddToCart(addToCartAction("increment"));
     const result = handleAddToCart(data);
     if (result?.status === true) {
       toast.success(result?.message);

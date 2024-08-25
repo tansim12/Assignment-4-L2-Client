@@ -2,20 +2,19 @@ import { useState } from "react";
 import { Drawer } from "antd";
 import { IoCartOutline } from "react-icons/io5";
 import AddToCart from "./AddToCart";
-
+import { useAppSelector } from "../../../Redux/hook";
 
 const AddToCartDrawer = ({
   totalCarts,
   setRefetchCartData,
-  refetchCartData
+  refetchCartData,
 }: {
   totalCarts: number;
   refetchCartData: boolean;
   setRefetchCartData: React.Dispatch<React.SetStateAction<boolean>>;
- 
 }) => {
+  const addToCartData = useAppSelector((s) => s.addToCart2);
   const [open, setOpen] = useState(false);
-
   const showDrawer = () => {
     setOpen(true);
   };
@@ -23,6 +22,8 @@ const AddToCartDrawer = ({
   const onClose = () => {
     setOpen(false);
   };
+  console.log(addToCartData);
+  console.log(totalCarts);
 
   return (
     <>
@@ -33,7 +34,7 @@ const AddToCartDrawer = ({
         }}
       >
         <span className="absolute text-white text-sm px-1 bg-red-600 rounded-full">
-          {totalCarts ? totalCarts : 0}
+          {addToCartData?.count ? addToCartData?.count : totalCarts}
         </span>{" "}
         <IoCartOutline size={32} />
       </button>

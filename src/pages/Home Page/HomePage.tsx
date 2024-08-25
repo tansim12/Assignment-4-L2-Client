@@ -28,6 +28,7 @@ const HomePage = () => {
       <div>
         <BestSelling />
       </div>
+      
       {/* categories  */}
       <div>
         <Categories />

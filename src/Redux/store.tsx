@@ -3,12 +3,14 @@ import { baseApi } from "./api/baseapi";
 import { allProductReducer } from "./Features/All Products/allProducts.slice";
 import { queryCategoryReducer } from "./Features/Query Manage/queryCategory.slice";
 import { checkOutReducer } from "./Features/Check Out/checkOut.slice";
+import { addToCartReducer } from "./Features/AddToCart/addToCart.slice";
 
 export const store = configureStore({
   reducer: {
     allProducts: allProductReducer,
     queryByCategory: queryCategoryReducer,
-    checkOut:checkOutReducer,
+    checkOut: checkOutReducer,
+    addToCart2: addToCartReducer,
     [baseApi.reducerPath]: baseApi.reducer,
   },
 

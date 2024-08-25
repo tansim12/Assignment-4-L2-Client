@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { TCartData } from "../../../types/addToCart.type";
 import { MdDeleteForever } from "react-icons/md";
 import { handleRemoveFromCart } from "../../../utils/addToCartFn";
-import { useAppDispatch } from "../../../Redux/hook";
+import { useAppDispatch, useAppSelector } from "../../../Redux/hook";
 import { buyingData } from "../../../Redux/Features/Check Out/checkOut.slice";
 import { useNavigate } from "react-router-dom";
+import { addToCartAction } from "../../../Redux/Features/AddToCart/addToCart.slice";
 
 const AddToCart = ({
   checkOutPage = false,
@@ -15,7 +16,9 @@ const AddToCart = ({
   refetchCartData: boolean;
   setRefetchCartData: React.Dispatch<React.SetStateAction<boolean>>;
 }) => {
-  const navigate =useNavigate()
+  const addToCartCountData = useAppSelector((s) => s.addToCart2);
+  const updateAddToCart = useAppDispatch();
+  const navigate = useNavigate();
   const updateBuyingData = useAppDispatch();
   const [cartItems, setCartItems] = useState<TCartData[]>([]);
   const [promoCode, setPromoCode] = useState("");
@@ -29,7 +32,7 @@ const AddToCart = ({
       console.error("Error parsing cart data from localStorage", error);
       setCartItems([]);
     }
-  }, [refetchCartData]);
+  }, [refetchCartData, addToCartCountData?.count]);
 
   const calculateSubtotal = () => {
     return cartItems?.reduce(
@@ -38,7 +41,7 @@ const AddToCart = ({
     );
   };
 
-  const handleQuantityChange = (_id:string, change:number) => {
+  const handleQuantityChange = (_id: string, change: number) => {
     setCartItems((prevItems) =>
       prevItems?.map((item) =>
         item._id === _id
@@ -65,19 +68,16 @@ const AddToCart = ({
   const handleDeleteCartData = (id: string) => {
     handleRemoveFromCart(id);
     setRefetchCartData((pre) => !pre);
+    updateAddToCart(addToCartAction("decrement"));
   };
 
   // handleCheckOutPage
   const handleCheckOutPage = () => {
     if (cartItems?.length) {
-     updateBuyingData(buyingData(cartItems));
-      navigate("/checkout")
+      updateBuyingData(buyingData(cartItems));
+      navigate("/checkout");
     }
   };
-
-
-
-
 
   return (
     <div className=" bg-white shadow-lg rounded-lg h-[84vh] relative ">

@@ -6,6 +6,7 @@ import TitleTopAnimation from "./TitleTopAnimation";
 import { TQueryObj } from "../../../types/quearyFilter.type";
 import { useGetAllProductsQuery } from "../../../Redux/Features/All Products/allProductsApi";
 import { TProduct } from "../../../types/products.type";
+import ProductSkeleton from "../Skeleton/ProductSkeleton";
 
 const BestSelling = () => {
   const [queryObj, setQueryObj] = useState<TQueryObj>({
@@ -16,9 +17,8 @@ const BestSelling = () => {
     sort: "-order",
   });
 
-  const { data } = useGetAllProductsQuery(queryObj);
-console.log(setQueryObj);
-
+  const { data, isLoading } = useGetAllProductsQuery(queryObj);
+  console.log(setQueryObj);
 
   return (
     <div className="my-10">
@@ -31,6 +31,9 @@ console.log(setQueryObj);
 
       {/* card div  */}
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+        {isLoading &&
+          [1, 2, 3, 4].map((item) => <ProductSkeleton key={item} />)}
+
         {data?.data?.result?.length &&
           data?.data?.result?.map((item: Partial<TProduct>) => (
             <Card key={item?._id} item={item} showBuyButton={true} />

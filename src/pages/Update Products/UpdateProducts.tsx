@@ -16,6 +16,10 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import Swal from "sweetalert2";
 import toast from "react-hot-toast";
+export interface ErrorData {
+  errorSources?: { path: string; message: string }[];
+}
+
 
 const UpdateProducts: React.FC = () => {
   const navigate = useNavigate();
@@ -28,7 +32,7 @@ const UpdateProducts: React.FC = () => {
     }
   }, [data?.data, updateData]);
 
-  const [productUpdate] = useUpdateProductMutation();
+  const [productUpdate, { error }] = useUpdateProductMutation();
   const {
     register,
     control,
@@ -75,8 +79,6 @@ const UpdateProducts: React.FC = () => {
   });
 
   const onSubmit = async (data: TProduct) => {
-    console.log(data?.image);
-
     if (!imageFields?.length) {
       return toast.error("Image Fields Required");
     } else if (!descriptionFields?.length) {
@@ -96,7 +98,21 @@ const UpdateProducts: React.FC = () => {
       navigate("/admin/all-products-management");
     }
   };
-
+  useEffect(() => {
+    if (error) {
+      if ('data' in error) {
+        const errorData = error.data as ErrorData; // Type assertion
+        const errorSource = errorData.errorSources?.[0];
+        if (errorSource) {
+          toast.error(`${errorSource.path} ${errorSource.message}`);
+        } else {
+          toast.error("An unknown error occurred.");
+        }
+      } else {
+        toast.error("An unknown error occurred.");
+      }
+    }
+  }, [error]);
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
@@ -436,6 +452,8 @@ const UpdateProducts: React.FC = () => {
             type="number"
             {...register("quantity", {
               required: "Quantity is required",
+              min: { value: 0, message: "Quantity must be at least 0" },
+              max: { value: 100, message: "Quantity must be at most 100" },
               valueAsNumber: true,
             })}
             className="w-full p-2 border border-black rounded-md"

@@ -30,9 +30,12 @@ const Navbar = () => {
           >
             Home
           </NavLink>
+
           <NavLink
-            onClick={() => {
-              updateQueryCart(categoryQuery({ category: "" }));
+            onClick={(e) => {
+              e.preventDefault();
+              updateQueryCart(categoryQuery(""));
+              navigate("/all-products")
             }}
             to="/all-products"
             className={({ isActive }) =>

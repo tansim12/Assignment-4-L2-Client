@@ -9,9 +9,12 @@ const queryCategorySlice = createSlice({
   name: "queryByCategory",
   initialState,
   reducers: {
-    categoryQuery: (_state, actions) => {
-      if (actions?.payload?.category === "") {
-        return;
+    categoryQuery: (state, actions) => {
+      console.log(actions?.payload);
+      console.log(state);
+
+      if (actions?.payload === "") {
+        return "";
       } else {
         return actions?.payload;
       }

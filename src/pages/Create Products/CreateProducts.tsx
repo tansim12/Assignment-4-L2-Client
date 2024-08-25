@@ -1,5 +1,5 @@
 import { Switch } from "antd";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm, useFieldArray, Controller } from "react-hook-form";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -12,6 +12,8 @@ import {
   productTypesArray,
 } from "../../types/Const/product.const";
 import toast from "react-hot-toast";
+import Swal from "sweetalert2";
+import { ErrorData } from "../Update Products/UpdateProducts";
 
 const CreateProducts: React.FC = () => {
   const {
@@ -43,7 +45,7 @@ const CreateProducts: React.FC = () => {
     remove: removeDescription,
   } = useFieldArray({
     control,
-    name: "description"  as never,
+    name: "description" as never,
   });
 
   const {
@@ -52,10 +54,10 @@ const CreateProducts: React.FC = () => {
     remove: removeColor,
   } = useFieldArray({
     control,
-    name: "color"  as never,
+    name: "color" as never,
   });
 
-  const [postProduct] = useCreateProductMutation();
+  const [postProduct, { error }] = useCreateProductMutation();
   const navigate = useNavigate();
   const onSubmit = async (data: TProduct) => {
     if (data?.image?.[0] === "") {
@@ -69,12 +71,35 @@ const CreateProducts: React.FC = () => {
     try {
       const res = await postProduct(payload).unwrap();
       if (res?.success) {
+        Swal.fire({
+          position: "center",
+          icon: "success",
+          title: "product Update Successfully Done",
+          showConfirmButton: false,
+          timer: 1500,
+        });
         navigate("/admin/all-products-management");
       }
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    if (error) {
+      if ("data" in error) {
+        const errorData = error.data as ErrorData; // Type assertion
+        const errorSource = errorData.errorSources?.[0];
+        if (errorSource) {
+          toast.error(`${errorSource.path} ${errorSource.message}`);
+        } else {
+          toast.error("An unknown error occurred.");
+        }
+      } else {
+        toast.error("An unknown error occurred.");
+      }
+    }
+  }, [error]);
 
   return (
     <form
@@ -213,7 +238,7 @@ const CreateProducts: React.FC = () => {
             </button>
           </div>
         ))}
-          {errors.description &&
+        {errors.description &&
           (Array.isArray(errors.description) ? (
             errors.description.map((error, index) => (
               <p key={index} className="text-red-500 text-sm">
@@ -251,7 +276,7 @@ const CreateProducts: React.FC = () => {
             </button>
           </div>
         ))}
-         {errors.color &&
+        {errors.color &&
           (Array.isArray(errors.color) ? (
             errors.color.map((error, index) => (
               <p key={index} className="text-red-500 text-sm">
@@ -412,8 +437,8 @@ const CreateProducts: React.FC = () => {
             type="number"
             {...register("quantity", {
               required: "Quantity is required",
-              min: { value: 1, message: "Rating must be at least 1" },
-              max: { value: 99, message: "Rating must be at most 99" },
+              min: { value: 1, message: "Quantity must be at least 1" },
+              max: { value: 99, message: "Quantity must be at most 99" },
               valueAsNumber: true,
             })}
             className="w-full p-2 border border-black rounded-md"

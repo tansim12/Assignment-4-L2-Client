@@ -11,8 +11,11 @@ import { handleAddToCart } from "../../../utils/addToCartFn";
 import toast from "react-hot-toast";
 import { TCartData } from "../../../types/addToCart.type";
 import { availableProduct, TProduct } from "../../../types/products.type";
+import { useAppDispatch } from "../../../Redux/hook";
+import { addToCartAction } from "../../../Redux/Features/AddToCart/addToCart.slice";
 
 const Card = ({ showBuyButton, item }: ICard) => {
+  const updateAddToCart = useAppDispatch();
   const [hoverOption, setHoverOption] = useState(false);
   const navigate = useNavigate();
   const handleMouseEnter = () => {
@@ -94,6 +97,7 @@ const Card = ({ showBuyButton, item }: ICard) => {
                         quantity: item?.quantity,
                       });
                     }
+                    updateAddToCart(addToCartAction({}));
                   }}
                   size={38}
                   className="text-white"
